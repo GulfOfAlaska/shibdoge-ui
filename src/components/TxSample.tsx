@@ -11,8 +11,6 @@ import {
 import { contractAddress } from 'constants/contractAddress';
 import React, { useCallback, useState } from 'react';
 
-const toAddress = 'terra12hnhh5vtyg5juqnzm43970nh4fw42pt27nw9g9';
-
 export function TxSample() {
   const [txResult, setTxResult] = useState<TxResult | null>(null);
   const [txError, setTxError] = useState<string | null>(null);

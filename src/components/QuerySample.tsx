@@ -37,10 +37,10 @@ export function QuerySample() {
       if (!side?.side) {
         return
       }
-      if (side.side = 0) {
+      if (side.side === 1) {
         setChosenSide('doge')
       }
-      if (side?.side > 0) {
+      if (side?.side === 2) {
         setChosenSide('shiba')
       }
     },
