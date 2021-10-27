@@ -1,5 +1,6 @@
 import {
   LCDClient,
+  MsgExecuteContract,
   MsgSend,
   StdFee,
   StdSignature,
@@ -16,6 +17,7 @@ import {
   useConnectedWallet,
   UserDenied,
 } from '@terra-money/wallet-provider';
+import { contractAddress } from 'constants/contractAddress';
 import React, { useCallback, useState } from 'react';
 
 const toAddress = 'terra12hnhh5vtyg5juqnzm43970nh4fw42pt27nw9g9';
@@ -27,26 +29,27 @@ export function SignSample() {
 
   const connectedWallet = useConnectedWallet();
 
-  const send = useCallback(() => {
+  const sendChoice = useCallback((side: number) => {
     if (!connectedWallet) {
       return;
     }
 
-    if (connectedWallet.network.chainID.startsWith('columbus')) {
-      alert(`Please only execute this example on Testnet`);
-      return;
-    }
+    // if (connectedWallet.network.chainID.startsWith('columbus')) {
+    //   alert(`Please only execute this example on Testnet`);
+    //   return;
+    // }
 
     setSignResult(null);
 
+    const execute = new MsgExecuteContract(
+      connectedWallet.terraAddress,
+      contractAddress,
+      { side: { side } }
+    );
+
     connectedWallet
       .sign({
-        fee: new StdFee(1000000, '200000uusd'),
-        msgs: [
-          new MsgSend(connectedWallet.walletAddress, toAddress, {
-            uusd: 1000000,
-          }),
-        ],
+        msgs: [execute],
       })
       .then((nextSignResult: SignResult) => {
         setSignResult(nextSignResult);
@@ -87,7 +90,7 @@ export function SignSample() {
         } else {
           setTxError(
             'Unknown Error: ' +
-              (error instanceof Error ? error.message : String(error)),
+            (error instanceof Error ? error.message : String(error)),
           );
         }
       });
@@ -97,7 +100,10 @@ export function SignSample() {
     <div>
       <h1>Sign Sample</h1>
       {connectedWallet?.availableSign && !signResult && !txError && (
-        <button onClick={() => send()}>Send 1USD to {toAddress}</button>
+        <button onClick={() => sendChoice(0)}>Choose Doge</button>
+      )}
+      {connectedWallet?.availableSign && !signResult && !txError && (
+        <button onClick={() => sendChoice(1)}>Choose Shiba</button>
       )}
       {signResult && (
         <>

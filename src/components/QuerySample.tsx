@@ -1,7 +1,7 @@
 import { LCDClient, TreasuryAPI } from '@terra-money/terra.js';
 import { useConnectedWallet } from '@terra-money/wallet-provider';
 import useInterval from 'hooks/useInterval';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 interface SideResponse {
   side: number
@@ -32,9 +32,17 @@ export function QuerySample() {
 
   useInterval(
     async () => {
-      if (!connectedWallet?.terraAddress) return 
+      if (!connectedWallet?.terraAddress) return
       const side: SideResponse | undefined = (await getChosenSide(connectedWallet?.terraAddress.toString()))
-      setChosenSide(side?.side.toString())
+      if (!side?.side) {
+        return
+      }
+      if (side.side = 0) {
+        setChosenSide('doge')
+      }
+      if (side?.side > 0) {
+        setChosenSide('shiba')
+      }
     },
     3000,
   )
