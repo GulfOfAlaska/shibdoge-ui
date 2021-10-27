@@ -98,7 +98,6 @@ export function SignSample() {
 
   return (
     <div>
-      <h1>Sign Sample</h1>
       {connectedWallet?.availableSign && !signResult && !txError && (
         <button onClick={() => sendChoice(0)}>Choose Doge</button>
       )}
