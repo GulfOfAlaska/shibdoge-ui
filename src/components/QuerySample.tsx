@@ -3,10 +3,13 @@ import { useConnectedWallet } from '@terra-money/wallet-provider';
 import useInterval from 'hooks/useInterval';
 import React, { useEffect, useMemo, useState } from 'react';
 
+interface SideResponse {
+  side: number
+}
+
 export function QuerySample() {
   const connectedWallet = useConnectedWallet();
 
-  const [bank, setBank] = useState<null | string>();
   const [chosenSide, setChosenSide] = useState<null | string>();
 
   const lcd = useMemo(() => {
@@ -20,9 +23,7 @@ export function QuerySample() {
     });
   }, [connectedWallet]);
 
-  async function getChosenSide(address: string | undefined) {
-    if (undefined) return null
-
+  async function getChosenSide(address: string): Promise<SideResponse | undefined> {
     return lcd?.wasm.contractQuery(
       'terra10wlt3m7nqfgn9n5ddgwlqltgef957xytvnhn6m',
       { side: { address } }
@@ -31,27 +32,16 @@ export function QuerySample() {
 
   useInterval(
     async () => {
-      // Your custom logic here
-      const side: any = await getChosenSide(connectedWallet?.terraAddress.toString())
-      setChosenSide(side)
+      if (!connectedWallet?.terraAddress) return 
+      const side: SideResponse | undefined = (await getChosenSide(connectedWallet?.terraAddress.toString()))
+      setChosenSide(side?.side.toString())
     },
     3000,
   )
 
-  useEffect(() => {
-    if (connectedWallet && lcd) {
-      lcd.bank.balance(connectedWallet.walletAddress).then((coins) => {
-        setBank(coins.toString());
-      });
-    } else {
-      setBank(null);
-    }
-  }, [connectedWallet, lcd]);
-
   return (
     <div>
       <h1>WHICH SIDE ARE YOU ON</h1>
-      {bank && <pre>{bank}</pre>}
       {chosenSide ? chosenSide : 'none'}
       {!connectedWallet && <p>Wallet not connected!</p>}
     </div>

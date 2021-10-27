@@ -1,5 +1,6 @@
-import { ConnectType, useWallet, WalletStatus } from '@terra-money/wallet-provider';
-import React from 'react';
+import { LCDClient } from '@terra-money/terra.js';
+import { ConnectType, useConnectedWallet, useWallet, WalletStatus } from '@terra-money/wallet-provider';
+import React, { useEffect, useMemo, useState } from 'react';
 
 export function ConnectSample() {
   const {
@@ -12,6 +13,30 @@ export function ConnectSample() {
     install,
     disconnect,
   } = useWallet();
+  const connectedWallet = useConnectedWallet();
+  const [bank, setBank] = useState<null | string>();
+
+  const lcd = useMemo(() => {
+    if (!connectedWallet) {
+      return null;
+    }
+
+    return new LCDClient({
+      URL: connectedWallet.network.lcd,
+      chainID: connectedWallet.network.chainID,
+    });
+  }, [connectedWallet]);
+
+  useEffect(() => {
+    if (connectedWallet && lcd) {
+      lcd.bank.balance(connectedWallet.walletAddress).then((coins) => {
+        setBank(coins.toString());
+      });
+    } else {
+      setBank(null);
+    }
+  }, [connectedWallet, lcd]);
+  
 
   return (
     <div>
@@ -39,6 +64,8 @@ export function ConnectSample() {
         {status === WalletStatus.WALLET_CONNECTED && (
           <button onClick={() => disconnect()}>Disconnect</button>
         )}
+
+        {bank && <pre>{bank}</pre>}
       </footer>
     </div>
   );
