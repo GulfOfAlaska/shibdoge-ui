@@ -49,26 +49,27 @@ export function SignSample() {
 
     connectedWallet
       .sign({
+        fee: new StdFee(1000000, '200000uusd'),
         msgs: [execute],
       })
       .then((nextSignResult: SignResult) => {
         setSignResult(nextSignResult);
-
+        console.log('wtf', signResult)
         // broadcast
         const { signature, public_key, stdSignMsgData } = nextSignResult.result;
-
+        console.log('wtf1')
         const sig = StdSignature.fromData({
           signature,
           pub_key: public_key,
         });
-
+        console.log('wtf2')
         const stdSignMsg = StdSignMsg.fromData(stdSignMsgData);
-
+        console.log('wtf3')
         const lcd = new LCDClient({
           chainID: connectedWallet.network.chainID,
           URL: connectedWallet.network.lcd,
         });
-
+console.log('wtf4')
         return lcd.tx.broadcastSync(
           new StdTx(stdSignMsg.msgs, stdSignMsg.fee, [sig], stdSignMsg.memo),
         );

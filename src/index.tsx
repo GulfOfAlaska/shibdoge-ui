@@ -14,8 +14,8 @@ function App() {
     >
       <ConnectSample />
       <QuerySample />
-      {/* <TxSample /> */}
-      <SignSample />
+      <TxSample />
+      {/* <SignSample /> */}
     </main>
   );
 }

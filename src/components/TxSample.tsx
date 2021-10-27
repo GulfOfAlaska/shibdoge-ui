@@ -1,4 +1,4 @@
-import { MsgSend, StdFee } from '@terra-money/terra.js';
+import { MsgExecuteContract, MsgSend, StdFee } from '@terra-money/terra.js';
 import {
   CreateTxFailed,
   Timeout,
@@ -8,6 +8,7 @@ import {
   useConnectedWallet,
   UserDenied,
 } from '@terra-money/wallet-provider';
+import { contractAddress } from 'constants/contractAddress';
 import React, { useCallback, useState } from 'react';
 
 const toAddress = 'terra12hnhh5vtyg5juqnzm43970nh4fw42pt27nw9g9';
@@ -18,26 +19,28 @@ export function TxSample() {
 
   const connectedWallet = useConnectedWallet();
 
-  const send = useCallback(() => {
+  const sendChoice = useCallback((side: number) => {
     if (!connectedWallet) {
       return;
     }
 
-    if (connectedWallet.network.chainID.startsWith('columbus')) {
-      alert(`Please only execute this example on Testnet`);
-      return;
-    }
+    // if (connectedWallet.network.chainID.startsWith('columbus')) {
+    //   alert(`Please only execute this example on Testnet`);
+    //   return;
+    // }
 
     setTxResult(null);
 
+    const execute = new MsgExecuteContract(
+      connectedWallet.terraAddress,
+      contractAddress,
+      { side: { side } }
+    );
+
     connectedWallet
       .post({
-        fee: new StdFee(1000000, '200000uusd'),
-        msgs: [
-          new MsgSend(connectedWallet.walletAddress, toAddress, {
-            uusd: 1000000,
-          }),
-        ],
+        // fee: new StdFee(1000000, '200000uusd'),
+        msgs: [execute],
       })
       .then((nextTxResult: TxResult) => {
         console.log(nextTxResult);
@@ -67,7 +70,10 @@ export function TxSample() {
     <div>
       <h1>Tx Sample</h1>
       {connectedWallet?.availablePost && !txResult && !txError && (
-        <button onClick={send}>Send 1USD to {toAddress}</button>
+        <button onClick={() => sendChoice(0)}>Choose Doge</button>
+      )}
+      {connectedWallet?.availablePost && !txResult && !txError && (
+        <button onClick={() => sendChoice(1)}>Choose Shib</button>
       )}
       {txResult && (
         <>
