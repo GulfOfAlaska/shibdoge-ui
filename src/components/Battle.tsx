@@ -9,9 +9,10 @@ import {
   UserDenied,
 } from '@terra-money/wallet-provider';
 import { contractAddress } from 'constants/contractAddress';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
+import './componentStyle.css'
 
-export function TxSample() {
+export function Battle() {
   const [txResult, setTxResult] = useState<TxResult | null>(null);
   const [txError, setTxError] = useState<string | null>(null);
 
@@ -21,11 +22,6 @@ export function TxSample() {
     if (!connectedWallet) {
       return;
     }
-
-    // if (connectedWallet.network.chainID.startsWith('columbus')) {
-    //   alert(`Please only execute this example on Testnet`);
-    //   return;
-    // }
 
     setTxResult(null);
 
@@ -37,7 +33,6 @@ export function TxSample() {
 
     connectedWallet
       .post({
-        // fee: new StdFee(1000000, '200000uusd'),
         msgs: [execute],
       })
       .then((nextTxResult: TxResult) => {
@@ -58,31 +53,42 @@ export function TxSample() {
         } else {
           setTxError(
             'Unknown Error: ' +
-              (error instanceof Error ? error.message : String(error)),
+            (error instanceof Error ? error.message : String(error)),
           );
         }
       });
   }, [connectedWallet]);
 
   return (
-    <div>
-      <h1>Tx Sample</h1>
-      {connectedWallet?.availablePost && !txResult && !txError && (
-        <button onClick={() => sendChoice(0)}>Choose Doge</button>
-      )}
-      {connectedWallet?.availablePost && !txResult && !txError && (
-        <button onClick={() => sendChoice(1)}>Choose Shib</button>
-      )}
+    <div style={{ height: '100%', width: '70%', padding: '10px', position: 'relative'}}>
+      <div className='container' style={{ height: '45%', width: '100%' }}>
+        {connectedWallet?.availablePost && !txResult && !txError && (
+          <div className='button-container'>
+            <div className='button' onClick={() => sendChoice(0)}>Choose Doge</div>
+          </div>
+        )}
+      </div>
+      <div className='vs-container' />
+      <div className='container' style={{ height: '45%', width: '100%'}}>
+        {connectedWallet?.availablePost && !txResult && !txError && (
+          <div className='button-container'>
+            <div className='button' onClick={() => sendChoice(1)}>Choose Shib</div>
+          </div>
+        )}
+      </div>
+
+
+
       {txResult && (
         <>
           <pre>{JSON.stringify(txResult, null, 2)}</pre>
-          <button onClick={() => setTxResult(null)}>Clear Tx Result</button>
+          <div className='button' onClick={() => setTxResult(null)}>Clear Tx Result</div>
         </>
       )}
       {txError && (
         <>
           <pre>{txError}</pre>
-          <button onClick={() => setTxError(null)}>Clear Tx Error</button>
+          <div className='button' onClick={() => setTxError(null)}>Clear Tx Error</div>
         </>
       )}
       {!connectedWallet && <p>Wallet not connected!</p>}

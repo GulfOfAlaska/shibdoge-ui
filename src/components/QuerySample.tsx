@@ -49,7 +49,6 @@ export function QuerySample() {
 
   return (
     <div>
-      <h1>WHICH SIDE ARE YOU ON</h1>
       {chosenSide ? chosenSide : 'none'}
       {!connectedWallet && <p>Wallet not connected!</p>}
     </div>

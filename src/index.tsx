@@ -1,21 +1,20 @@
 import { getChainOptions, WalletProvider } from '@terra-money/wallet-provider';
+import { Battle } from 'components/Battle';
 import { ConnectSample } from 'components/ConnectSample';
 import { QuerySample } from 'components/QuerySample';
 import { SignSample } from 'components/SignSample';
-import { TxSample } from 'components/TxSample';
-import React from 'react';
 import ReactDOM from 'react-dom';
 import './style.css';
 
 function App() {
   return (
-    <main
-      style={{ margin: 20, display: 'flex', flexDirection: 'column', gap: 40 }}
-    >
+    <main className='main-container'>
       <ConnectSample />
-      <QuerySample />
-      <TxSample />
-      <SignSample />
+      <div className='battle-container'>
+        <QuerySample />
+        <Battle />
+        {/* <SignSample /> */}
+      </div>
     </main>
   );
 }
