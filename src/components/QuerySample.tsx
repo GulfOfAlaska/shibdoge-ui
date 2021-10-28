@@ -2,6 +2,7 @@ import { LCDClient, TreasuryAPI } from '@terra-money/terra.js';
 import { useConnectedWallet } from '@terra-money/wallet-provider';
 import useInterval from 'hooks/useInterval';
 import { useMemo, useState } from 'react';
+import './componentStyle.css'
 
 interface SideResponse {
   side: number
@@ -48,9 +49,11 @@ export function QuerySample() {
   )
 
   return (
-    <div>
-      {chosenSide ? chosenSide : 'none'}
-      {!connectedWallet && <p>Wallet not connected!</p>}
+    <div style={{ height: '100%', width: '25%', padding: '5rem 0' }}>
+      <div className='container' style={{ height: '100%' }}>
+        {chosenSide ? chosenSide : 'none'}
+        {!connectedWallet && <p>Wallet not connected!</p>}
+      </div>
     </div>
   );
 }

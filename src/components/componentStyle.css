@@ -7,12 +7,18 @@
   align-items: center;
   position: relative;
   box-shadow: 0 .2em brown;
+  padding: 1rem;
+}
+
+.container:hover {
+  box-shadow: none;
+	position: relative;
+	top: .2em;
 }
 
 .button-container {
   position: absolute;
-  right: 1rem;
-  bottom: 1rem;
+  bottom: .2rem;
 }
 
 .button {
@@ -38,8 +44,35 @@
 .vs-container {
   background: url('../assets/vs.png') no-repeat;
   background-size: 100% 100%;
-  height: 150px;
-  width: 150px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.doge-pict-container {
+  background: url('../assets/swole-doge.png') no-repeat;
+  background-size: 100% 100%;
+  height: 10rem;
+  width: 10rem;
+  position: absolute;
+  left: 1rem;
+  animation: MoveUpDown .5s linear infinite;
+}
+
+.shiba-pict-container {
+  background: url('../assets/buffed-shiba.png') no-repeat;
+  background-size: 100% 100%;
+  height: 10rem;
+  width: 10rem;
+  position: absolute;
+  right: 1rem;
+  animation: MoveUpDown .5s linear infinite;
+}
+
+@keyframes MoveUpDown {
+  0%, 100% {
+    bottom: 1rem;
+  }
+  50% {
+    bottom: 1.5rem;
+  }
 }
