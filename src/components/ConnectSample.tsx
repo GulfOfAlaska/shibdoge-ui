@@ -53,11 +53,11 @@ export function ConnectSample() {
                 Install {connectType}
               </button>
             ))}
-            <button
+            <div className='button'
               onClick={() => connect(ConnectType.CHROME_EXTENSION)}
             >
               Connect
-            </button>
+            </div>
           </>
         )}
         <div style={{marginRight: '0.5rem'}}>
