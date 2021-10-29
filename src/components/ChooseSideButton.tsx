@@ -11,19 +11,21 @@ import {
 import { contractAddress } from 'constants/contractAddress';
 import { useCallback, useState } from 'react';
 import './componentStyle.css'
-import battleground1 from '../assets/battleground1.png';
-import battleground2 from '../assets/battleground2.png';
-import { ChooseSideButton } from './ChooseSideButton';
 
-export function Battle() {
+interface Props {
+  label: String,
+  side: number
+}
+
+export function ChooseSideButton(props: Props) {
   const [txResult, setTxResult] = useState<TxResult | null>(null);
   const [txError, setTxError] = useState<string | null>(null);
-  const [depositDogeAmount, setDepositDogeAmount] = useState<string | null>(null);
-  const [depositShibaAmount, setDepositShibaAmount] = useState<string | null>(null);
+
+  const { label, side } = props
 
   const connectedWallet = useConnectedWallet();
 
-  const sendChoice = useCallback((side: number) => {
+  const sendChoice = useCallback(() => {
     if (!connectedWallet) {
       return;
     }
@@ -106,33 +108,11 @@ export function Battle() {
   }, [connectedWallet]);
 
   return (
-    <div style={
-      { height: '100%', position: 'relative', display: 'flex', justifyContent: 'space-between' }
-    }>
-      {/* DOGE */}
-      <div className='container' style={{ height: '100%', width: '49.5%', background: `url(${battleground1}) no-repeat`, backgroundSize: 'cover', }}>
-        <div className='doge-pict-container' style={{ right: '1rem' }} />
-        {connectedWallet?.availablePost && !txResult && !txError && (
-          <div className='button-container' style={{ right: '.5rem' }}>
-            <ChooseSideButton label={'Choose Doge'} side={1} />
-          </div>
-        )}
-        {!connectedWallet && <p>Wallet not connected!</p>}
-      </div>
-
-      {/* <h1 style={{ fontFamily: 'Press Start 2p', textAlign: 'center', }}>VS</h1> */}
-      <div className='vs-container' />
-
-      {/* SHIBA */}
-      <div className='container' style={{ height: '100%', width: '49.5%', background: `url(${battleground2}) no-repeat`, backgroundSize: 'cover', }}>
-        <div className='shiba-pict-container' style={{ right: '1rem' }} />
-        {connectedWallet?.availablePost && !txResult && !txError && (
-          <div className='button-container' style={{ left: '.5rem' }}>
-            <ChooseSideButton label={'Choose Shib'} side={2} />
-          </div>
-        )}
-        {!connectedWallet && <p>Wallet not connected!</p>}
-      </div>
+    <div>
+      {connectedWallet?.availablePost && !txResult && !txError && (
+        <div className='button' onClick={() => sendChoice()}>{label}</div>
+      )}
+      {!connectedWallet && <p>Wallet not connected!</p>}
     </div>
   );
 }

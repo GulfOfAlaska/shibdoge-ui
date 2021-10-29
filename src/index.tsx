@@ -10,8 +10,10 @@ function App() {
   return (
     <main className='main-container'>
       <div className='battle-container'>
-        <div className='connect-container'>
-          <ConnectSample />
+        <div className='header'>
+          <div className='connect-container'>
+            <ConnectSample />
+          </div>
         </div>
         <div style={{ height: '60%', width: '100%' }}>
           <Battle />

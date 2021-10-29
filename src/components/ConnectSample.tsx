@@ -1,6 +1,7 @@
 import { LCDClient } from '@terra-money/terra.js';
 import { ConnectType, useConnectedWallet, useWallet, WalletStatus } from '@terra-money/wallet-provider';
 import React, { useEffect, useMemo, useState } from 'react';
+import './componentStyle.css'
 
 export function ConnectSample() {
   const {
@@ -36,15 +37,16 @@ export function ConnectSample() {
       setBank(null);
     }
   }, [connectedWallet, lcd]);
-  
+
 
   return (
     <div>
-      <footer>
+      <footer style={{display: 'flex', alignItems: 'center'}}>
         {status === WalletStatus.WALLET_NOT_CONNECTED && (
           <>
             {availableInstallTypes.map((connectType) => (
               <button
+                className='button'
                 key={'install-' + connectType}
                 onClick={() => install(connectType)}
               >
@@ -58,14 +60,15 @@ export function ConnectSample() {
             </button>
           </>
         )}
+        <div style={{marginRight: '0.5rem'}}>
+          {status === WalletStatus.WALLET_CONNECTED && (
+            <div>{wallets[0]['terraAddress']}</div>
+          )}
+          {bank && <div>{bank}</div>}
+        </div>
         {status === WalletStatus.WALLET_CONNECTED && (
-          <span>{wallets[0]['terraAddress']}</span>
+          <div className='button' onClick={() => disconnect()}>Disconnect</div>
         )}
-        {status === WalletStatus.WALLET_CONNECTED && (
-          <button onClick={() => disconnect()}>Disconnect</button>
-        )}
-
-        {bank && <pre>{bank}</pre>}
       </footer>
     </div>
   );

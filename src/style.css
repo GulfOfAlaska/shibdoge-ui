@@ -43,6 +43,7 @@ html {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-family: 'Press Start 2P';
 }
 
 .battle-container {
@@ -53,6 +54,11 @@ html {
   flex-direction: column;
   justify-content: flex-end;
   position: relative;
+}
+
+.header {
+  height: 10%;
+  width: 100%;
 }
 
 .connect-container {
