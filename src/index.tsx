@@ -12,7 +12,9 @@ function App() {
       <ConnectSample />
       <div className='battle-container'>
         <QuerySample />
-        <Battle />
+        <div style={{ height: '100%', width: '70%', padding: '5rem 0', marginLeft: '1rem',}}>
+          <Battle />
+        </div>
         {/* <SignSample /> */}
       </div>
     </main>

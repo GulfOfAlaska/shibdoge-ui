@@ -1,6 +1,6 @@
 .container {
   border-radius: 7px;
-  background-color: #fec84e;
+  background-color: #ffc719;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -10,15 +10,15 @@
   padding: 1rem;
 }
 
-.container:hover {
+/* .container:hover {
   box-shadow: none;
 	position: relative;
 	top: .2em;
-}
+} */
 
 .button-container {
   position: absolute;
-  bottom: .2rem;
+  bottom: .5rem;
 }
 
 .button {
@@ -46,6 +46,18 @@
   background-size: 100% 100%;
   margin-left: auto;
   margin-right: auto;
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  z-index: 10;
 }
 
 .doge-pict-container {
@@ -54,7 +66,7 @@
   height: 10rem;
   width: 10rem;
   position: absolute;
-  left: 1rem;
+  left: 2rem;
   animation: MoveUpDown .5s linear infinite;
 }
 
@@ -64,15 +76,15 @@
   height: 10rem;
   width: 10rem;
   position: absolute;
-  right: 1rem;
+  right: 2rem;
   animation: MoveUpDown .5s linear infinite;
 }
 
 @keyframes MoveUpDown {
   0%, 100% {
-    bottom: 1rem;
+    bottom: 2rem;
   }
   50% {
-    bottom: 1.5rem;
+    bottom: 2.5rem;
   }
 }

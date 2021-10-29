@@ -11,6 +11,8 @@ import {
 import { contractAddress } from 'constants/contractAddress';
 import { useCallback, useState } from 'react';
 import './componentStyle.css'
+import battleground1 from '../assets/battleground1.png';
+import battleground2 from '../assets/battleground2.png';
 
 export function Battle() {
   const [txResult, setTxResult] = useState<TxResult | null>(null);
@@ -103,43 +105,31 @@ export function Battle() {
   }, [connectedWallet]);
 
   return (
-    <div style={{ height: '100%', width: '70%', marginLeft: '1rem', padding: '5rem 0', position: 'relative' }}>
+    <div style={
+      { height: '100%', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }
+    }>
       {/* DOGE */}
-      <div className='container' style={{ height: '45%', width: '100%' }}>
+      <div className='container' style={{ height: '48%', width: '100%', background: `url(${battleground1})`,}}>
         <div className='doge-pict-container' style={{ right: '1rem' }} />
         {connectedWallet?.availablePost && !txResult && !txError && (
-          <div className='button-container' style={{ right: '1rem' }}>
+          <div className='button-container' style={{ right: '.5rem' }}>
             <div className='button' onClick={() => sendChoice(0)}>Choose Doge</div>
           </div>
         )}
       </div>
 
-      <div className='vs-container' style={{ height: '10%', width: '10%' }} />
+      {/* <h1 style={{ fontFamily: 'Press Start 2p', textAlign: 'center', }}>VS</h1> */}
+      <div className='vs-container' />
 
       {/* SHIBA */}
-      <div className='container' style={{ height: '45%', width: '100%' }}>
+      <div className='container' style={{ height: '48%', width: '100%', background: `url(${battleground2})` }}>
         <div className='shiba-pict-container' style={{ right: '1rem' }} />
         {connectedWallet?.availablePost && !txResult && !txError && (
-          <div className='button-container' style={{ left: '1rem' }}>
+          <div className='button-container' style={{ left: '.5rem' }}>
             <div className='button' onClick={() => sendChoice(1)}>Choose Shib</div>
           </div>
         )}
       </div>
-
-
-
-      {txResult && (
-        <>
-          <pre>{JSON.stringify(txResult, null, 2)}</pre>
-          <div className='button' onClick={() => setTxResult(null)}>Clear Tx Result</div>
-        </>
-      )}
-      {txError && (
-        <>
-          <pre>{txError}</pre>
-          <div className='button' onClick={() => setTxError(null)}>Clear Tx Error</div>
-        </>
-      )}
       {!connectedWallet && <p>Wallet not connected!</p>}
       {connectedWallet && !connectedWallet.availablePost && (
         <p>Can not post Tx</p>
