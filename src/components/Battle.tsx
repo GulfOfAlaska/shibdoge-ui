@@ -106,34 +106,32 @@ export function Battle() {
 
   return (
     <div style={
-      { height: '100%', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }
+      { height: '100%', position: 'relative', display: 'flex', justifyContent: 'space-between' }
     }>
       {/* DOGE */}
-      <div className='container' style={{ height: '48%', width: '100%', background: `url(${battleground1})`,}}>
+      <div className='container' style={{ height: '100%', width: '49.5%', background: `url(${battleground1}) no-repeat`, backgroundSize: 'cover', }}>
         <div className='doge-pict-container' style={{ right: '1rem' }} />
         {connectedWallet?.availablePost && !txResult && !txError && (
           <div className='button-container' style={{ right: '.5rem' }}>
             <div className='button' onClick={() => sendChoice(0)}>Choose Doge</div>
           </div>
         )}
+        {!connectedWallet && <p>Wallet not connected!</p>}
       </div>
 
       {/* <h1 style={{ fontFamily: 'Press Start 2p', textAlign: 'center', }}>VS</h1> */}
       <div className='vs-container' />
 
       {/* SHIBA */}
-      <div className='container' style={{ height: '48%', width: '100%', background: `url(${battleground2})` }}>
+      <div className='container' style={{ height: '100%', width: '49.5%', background: `url(${battleground2}) no-repeat`, backgroundSize: 'cover', }}>
         <div className='shiba-pict-container' style={{ right: '1rem' }} />
         {connectedWallet?.availablePost && !txResult && !txError && (
           <div className='button-container' style={{ left: '.5rem' }}>
             <div className='button' onClick={() => sendChoice(1)}>Choose Shib</div>
           </div>
         )}
+        {!connectedWallet && <p>Wallet not connected!</p>}
       </div>
-      {!connectedWallet && <p>Wallet not connected!</p>}
-      {connectedWallet && !connectedWallet.availablePost && (
-        <p>Can not post Tx</p>
-      )}
     </div>
   );
 }

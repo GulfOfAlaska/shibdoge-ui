@@ -46,8 +46,8 @@
   background-size: 100% 100%;
   margin-left: auto;
   margin-right: auto;
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   position: absolute;
   left: 0; 
   right: 0; 
@@ -63,20 +63,34 @@
 .doge-pict-container {
   background: url('../assets/swole-doge.png') no-repeat;
   background-size: 100% 100%;
-  height: 10rem;
-  width: 10rem;
+  height: 90%;
+  width: 70%;
   position: absolute;
-  left: 2rem;
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
   animation: MoveUpDown .5s linear infinite;
 }
 
 .shiba-pict-container {
   background: url('../assets/buffed-shiba.png') no-repeat;
   background-size: 100% 100%;
-  height: 10rem;
-  width: 10rem;
+  height: 80%;
+  width: 80%;
   position: absolute;
-  right: 2rem;
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
   animation: MoveUpDown .5s linear infinite;
 }
 

@@ -9,11 +9,15 @@ import './style.css';
 function App() {
   return (
     <main className='main-container'>
-      <ConnectSample />
       <div className='battle-container'>
-        <QuerySample />
-        <div style={{ height: '100%', width: '70%', padding: '5rem 0', marginLeft: '1rem',}}>
+        <div className='connect-container'>
+          <ConnectSample />
+        </div>
+        <div style={{ height: '60%', width: '100%' }}>
           <Battle />
+        </div>
+        <div style={{ height: '30%', width: '100%', marginTop: '1rem' }}>
+          <QuerySample />
         </div>
         {/* <SignSample /> */}
       </div>

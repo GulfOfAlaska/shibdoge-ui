@@ -49,7 +49,7 @@ export function QuerySample() {
   )
 
   return (
-    <div style={{ height: '100%', width: '25%', padding: '5rem 0' }}>
+    <div style={{ height: '100%' }}>
       <div className='container' style={{ height: '100%' }}>
         {chosenSide ? chosenSide : 'none'}
         {!connectedWallet && <p>Wallet not connected!</p>}
