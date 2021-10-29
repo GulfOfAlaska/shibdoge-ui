@@ -10,7 +10,8 @@ html,
 body {
   height: 100%;
   margin: 0;
-  background-color: #ffdea8;
+  background: url('./assets/animated-background.gif') no-repeat;
+  background-size: cover;
 }
 
 #root {

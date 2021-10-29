@@ -25,7 +25,7 @@ export function ChooseSideButton(props: Props) {
 
   const connectedWallet = useConnectedWallet();
 
-  const sendChoice = useCallback(() => {
+  const sendDeposit = useCallback(() => {
     if (!connectedWallet) {
       return;
     }
@@ -35,7 +35,7 @@ export function ChooseSideButton(props: Props) {
     const execute = new MsgExecuteContract(
       connectedWallet.terraAddress,
       contractAddress,
-      { side: { side } }
+      { deposit: { side } }
     );
 
     connectedWallet
@@ -69,7 +69,7 @@ export function ChooseSideButton(props: Props) {
   return (
     <div>
       {connectedWallet?.availablePost && !txResult && !txError && (
-        <div className='button' onClick={() => sendChoice()}>{label}</div>
+        <div className='button' onClick={() => sendDeposit()}>{label}</div>
       )}
       {!connectedWallet && <p>Wallet not connected!</p>}
     </div>
