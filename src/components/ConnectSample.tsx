@@ -1,5 +1,6 @@
-import { LCDClient } from '@terra-money/terra.js';
+import { Coin, Coins, LCDClient } from '@terra-money/terra.js';
 import { ConnectType, useConnectedWallet, useWallet, WalletStatus } from '@terra-money/wallet-provider';
+import BigNumber from 'bignumber.js';
 import React, { useEffect, useMemo, useState } from 'react';
 import './componentStyle.css'
 
@@ -15,7 +16,7 @@ export function ConnectSample() {
     disconnect,
   } = useWallet();
   const connectedWallet = useConnectedWallet();
-  const [bank, setBank] = useState<null | string>();
+  const [bank, setBank] = useState<null | Coin[]>();
 
   const lcd = useMemo(() => {
     if (!connectedWallet) {
@@ -30,8 +31,11 @@ export function ConnectSample() {
 
   useEffect(() => {
     if (connectedWallet && lcd) {
-      lcd.bank.balance(connectedWallet.walletAddress).then((coins) => {
-        setBank(coins.toString());
+      lcd.bank.balance(connectedWallet.walletAddress).then((coins: Coins) => {
+
+        const coinList = coins.toArray()
+
+        setBank(coinList);
       });
     } else {
       setBank(null);
@@ -41,7 +45,7 @@ export function ConnectSample() {
 
   return (
     <div>
-      <footer style={{display: 'flex', alignItems: 'center'}}>
+      <footer style={{ display: 'flex', alignItems: 'center' }}>
         {status === WalletStatus.WALLET_NOT_CONNECTED && (
           <>
             {availableInstallTypes.map((connectType) => (
@@ -60,11 +64,15 @@ export function ConnectSample() {
             </div>
           </>
         )}
-        <div style={{marginRight: '0.5rem', color: 'white'}}>
+        <div style={{ marginRight: '0.5rem', color: 'white' }}>
           {status === WalletStatus.WALLET_CONNECTED && (
             <div>{wallets[0]['terraAddress']}</div>
           )}
-          {bank && <div>{bank}</div>}
+          {bank && (
+            bank.map((coin: Coin) =>
+            <span>{`${coin.denom.slice(1)}: ${new BigNumber(coin.amount.toString()).shiftedBy(-6).toString()} `}</span>
+          )
+          )}
         </div>
         {status === WalletStatus.WALLET_CONNECTED && (
           <div className='button' onClick={() => disconnect()}>Disconnect</div>
