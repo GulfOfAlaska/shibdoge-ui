@@ -3,6 +3,7 @@ import { useConnectedWallet } from '@terra-money/wallet-provider';
 import useInterval from 'hooks/useInterval';
 import { useMemo, useState } from 'react';
 import './componentStyle.css'
+import { SendDeposit } from './SendDeposit';
 
 interface SideResponse {
   side: number
@@ -53,6 +54,7 @@ export function QuerySample() {
       <div className='container' style={{ height: '100%' }}>
         {chosenSide ? chosenSide : 'none'}
         {!connectedWallet && <p>Wallet not connected!</p>}
+        <SendDeposit />
       </div>
     </div>
   );

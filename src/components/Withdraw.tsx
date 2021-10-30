@@ -13,17 +13,16 @@ import { useCallback, useState } from 'react';
 import './componentStyle.css'
 
 interface Props {
-
 }
 
-export function SendDeposit(props: Props) {
+export function Withdraw(props: Props) {
   const [txResult, setTxResult] = useState<TxResult | null>(null);
   const [txError, setTxError] = useState<string | null>(null);
-  const [depositAmount, setDepositAmount] = useState<string>('');
+  const [withdrawAmount, setWithdrawAmount] = useState<string>('');
 
   const connectedWallet = useConnectedWallet();
 
-  const sendDeposit = useCallback(() => {
+  const sendWithdraw = useCallback(() => {
     if (!connectedWallet) {
       return;
     }
@@ -33,7 +32,7 @@ export function SendDeposit(props: Props) {
     const execute = new MsgExecuteContract(
       connectedWallet.terraAddress,
       contractAddress,
-      { deposit: { side: 1 } }
+      { withdraw: { amount: withdrawAmount } }
     );
 
     connectedWallet
@@ -68,8 +67,8 @@ export function SendDeposit(props: Props) {
     <div>
       {connectedWallet?.availablePost && !txResult && !txError && (
         <div>
-          <input value={depositAmount} onChange={(event) => setDepositAmount(event.target.value)} />
-          <div className='button' onClick={() => sendDeposit()}>Deposit</div>
+          <input value={withdrawAmount} onChange={(event) => setWithdrawAmount(event.target.value)} />
+          <div className='button' onClick={() => sendWithdraw()}>Withdraw</div>
         </div>
       )}
       {!connectedWallet && <p>Wallet not connected!</p>}
