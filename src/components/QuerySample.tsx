@@ -1,5 +1,6 @@
 import { LCDClient, TreasuryAPI } from '@terra-money/terra.js';
 import { useConnectedWallet } from '@terra-money/wallet-provider';
+import { contractAddress } from 'constants/contractAddress';
 import useInterval from 'hooks/useInterval';
 import { useMemo, useState } from 'react';
 import { Claim } from './Claim';
@@ -15,6 +16,8 @@ export function QuerySample() {
   const connectedWallet = useConnectedWallet();
 
   const [chosenSide, setChosenSide] = useState<null | string>();
+  const [dogeScore, setDogeScore] = useState<null | string>();
+  const [shibaScore, setShibaScore] = useState<null | string>();
 
   const lcd = useMemo(() => {
     if (!connectedWallet) {
@@ -29,8 +32,15 @@ export function QuerySample() {
 
   async function getChosenSide(address: string): Promise<SideResponse | undefined> {
     return lcd?.wasm.contractQuery(
-      'terra10wlt3m7nqfgn9n5ddgwlqltgef957xytvnhn6m',
-      { side: { address } }
+      contractAddress,
+      { stake: { address } }
+    )
+  }
+
+  async function getScore(side: number): Promise<SideResponse | undefined> {
+    return lcd?.wasm.contractQuery(
+      contractAddress,
+      { side: { side } }
     )
   }
 
@@ -47,6 +57,11 @@ export function QuerySample() {
       if (side?.side === 2) {
         setChosenSide('shiba')
       }
+
+      const dogeScore: any = (await getScore(1))
+      setDogeScore(JSON.stringify(dogeScore))
+      const shibaScore: any = (await getScore(2))
+      setShibaScore(JSON.stringify(shibaScore))
     },
     3000,
   )
@@ -55,6 +70,8 @@ export function QuerySample() {
     <div style={{ height: '100%' }}>
       <div className='container' style={{ height: '100%' }}>
         Your Champion: {chosenSide ? chosenSide : 'none'}
+        Doge score: {dogeScore}
+        Shiba score: {shibaScore}
         {!connectedWallet && <p>Wallet not connected!</p>}
         <SendDeposit />
         <Withdraw />
