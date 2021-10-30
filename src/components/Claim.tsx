@@ -16,7 +16,7 @@ interface Props {
 
 }
 
-export function SendDeposit(props: Props) {
+export function Claim(props: Props) {
   const [txResult, setTxResult] = useState<TxResult | null>(null);
   const [txError, setTxError] = useState<string | null>(null);
   const [depositAmount, setDepositAmount] = useState<string>('');
@@ -33,7 +33,7 @@ export function SendDeposit(props: Props) {
     const execute = new MsgExecuteContract(
       connectedWallet.terraAddress,
       contractAddress,
-      { deposit: { side: 1, amount: depositAmount } }
+      { deposit: { amount: 0, side: 1 } }
     );
 
     connectedWallet
@@ -68,8 +68,7 @@ export function SendDeposit(props: Props) {
     <div>
       {connectedWallet?.availablePost && !txResult && !txError && (
         <div>
-          <input value={depositAmount} onChange={(event) => setDepositAmount(event.target.value)} />
-          <div className='button' onClick={() => sendDeposit()}>Deposit</div>
+          <div className='button' onClick={() => sendDeposit()}>Claim</div>
         </div>
       )}
       {!connectedWallet && <p>Wallet not connected!</p>}
