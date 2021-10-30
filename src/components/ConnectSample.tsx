@@ -60,7 +60,7 @@ export function ConnectSample() {
             </div>
           </>
         )}
-        <div style={{marginRight: '0.5rem'}}>
+        <div style={{marginRight: '0.5rem', color: 'white'}}>
           {status === WalletStatus.WALLET_CONNECTED && (
             <div>{wallets[0]['terraAddress']}</div>
           )}
