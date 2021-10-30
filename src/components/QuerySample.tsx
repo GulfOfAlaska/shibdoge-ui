@@ -7,6 +7,7 @@ import { Claim } from './Claim';
 import './componentStyle.css'
 import { SendDeposit } from './SendDeposit';
 import { Withdraw } from './Withdraw';
+import './componentStyle.css'
 
 interface SideResponse {
   side: number
@@ -69,9 +70,9 @@ export function QuerySample() {
   return (
     <div style={{ height: '100%' }}>
       <div className='container' style={{ height: '100%' }}>
-        Your Champion: {chosenSide ? chosenSide : 'none'}
-        Doge score: {dogeScore}
-        Shiba score: {shibaScore}
+        <div className='text'>Your Champion: {chosenSide ? chosenSide : 'none'}</div>
+        <div className='text'>Doge score: {dogeScore}</div>
+        <div className='text'>Shiba score: {shibaScore}</div>
         {!connectedWallet && <p>Wallet not connected!</p>}
         <SendDeposit />
         <Withdraw />
