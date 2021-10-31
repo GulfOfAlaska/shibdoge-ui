@@ -35,7 +35,7 @@ export function Battle() {
             <ChooseSideButton label={'Choose Doge'} side={1} />
           </div>
         )}
-        {!connectedWallet && <p>Wallet not connected!</p>}
+        {/* {!connectedWallet && <p>Wallet not connected!</p>} */}
       </div>
 
       {/* <h1 style={{ fontFamily: 'Press Start 2p', textAlign: 'center', }}>VS</h1> */}
@@ -49,7 +49,7 @@ export function Battle() {
             <ChooseSideButton label={'Choose Shib'} side={2} />
           </div>
         )}
-        {!connectedWallet && <p>Wallet not connected!</p>}
+        {/* {!connectedWallet && <p>Wallet not connected!</p>} */}
       </div>
     </div>
   );

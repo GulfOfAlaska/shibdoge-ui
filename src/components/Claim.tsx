@@ -71,7 +71,7 @@ export function Claim(props: Props) {
           <div className='button' onClick={() => sendDeposit()}>Claim</div>
         </div>
       )}
-      {!connectedWallet && <p>Wallet not connected!</p>}
+      {/* {!connectedWallet && <p>Wallet not connected!</p>} */}
     </div>
   );
 }

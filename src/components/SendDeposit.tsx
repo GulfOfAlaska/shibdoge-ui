@@ -72,7 +72,7 @@ export function SendDeposit(props: Props) {
           <div className='button' onClick={() => sendDeposit()}>Deposit</div>
         </div>
       )}
-      {!connectedWallet && <p>Wallet not connected!</p>}
+      {/* {!connectedWallet && <p>Wallet not connected!</p>} */}
     </div>
   );
 }

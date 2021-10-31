@@ -71,7 +71,7 @@ export function Withdraw(props: Props) {
           <div className='button' onClick={() => sendWithdraw()}>Withdraw</div>
         </div>
       )}
-      {!connectedWallet && <p>Wallet not connected!</p>}
+      {/* {!connectedWallet && <p>Wallet not connected!</p>} */}
     </div>
   );
 }

@@ -71,7 +71,7 @@ export function ChooseSideButton(props: Props) {
       {connectedWallet?.availablePost && !txResult && !txError && (
         <div className='button' onClick={() => sendChoice()}>{label}</div>
       )}
-      {!connectedWallet && <p>Wallet not connected!</p>}
+      {/* {!connectedWallet && <p>Wallet not connected!</p>} */}
     </div>
   );
 }

@@ -90,7 +90,6 @@ export function QuerySample() {
         <div className='text'>Your Champion: {chosenSide ? chosenSide : 'none'}</div>
         <div className='text'>Doge score: {dogeScore}</div>
         <div className='text'>Shiba score: {shibaScore}</div>
-        {!connectedWallet && <p>Wallet not connected!</p>}
         <SendDeposit />
         <Withdraw />
         <Claim />
