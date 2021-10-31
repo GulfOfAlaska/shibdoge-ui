@@ -50,22 +50,27 @@ export function QuerySample() {
 
   useInterval(
     async () => {
-      // try {
-      //   if (!connectedWallet?.terraAddress) return
-      //   const side= (await getChosenSide(connectedWallet?.terraAddress.toString()))
-      //   if (!side?.side) {
-      //     return
-      //   }
-      //   if (side.side === 1) {
-      //     setChosenSide('doge')
-      //   }
-      //   if (side?.side === 2) {
-      //     setChosenSide('shiba')
-      //   }
-      // } catch (err) {
-      //   console.error(err)
-      // }
+      try {
+        if (!connectedWallet?.terraAddress) return
+        const side= (await getChosenSide(connectedWallet?.terraAddress.toString()))
+        if (!side?.side) {
+          return
+        }
+        if (side.side === 1) {
+          setChosenSide('doge')
+        }
+        if (side?.side === 2) {
+          setChosenSide('shiba')
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    3000,
+  )
 
+  useInterval(
+    async () => {
       try {
         const dogeScore: SideResponse | undefined = await getScore(1)
         setDogeScore(`Winning count: ${dogeScore?.side?.current_winning_count} Current count: ${dogeScore?.side?.total_amount}`)
