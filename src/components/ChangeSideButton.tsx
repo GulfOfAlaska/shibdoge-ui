@@ -13,17 +13,19 @@ import { useCallback, useState } from 'react';
 import './componentStyle.css'
 
 interface Props {
-
+  label: String,
+  side: number
 }
 
-export function SendDeposit(props: Props) {
+export function ChooseSideButton(props: Props) {
   const [txResult, setTxResult] = useState<TxResult | null>(null);
   const [txError, setTxError] = useState<string | null>(null);
-  const [depositAmount, setDepositAmount] = useState<string>('');
+
+  const { label, side } = props
 
   const connectedWallet = useConnectedWallet();
 
-  const sendDeposit = useCallback(() => {
+  const sendChoice = useCallback(() => {
     if (!connectedWallet) {
       return;
     }
@@ -33,7 +35,7 @@ export function SendDeposit(props: Props) {
     const execute = new MsgExecuteContract(
       connectedWallet.terraAddress,
       contractAddress,
-      { deposit: { side: 1, amount: depositAmount } }
+      { side: { side } }
     );
 
     connectedWallet
@@ -67,10 +69,7 @@ export function SendDeposit(props: Props) {
   return (
     <div>
       {connectedWallet?.availablePost && !txResult && !txError && (
-        <div>
-          <input className="retro-input" value={depositAmount} onChange={(event) => setDepositAmount(event.target.value)} />
-          <div className='button' onClick={() => sendDeposit()}>Deposit</div>
-        </div>
+        <div className='button' onClick={() => sendChoice()}>{label}</div>
       )}
       {/* {!connectedWallet && <p>Wallet not connected!</p>} */}
     </div>

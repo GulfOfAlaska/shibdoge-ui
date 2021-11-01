@@ -2,7 +2,6 @@ import { getChainOptions, WalletProvider } from '@terra-money/wallet-provider';
 import { Battle } from 'components/Battle';
 import { ConnectSample } from 'components/ConnectSample';
 import { QuerySample } from 'components/QuerySample';
-import { SignSample } from 'components/SignSample';
 import ReactDOM from 'react-dom';
 import './style.css';
 

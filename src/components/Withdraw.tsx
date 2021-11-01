@@ -67,7 +67,7 @@ export function Withdraw(props: Props) {
     <div>
       {connectedWallet?.availablePost && !txResult && !txError && (
         <div>
-          <input value={withdrawAmount} onChange={(event) => setWithdrawAmount(event.target.value)} />
+          <input className='retro-input' value={withdrawAmount} onChange={(event) => setWithdrawAmount(event.target.value)} />
           <div className='button' onClick={() => sendWithdraw()}>Withdraw</div>
         </div>
       )}
