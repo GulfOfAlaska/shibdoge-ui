@@ -35,6 +35,10 @@ interface LastRoundResponse {
   }
 }
 
+interface LastRoundWinnersResponse {
+  round_winners: number[]
+}
+
 export function QuerySample() {
   const connectedWallet = useConnectedWallet();
 
@@ -42,7 +46,7 @@ export function QuerySample() {
   const [dogeScore, setDogeScore] = useState<null | SideResponse>();
   const [shibaScore, setShibaScore] = useState<null | SideResponse>();
   const [secondsBetweenRounds, setSecondsBetweenRounds] = useState<null | BigNumber>();
-  const [lastRoundWinners, setLastRoundWinners] = useState<null | string>();
+  const [lastRoundWinners, setLastRoundWinners] = useState<null | LastRoundWinnersResponse>();
 
   const lcd = useMemo(() => {
     if (!connectedWallet) {
@@ -76,7 +80,7 @@ export function QuerySample() {
     )
   }
 
-  async function getLastRoundWinners(): Promise<any> {
+  async function getLastRoundWinners(): Promise<LastRoundWinnersResponse | undefined> {
     return lcd?.wasm.contractQuery(
       contractAddress,
       { last_round_winners: {} }
@@ -172,8 +176,8 @@ export function QuerySample() {
   useInterval(
     async () => {
       try {
-        const lastRoundWinners: any = await getLastRoundWinners()
-        setLastRoundWinners(JSON.stringify(lastRoundWinners))
+        const lastRoundWinners: LastRoundWinnersResponse | undefined = await getLastRoundWinners()
+        setLastRoundWinners(lastRoundWinners)
       } catch (err) {
         console.error(err)
       }
@@ -190,11 +194,14 @@ export function QuerySample() {
     chosenSideStr = 'Shiba'
   }
 
+
   const dogeTotalAmountStr = dogeScore?.side?.total_amount ? new BigNumber(dogeScore?.side?.total_amount).shiftedBy(-6).toString() : '-'
   const shibaTotalAmountStr = shibaScore?.side?.total_amount ? new BigNumber(shibaScore?.side?.total_amount).shiftedBy(-6).toString() : '-'
   const dogeWinningCountStr = dogeScore?.side?.current_winning_count ? new BigNumber(dogeScore?.side?.current_winning_count).toString() : '-'
   const shibaWinningCountStr = shibaScore?.side?.current_winning_count ? new BigNumber(shibaScore?.side?.current_winning_count).toString() : '-'
   const stakedAmountStr = chosenSide?.stake.amount ? new BigNumber(chosenSide?.stake.amount).shiftedBy(-6).toString() : '-'
+
+  // Timer
   const remainingTimeSec = secondsBetweenRounds ? new BigNumber(60).minus(secondsBetweenRounds) : null
   BigNumber.set({ROUNDING_MODE: 3})
   let minutes = remainingTimeSec ? remainingTimeSec?.div(new BigNumber(60)) : null
@@ -202,6 +209,14 @@ export function QuerySample() {
   minutes = minutes?.isNegative() ? new BigNumber(0) : minutes
   seconds = seconds?.isNegative() ? new BigNumber(0) : seconds
   const remainingTimeText = (minutes && seconds && !minutes.isNaN() && !seconds.isNaN()) ? `${minutes.toFixed(0)}m : ${seconds.toFixed(0)}s` : '-'
+
+  let dogeWins = 0
+  let shibaWins = 0
+  lastRoundWinners?.round_winners.forEach((winner) => {
+    if(winner === 1) dogeWins += 1
+    if(winner === 2) shibaWins += 1
+  })
+  const lastWinnersStr = `Doge: ${dogeWins} Shiba: ${shibaWins}`
   
   return (
     <div style={{ height: '100%', textAlign: 'left' }}>
@@ -216,7 +231,7 @@ export function QuerySample() {
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column', alignItems: 'flex-start' }}>
           <div className='text' style={{ marginBottom: '.5rem' }}>Your choice: {chosenSideStr}</div>
           <div className='text' style={{ marginBottom: '.5rem' }}>{`Time left: ${remainingTimeText}`}</div>
-          <div className='text' style={{ marginBottom: '.5rem' }}>Previous winners: {lastRoundWinners}</div>
+          <div className='text' style={{ marginBottom: '.5rem' }}>Previous winners: {lastWinnersStr}</div>
           <div className='text' style={{ marginBottom: '.5rem' }}><SendDeposit chosenSide={side ?? 0} /></div>
           <div className='text' style={{ marginBottom: '.5rem' }}><Withdraw /></div>
           <Claim chosenSide={side ?? 0} unclaimedMessage={`Unclaimed: ${chosenSide?.stake.reward_unclaimed} dogeshib`} />
