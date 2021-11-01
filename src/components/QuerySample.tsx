@@ -28,6 +28,13 @@ interface StakeResponse {
   }
 }
 
+interface LastRoundResponse {
+  last_round: {
+    block_height: number,
+    round: number
+  }
+}
+
 export function QuerySample() {
   const connectedWallet = useConnectedWallet();
 
@@ -62,7 +69,7 @@ export function QuerySample() {
     )
   }
 
-  async function getLastRound(): Promise<any> {
+  async function getLastRound(): Promise<LastRoundResponse | undefined> {
     return lcd?.wasm.contractQuery(
       contractAddress,
       { last_round: {} }
@@ -107,16 +114,19 @@ export function QuerySample() {
   useInterval(
     async () => {
       try {
-        const lastRound: any = await getLastRound()
-        console.log(lastRound)
+        const lastRound: LastRoundResponse | undefined = await getLastRound()
         await fetch('https://fcd.terra.dev/blocks/latest').then(
           (res: any) => res.json()
         ).then((res: any) => {
           const currentBlockheight = res?.block?.header?.height
-          console.log(currentBlockheight, lastRound)
-          if (lastRound && currentBlockheight) {
-            // new BigNumber(las)
-            setLastRound(JSON.stringify(lastRound))
+          console.log(lastRound, currentBlockheight)
+          if (lastRound?.last_round?.block_height && currentBlockheight) {
+            const timeBetweenRounds = parseInt(currentBlockheight) - lastRound?.last_round?.block_height
+            const secondsBetweenRounds = timeBetweenRounds * 6
+            console.log(secondsBetweenRounds)
+            const minutes = Math.floor(secondsBetweenRounds / 60)
+            const seconds = timeBetweenRounds - minutes * 60
+            setLastRound(`${minutes}m : ${seconds}s`)
           }
         })
       } catch (err) {
