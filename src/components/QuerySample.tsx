@@ -122,7 +122,7 @@ export function QuerySample() {
           console.log(lastRound, currentBlockheight)
           if (lastRound?.last_round?.block_height && currentBlockheight) {
             const timeBetweenRounds = parseInt(currentBlockheight) - lastRound?.last_round?.block_height
-            const secondsBetweenRounds = timeBetweenRounds * 6
+            const secondsBetweenRounds = timeBetweenRounds * 5
             console.log(secondsBetweenRounds)
             const minutes = Math.floor(secondsBetweenRounds / 60)
             const seconds = timeBetweenRounds - minutes * 60
@@ -162,24 +162,27 @@ export function QuerySample() {
     <div style={{ height: '100%', textAlign: 'left' }}>
       <div className='container' style={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
-          <div><h4 className='text'>DOGE</h4></div>
-          <div className='text'>Score: {dogeScore?.side?.total_amount}</div>
+          <div><h2 className='text'>DOGE</h2></div>
+          <div className='text'>Total Votes: {dogeScore?.side?.total_amount}</div>
           <div className='text'>Win counts: {dogeScore?.side?.current_winning_count}</div>
           {side !== 1 && <ChooseSideButton label={'Choose Doge'} side={1} />}
+          {side === 1 && <div className='text'>{`Staked: ${chosenSide?.stake.amount}`}</div>}
         </div>
-        <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
+        <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column', alignItems: 'flex-start' }}>
           <div className='text'>Your choice: {side}</div>
           <div className='text'>Last round: {lastRound}</div>
           <div className='text'>Previous winners: {lastRoundWinners}</div>
           <SendDeposit chosenSide={side ?? 0} />
           <Withdraw />
-          <Claim />
+          <Claim chosenSide={side ?? 0} />
+          <div className='text'> {`Unclaimed: ${chosenSide?.stake.reward_unclaimed} dogeshib`}</div>
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
-          <div><h4 className='text'>SHIBA</h4></div>
-          <div className='text'>Score: {shibaScore?.side?.total_amount}</div>
+          <div><h2 className='text'>SHIBA</h2></div>
+          <div className='text'>Total Votes: {shibaScore?.side?.total_amount}</div>
           <div className='text'>Win counts: {shibaScore?.side?.current_winning_count}</div>
           {side !== 2 && <ChooseSideButton label={'Choose Shib'} side={2} />}
+          {side === 2 && <div className='text'>{`Staked: ${chosenSide?.stake.amount}`}</div>}
         </div>
       </div>
     </div>

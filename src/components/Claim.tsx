@@ -13,15 +13,14 @@ import { useCallback, useState } from 'react';
 import './componentStyle.css'
 
 interface Props {
-
+  chosenSide: number
 }
 
 export function Claim(props: Props) {
   const [txResult, setTxResult] = useState<TxResult | null>(null);
   const [txError, setTxError] = useState<string | null>(null);
-  const [depositAmount, setDepositAmount] = useState<string>('');
-
   const connectedWallet = useConnectedWallet();
+  const { chosenSide } = props
 
   const sendDeposit = useCallback(() => {
     if (!connectedWallet) {
@@ -33,7 +32,7 @@ export function Claim(props: Props) {
     const execute = new MsgExecuteContract(
       connectedWallet.terraAddress,
       contractAddress,
-      { deposit: { amount: 0, side: 1 } }
+      { deposit: { amount: 0, side: chosenSide } }
     );
 
     connectedWallet
