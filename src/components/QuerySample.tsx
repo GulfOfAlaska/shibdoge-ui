@@ -115,6 +115,16 @@ export function QuerySample() {
     async () => {
       try {
         const lastRound: LastRoundResponse | undefined = await getLastRound()
+      } catch (err) {
+        console.error(err)
+      }
+    }, 1000
+  )
+
+  useInterval(
+    async () => {
+      try {
+        const lastRound: LastRoundResponse | undefined = await getLastRound()
         await fetch('https://fcd.terra.dev/blocks/latest').then(
           (res: any) => res.json()
         ).then((res: any) => {
@@ -158,31 +168,36 @@ export function QuerySample() {
     chosenSideStr = 'Shiba'
   }
 
+  const dogeTotalAmountStr = dogeScore?.side?.total_amount ? new BigNumber(dogeScore?.side?.total_amount).shiftedBy(-6).toString() : '-'
+  const shibaTotalAmountStr = shibaScore?.side?.total_amount ? new BigNumber(shibaScore?.side?.total_amount).shiftedBy(-6).toString() : '-'
+  const dogeWinningCountStr = dogeScore?.side?.current_winning_count ? new BigNumber(dogeScore?.side?.current_winning_count).shiftedBy(-6).toString() : '-'
+  const shibaWinningCountStr = shibaScore?.side?.current_winning_count ? new BigNumber(shibaScore?.side?.current_winning_count).shiftedBy(-6).toString() : '-'
+  const stakedAmountStr = chosenSide?.stake.amount ? new BigNumber(chosenSide?.stake.amount).shiftedBy(-6).toString() : '-'
+
   return (
     <div style={{ height: '100%', textAlign: 'left' }}>
       <div className='container' style={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
           <div><h2 className='text'>DOGE</h2></div>
-          <div className='text'>Total Votes: {dogeScore?.side?.total_amount}</div>
-          <div className='text'>Win counts: {dogeScore?.side?.current_winning_count}</div>
+          <div className='text' style={{ marginTop: '1rem' }}>Total Votes: {dogeTotalAmountStr}</div>
+          <div className='text'>Win counts: {dogeWinningCountStr}</div>
           {side !== 1 && <ChooseSideButton label={'Choose Doge'} side={1} />}
-          {side === 1 && <div className='text'>{`Staked: ${chosenSide?.stake.amount}`}</div>}
+          {side === 1 && <div className='text'>{`Staked: ${stakedAmountStr}`}</div>}
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column', alignItems: 'flex-start' }}>
-          <div className='text'>Your choice: {side}</div>
-          <div className='text'>Last round: {lastRound}</div>
-          <div className='text'>Previous winners: {lastRoundWinners}</div>
-          <SendDeposit chosenSide={side ?? 0} />
-          <Withdraw />
-          <Claim chosenSide={side ?? 0} />
-          <div className='text'> {`Unclaimed: ${chosenSide?.stake.reward_unclaimed} dogeshib`}</div>
+          <div className='text' style={{ marginBottom: '.5rem' }}>Your choice: {chosenSideStr}</div>
+          <div className='text' style={{ marginBottom: '.5rem' }}>Last round: {lastRound}</div>
+          <div className='text' style={{ marginBottom: '.5rem' }}>Previous winners: {lastRoundWinners}</div>
+          <div className='text' style={{ marginBottom: '.5rem' }}><SendDeposit chosenSide={side ?? 0} /></div>
+          <div className='text' style={{ marginBottom: '.5rem' }}><Withdraw /></div>
+          <Claim chosenSide={side ?? 0} unclaimedMessage={`Unclaimed: ${chosenSide?.stake.reward_unclaimed} dogeshib`} />
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
           <div><h2 className='text'>SHIBA</h2></div>
-          <div className='text'>Total Votes: {shibaScore?.side?.total_amount}</div>
-          <div className='text'>Win counts: {shibaScore?.side?.current_winning_count}</div>
+          <div className='text' style={{ marginTop: '1rem' }}>Total Votes: {shibaTotalAmountStr}</div>
+          <div className='text'>Win counts: {shibaWinningCountStr}</div>
           {side !== 2 && <ChooseSideButton label={'Choose Shib'} side={2} />}
-          {side === 2 && <div className='text'>{`Staked: ${chosenSide?.stake.amount}`}</div>}
+          {side === 2 && <div className='text'>{`Staked: ${stakedAmountStr}`}</div>}
         </div>
       </div>
     </div>

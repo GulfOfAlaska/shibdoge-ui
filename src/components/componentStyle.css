@@ -24,7 +24,6 @@
   background-color: #d99058;
   font-family: 'Press Start 2p';
   display: inline-block;
-  margin:5px;
   font-weight: bold;
   font-size: .5rem;
   text-align: center;
@@ -123,6 +122,7 @@
   font-family: 'Press Start 2p';
   font-size: .5rem;
   width: 100%;
+  margin-left: 1rem;
 }
 .retro-input:focus {
   box-shadow: none;

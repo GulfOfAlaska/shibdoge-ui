@@ -13,14 +13,15 @@ import { useCallback, useState } from 'react';
 import './componentStyle.css'
 
 interface Props {
-  chosenSide: number
+  chosenSide: number,
+  unclaimedMessage: string
 }
 
 export function Claim(props: Props) {
   const [txResult, setTxResult] = useState<TxResult | null>(null);
   const [txError, setTxError] = useState<string | null>(null);
   const connectedWallet = useConnectedWallet();
-  const { chosenSide } = props
+  const { chosenSide, unclaimedMessage } = props
 
   const sendDeposit = useCallback(() => {
     if (!connectedWallet) {
@@ -66,8 +67,9 @@ export function Claim(props: Props) {
   return (
     <div>
       {connectedWallet?.availablePost && !txResult && !txError && (
-        <div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
           <div className='button' onClick={() => sendDeposit()}>Claim</div>
+          <div className='text' style={{marginLeft: '1rem'}}>{unclaimedMessage}</div>
         </div>
       )}
       {/* {!connectedWallet && <p>Wallet not connected!</p>} */}
