@@ -196,6 +196,7 @@ export function QuerySample() {
   const shibaWinningCountStr = shibaScore?.side?.current_winning_count ? new BigNumber(shibaScore?.side?.current_winning_count).toString() : '-'
   const stakedAmountStr = chosenSide?.stake.amount ? new BigNumber(chosenSide?.stake.amount).shiftedBy(-6).toString() : '-'
   const remainingTimeSec = secondsBetweenRounds ? new BigNumber(60).minus(secondsBetweenRounds) : null
+  BigNumber.set({ROUNDING_MODE: 3})
   let minutes = remainingTimeSec ? remainingTimeSec?.div(new BigNumber(60)) : null
   let seconds = minutes ? remainingTimeSec?.mod(new BigNumber(60)) : null
   minutes = minutes?.isNegative() ? new BigNumber(0) : minutes
