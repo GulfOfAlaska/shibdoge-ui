@@ -45,7 +45,6 @@ export function SendDeposit(props: Props) {
         msgs: [execute],
       })
       .then((nextTxResult: TxResult) => {
-        console.log(nextTxResult);
         setTxResult(nextTxResult);
       })
       .catch((error: unknown) => {

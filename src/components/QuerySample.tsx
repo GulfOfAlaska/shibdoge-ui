@@ -41,7 +41,7 @@ export function QuerySample() {
   const [chosenSide, setChosenSide] = useState<null | StakeResponse>();
   const [dogeScore, setDogeScore] = useState<null | SideResponse>();
   const [shibaScore, setShibaScore] = useState<null | SideResponse>();
-  const [lastRound, setLastRound] = useState<null | string>();
+  const [secondsBetweenRounds, setSecondsBetweenRounds] = useState<null | BigNumber>();
   const [lastRoundWinners, setLastRoundWinners] = useState<null | string>();
 
   const lcd = useMemo(() => {
@@ -129,14 +129,11 @@ export function QuerySample() {
           (res: any) => res.json()
         ).then((res: any) => {
           const currentBlockheight = res?.block?.header?.height
-          console.log(lastRound, currentBlockheight)
+
           if (lastRound?.last_round?.block_height && currentBlockheight) {
-            const timeBetweenRounds = parseInt(currentBlockheight) - lastRound?.last_round?.block_height
-            const secondsBetweenRounds = timeBetweenRounds * 5
-            console.log(secondsBetweenRounds)
-            const minutes = Math.floor(secondsBetweenRounds / 60)
-            const seconds = timeBetweenRounds - minutes * 60
-            setLastRound(`${minutes}m : ${seconds}s`)
+            const blocksBetweenRounds = parseInt(currentBlockheight) - lastRound?.last_round?.block_height
+            const secondsBetweenRounds = blocksBetweenRounds * 5
+            setSecondsBetweenRounds(new BigNumber(secondsBetweenRounds))
           }
         })
       } catch (err) {
@@ -144,7 +141,32 @@ export function QuerySample() {
       }
 
     },
-    1000,
+    60000,
+  )
+
+  useInterval(
+    async () => {
+      try {
+        if (secondsBetweenRounds) {
+          setSecondsBetweenRounds(secondsBetweenRounds.plus(1))
+        } else {
+          const lastRound: LastRoundResponse | undefined = await getLastRound()
+          await fetch('https://fcd.terra.dev/blocks/latest').then(
+            (res: any) => res.json()
+          ).then((res: any) => {
+            const currentBlockheight = res?.block?.header?.height
+
+            if (lastRound?.last_round?.block_height && currentBlockheight) {
+              const blocksBetweenRounds = parseInt(currentBlockheight) - lastRound?.last_round?.block_height
+              const secondsBetweenRounds = blocksBetweenRounds * 5
+              setSecondsBetweenRounds(new BigNumber(secondsBetweenRounds))
+            }
+          })
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    }, 1000
   )
 
   useInterval(
@@ -173,6 +195,10 @@ export function QuerySample() {
   const dogeWinningCountStr = dogeScore?.side?.current_winning_count ? new BigNumber(dogeScore?.side?.current_winning_count).shiftedBy(-6).toString() : '-'
   const shibaWinningCountStr = shibaScore?.side?.current_winning_count ? new BigNumber(shibaScore?.side?.current_winning_count).shiftedBy(-6).toString() : '-'
   const stakedAmountStr = chosenSide?.stake.amount ? new BigNumber(chosenSide?.stake.amount).shiftedBy(-6).toString() : '-'
+  const remainingTime = secondsBetweenRounds ? new BigNumber(3600).minus(secondsBetweenRounds) : null
+  const minutes = remainingTime ? remainingTime?.dividedBy(60, 3) : null
+  const seconds = minutes ? remainingTime?.minus(minutes?.times(60)) : null
+  const remainingTimeText = (minutes && seconds && !minutes.isNaN() && !seconds.isNaN()) ? `${minutes.toString()}:${seconds.toString()}` : '-'
 
   return (
     <div style={{ height: '100%', textAlign: 'left' }}>
@@ -186,7 +212,7 @@ export function QuerySample() {
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column', alignItems: 'flex-start' }}>
           <div className='text' style={{ marginBottom: '.5rem' }}>Your choice: {chosenSideStr}</div>
-          <div className='text' style={{ marginBottom: '.5rem' }}>Last round: {lastRound}</div>
+          <div className='text' style={{ marginBottom: '.5rem' }}>{`Time left: ${remainingTimeText}`}</div>
           <div className='text' style={{ marginBottom: '.5rem' }}>Previous winners: {lastRoundWinners}</div>
           <div className='text' style={{ marginBottom: '.5rem' }}><SendDeposit chosenSide={side ?? 0} /></div>
           <div className='text' style={{ marginBottom: '.5rem' }}><Withdraw /></div>

@@ -51,7 +51,6 @@ export function ConnectSample() {
         setBank(coinList);
 
         const balanceRes: Balance | undefined = await queryBalance()
-        console.log(balanceRes)
         setBalance(balanceRes?.balance);
       } else {
         setBank(null);

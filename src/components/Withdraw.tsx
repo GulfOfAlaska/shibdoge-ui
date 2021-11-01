@@ -41,7 +41,6 @@ export function Withdraw(props: Props) {
         msgs: [execute],
       })
       .then((nextTxResult: TxResult) => {
-        console.log(nextTxResult);
         setTxResult(nextTxResult);
       })
       .catch((error: unknown) => {
