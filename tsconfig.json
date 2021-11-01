@@ -21,7 +21,11 @@
     "noEmit": true,
     "watch": true,
     "jsx": "react-jsx",
-    "baseUrl": "src"
+    "baseUrl": "src",
+    //Other configuration...
+    "typeRoots": [
+      "./src/declerations.d.ts"
+    ]
   },
   "include": [
     "src"
