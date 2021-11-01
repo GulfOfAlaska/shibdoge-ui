@@ -195,9 +195,11 @@ export function QuerySample() {
   const dogeWinningCountStr = dogeScore?.side?.current_winning_count ? new BigNumber(dogeScore?.side?.current_winning_count).toString() : '-'
   const shibaWinningCountStr = shibaScore?.side?.current_winning_count ? new BigNumber(shibaScore?.side?.current_winning_count).toString() : '-'
   const stakedAmountStr = chosenSide?.stake.amount ? new BigNumber(chosenSide?.stake.amount).shiftedBy(-6).toString() : '-'
-  const remainingTimeSec = secondsBetweenRounds ? new BigNumber(3600).minus(secondsBetweenRounds) : null
-  const minutes = remainingTimeSec ? remainingTimeSec?.div(new BigNumber(60)) : null
-  const seconds = minutes ? remainingTimeSec?.mod(new BigNumber(60)) : null
+  const remainingTimeSec = secondsBetweenRounds ? new BigNumber(60).minus(secondsBetweenRounds) : null
+  let minutes = remainingTimeSec ? remainingTimeSec?.div(new BigNumber(60)) : null
+  let seconds = minutes ? remainingTimeSec?.mod(new BigNumber(60)) : null
+  minutes = minutes?.isNegative() ? new BigNumber(0) : minutes
+  seconds = seconds?.isNegative() ? new BigNumber(0) : seconds
   const remainingTimeText = (minutes && seconds && !minutes.isNaN() && !seconds.isNaN()) ? `${minutes.toFixed(0)}m : ${seconds.toFixed(0)}s` : '-'
   
   return (
