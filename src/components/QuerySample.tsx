@@ -21,10 +21,10 @@ export function QuerySample() {
   const connectedWallet = useConnectedWallet();
 
   const [chosenSide, setChosenSide] = useState<null | string>();
-  const [dogeScore, setDogeScore] = useState<null | string>();
-  const [shibaScore, setShibaScore] = useState<null | string>();
+  const [dogeScore, setDogeScore] = useState<null | SideResponse>();
+  const [shibaScore, setShibaScore] = useState<null | SideResponse>();
   const [lastRound, setLastRound] = useState<null | string>();
-  const [lastRoundWInners, setLastRoundWinners] = useState<null | string>();
+  const [lastRoundWinners, setLastRoundWinners] = useState<null | string>();
 
   const lcd = useMemo(() => {
     if (!connectedWallet) {
@@ -88,9 +88,9 @@ export function QuerySample() {
     async () => {
       try {
         const dogeScore: SideResponse | undefined = await getSide(1)
-        setDogeScore(`Winning count: ${dogeScore?.side?.current_winning_count} Current count: ${dogeScore?.side?.total_amount}`)
+        setDogeScore(dogeScore)
         const shibaScore: SideResponse | undefined = await getSide(2)
-        setShibaScore(`Winning count: ${shibaScore?.side?.current_winning_count} Current count: ${shibaScore?.side?.total_amount}`)
+        setShibaScore(shibaScore)
       } catch (err) {
         console.error(err)
       }
@@ -136,16 +136,27 @@ export function QuerySample() {
   )
 
   return (
-    <div style={{ height: '100%' }}>
-      <div className='container' style={{ height: '100%' }}>
-        <div className='text'>Your Champion: {chosenSide ? chosenSide : 'none'}</div>
-        <div className='text'>Doge score: {dogeScore}</div>
-        <div className='text'>Shiba score: {shibaScore}</div>
-        <div className='text'>Last Round: {shibaScore}</div>
-        <div className='text'>Previous Round Winners: {shibaScore}</div>
-        <SendDeposit />
-        <Withdraw />
-        <Claim />
+    <div style={{ height: '100%', textAlign: 'left' }}>
+      <div className='container' style={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
+        <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
+          <div><h4 className='text'>DOGE</h4></div>
+          <div className='text'>Score: {dogeScore?.side?.total_amount}</div>
+          <div className='text'>Win counts: {dogeScore?.side?.current_winning_count}</div>
+        </div>
+        <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
+          <div className='text'>Your choice: {chosenSide ? chosenSide : 'none'}</div>
+          <div className='text'>Last round: {lastRound}</div>
+          <div className='text'>Previous winners: {lastRoundWinners}</div>
+          <div className='text'>What will you do?</div>
+          <SendDeposit />
+          <Withdraw />
+          <Claim />
+        </div>
+        <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
+          <div><h4 className='text'>SHIBA</h4></div>
+          <div className='text'>Score: {shibaScore?.side?.total_amount}</div>
+          <div className='text'>Win counts: {shibaScore?.side?.current_winning_count}</div>
+        </div>
       </div>
     </div>
   );

@@ -14,10 +14,10 @@ function App() {
             <ConnectSample />
           </div>
         </div>
-        <div style={{ height: '60%', width: '100%' }}>
+        <div style={{ height: '50%', width: '100%' }}>
           <Battle />
         </div>
-        <div style={{ height: '30%', width: '100%', marginTop: '1rem' }}>
+        <div style={{ height: '40%', width: '100%', marginTop: '1rem' }}>
           <QuerySample />
         </div>
         {/* <SignSample /> */}

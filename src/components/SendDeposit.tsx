@@ -67,8 +67,9 @@ export function SendDeposit(props: Props) {
   return (
     <div>
       {connectedWallet?.availablePost && !txResult && !txError && (
-        <div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
           <input className="retro-input" value={depositAmount} onChange={(event) => setDepositAmount(event.target.value)} />
+          {/* <div className='button' onClick={() => sendDeposit()}>Deposit</div> */}
           <div className='button' onClick={() => sendDeposit()}>Deposit</div>
         </div>
       )}
