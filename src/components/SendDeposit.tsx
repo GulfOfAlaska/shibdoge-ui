@@ -8,20 +8,22 @@ import {
   useConnectedWallet,
   UserDenied,
 } from '@terra-money/wallet-provider';
+import BigNumber from 'bignumber.js';
 import { contractAddress } from 'constants/contractAddress';
 import { useCallback, useState } from 'react';
 import './componentStyle.css'
 
 interface Props {
-
+  chosenSide: number
 }
 
 export function SendDeposit(props: Props) {
   const [txResult, setTxResult] = useState<TxResult | null>(null);
   const [txError, setTxError] = useState<string | null>(null);
   const [depositAmount, setDepositAmount] = useState<string>('');
-
   const connectedWallet = useConnectedWallet();
+
+  const { chosenSide } = props
 
   const sendDeposit = useCallback(() => {
     if (!connectedWallet) {
@@ -30,10 +32,12 @@ export function SendDeposit(props: Props) {
 
     setTxResult(null);
 
+    const side = chosenSide || 1
+
     const execute = new MsgExecuteContract(
       connectedWallet.terraAddress,
       contractAddress,
-      { deposit: { side: 1, amount: depositAmount } }
+      { deposit: { side, amount: new BigNumber(depositAmount).shiftedBy(6).toString() } }
     );
 
     connectedWallet
@@ -66,11 +70,12 @@ export function SendDeposit(props: Props) {
 
   return (
     <div>
-      {connectedWallet?.availablePost && !txResult && !txError && (
+      {connectedWallet?.availablePost && (
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <input className="retro-input" value={depositAmount} onChange={(event) => setDepositAmount(event.target.value)} />
-          {/* <div className='button' onClick={() => sendDeposit()}>Deposit</div> */}
           <div className='button' onClick={() => sendDeposit()}>Deposit</div>
+          {txResult}
+          {txError}
         </div>
       )}
       {/* {!connectedWallet && <p>Wallet not connected!</p>} */}

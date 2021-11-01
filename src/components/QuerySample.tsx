@@ -1,5 +1,5 @@
 import { LCDClient, TreasuryAPI } from '@terra-money/terra.js';
-import { useConnectedWallet } from '@terra-money/wallet-provider';
+import { TxResult, useConnectedWallet } from '@terra-money/wallet-provider';
 import { contractAddress } from 'constants/contractAddress';
 import useInterval from 'hooks/useInterval';
 import { useMemo, useState } from 'react';
@@ -9,6 +9,7 @@ import { SendDeposit } from './SendDeposit';
 import { Withdraw } from './Withdraw';
 import './componentStyle.css'
 import BigNumber from 'bignumber.js';
+import { ChooseSideButton } from './ChooseSideButton';
 
 interface SideResponse {
   side: {
@@ -17,10 +18,20 @@ interface SideResponse {
   }
 }
 
+interface StakeResponse {
+  stake: {
+    amount: string,
+    last_claimed_at: number,
+    last_claimed_winning_count: number,
+    reward_unclaimed: string,
+    side: number
+  }
+}
+
 export function QuerySample() {
   const connectedWallet = useConnectedWallet();
 
-  const [chosenSide, setChosenSide] = useState<null | string>();
+  const [chosenSide, setChosenSide] = useState<null | StakeResponse>();
   const [dogeScore, setDogeScore] = useState<null | SideResponse>();
   const [shibaScore, setShibaScore] = useState<null | SideResponse>();
   const [lastRound, setLastRound] = useState<null | string>();
@@ -70,13 +81,7 @@ export function QuerySample() {
       try {
         if (!connectedWallet?.terraAddress) return
         const side = (await getChosenSide(connectedWallet?.terraAddress.toString()))
-        console.log(side)
-        if (side.side === 1) {
-          setChosenSide('doge')
-        }
-        if (side?.side === 2) {
-          setChosenSide('shiba')
-        }
+        setChosenSide(side)
       } catch (err) {
         console.error(err)
       }
@@ -104,16 +109,16 @@ export function QuerySample() {
       try {
         const lastRound: any = await getLastRound()
         console.log(lastRound)
-        // await fetch('https://fcd.terra.dev/blocks/latest').then(
-        //   (res: any) => res.json()
-        // ).then((res: any) => {
-        //   const currentBlockheight = res?.block?.header?.height
-        //   console.log(currentBlockheight, lastRound)
-        //   if (lastRound && currentBlockheight) {
-        //     // new BigNumber(las)
-        //     setLastRound(JSON.stringify(lastRound))
-        //   }
-        // })
+        await fetch('https://fcd.terra.dev/blocks/latest').then(
+          (res: any) => res.json()
+        ).then((res: any) => {
+          const currentBlockheight = res?.block?.header?.height
+          console.log(currentBlockheight, lastRound)
+          if (lastRound && currentBlockheight) {
+            // new BigNumber(las)
+            setLastRound(JSON.stringify(lastRound))
+          }
+        })
       } catch (err) {
         console.error(err)
       }
@@ -135,6 +140,14 @@ export function QuerySample() {
     3000,
   )
 
+  const side = chosenSide?.stake?.side
+  let chosenSideStr = 'None'
+  if (side === 1) {
+    chosenSideStr = 'Doge'
+  } else if (side === 2) {
+    chosenSideStr = 'Shiba'
+  }
+
   return (
     <div style={{ height: '100%', textAlign: 'left' }}>
       <div className='container' style={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
@@ -142,13 +155,13 @@ export function QuerySample() {
           <div><h4 className='text'>DOGE</h4></div>
           <div className='text'>Score: {dogeScore?.side?.total_amount}</div>
           <div className='text'>Win counts: {dogeScore?.side?.current_winning_count}</div>
+          <ChooseSideButton label={'Choose Doge'} side={2} />
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
-          <div className='text'>Your choice: {chosenSide ? chosenSide : 'none'}</div>
+          <div className='text'>Your choice: {side}</div>
           <div className='text'>Last round: {lastRound}</div>
           <div className='text'>Previous winners: {lastRoundWinners}</div>
-          <div className='text'>What will you do?</div>
-          <SendDeposit />
+          <SendDeposit chosenSide={side ?? 0} />
           <Withdraw />
           <Claim />
         </div>
@@ -156,6 +169,7 @@ export function QuerySample() {
           <div><h4 className='text'>SHIBA</h4></div>
           <div className='text'>Score: {shibaScore?.side?.total_amount}</div>
           <div className='text'>Win counts: {shibaScore?.side?.current_winning_count}</div>
+          <ChooseSideButton label={'Choose Shib'} side={2} />
         </div>
       </div>
     </div>

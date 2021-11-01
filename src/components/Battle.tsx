@@ -16,10 +16,6 @@ import battleground2 from '../assets/battleground2.png';
 import { ChooseSideButton } from './ChooseSideButton';
 
 export function Battle() {
-  const [txResult, setTxResult] = useState<TxResult | null>(null);
-  const [txError, setTxError] = useState<string | null>(null);
-  const [depositDogeAmount, setDepositDogeAmount] = useState<string | null>(null);
-  const [depositShibaAmount, setDepositShibaAmount] = useState<string | null>(null);
 
   const connectedWallet = useConnectedWallet();
 
@@ -30,11 +26,11 @@ export function Battle() {
       {/* DOGE */}
       <div className='container' style={{ height: '100%', width: '49.5%', background: `url(${battleground1}) no-repeat`, backgroundSize: 'cover', }}>
         <div className='doge-pict-container' style={{ right: '1rem' }} />
-        {connectedWallet?.availablePost && !txResult && !txError && (
+        {/* {connectedWallet?.availablePost && !txResult && !txError && (
           <div className='button-container' style={{ right: '.5rem' }}>
             <ChooseSideButton label={'Choose Doge'} side={1} />
           </div>
-        )}
+        )} */}
         {/* {!connectedWallet && <p>Wallet not connected!</p>} */}
       </div>
 
@@ -44,11 +40,11 @@ export function Battle() {
       {/* SHIBA */}
       <div className='container' style={{ height: '100%', width: '49.5%', background: `url(${battleground2}) no-repeat`, backgroundSize: 'cover', }}>
         <div className='shiba-pict-container' style={{ right: '1rem' }} />
-        {connectedWallet?.availablePost && !txResult && !txError && (
+        {/* {connectedWallet?.availablePost && !txResult && !txError && (
           <div className='button-container' style={{ left: '.5rem' }}>
             <ChooseSideButton label={'Choose Shib'} side={2} />
           </div>
-        )}
+        )} */}
         {/* {!connectedWallet && <p>Wallet not connected!</p>} */}
       </div>
     </div>
