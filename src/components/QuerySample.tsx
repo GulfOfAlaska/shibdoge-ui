@@ -165,7 +165,7 @@ export function QuerySample() {
           <div><h4 className='text'>DOGE</h4></div>
           <div className='text'>Score: {dogeScore?.side?.total_amount}</div>
           <div className='text'>Win counts: {dogeScore?.side?.current_winning_count}</div>
-          <ChooseSideButton label={'Choose Doge'} side={2} />
+          {side !== 1 && <ChooseSideButton label={'Choose Doge'} side={1} />}
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
           <div className='text'>Your choice: {side}</div>
@@ -179,7 +179,7 @@ export function QuerySample() {
           <div><h4 className='text'>SHIBA</h4></div>
           <div className='text'>Score: {shibaScore?.side?.total_amount}</div>
           <div className='text'>Win counts: {shibaScore?.side?.current_winning_count}</div>
-          <ChooseSideButton label={'Choose Shib'} side={2} />
+          {side !== 2 && <ChooseSideButton label={'Choose Shib'} side={2} />}
         </div>
       </div>
     </div>

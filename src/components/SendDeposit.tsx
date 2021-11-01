@@ -25,7 +25,7 @@ export function SendDeposit(props: Props) {
 
   const { chosenSide } = props
 
-  const sendDeposit = useCallback(() => {
+  const sendDeposit = async () => {
     if (!connectedWallet) {
       return;
     }
@@ -66,15 +66,14 @@ export function SendDeposit(props: Props) {
           );
         }
       });
-  }, [connectedWallet]);
+  }
 
   return (
     <div>
       {connectedWallet?.availablePost && (
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <input className="retro-input" value={depositAmount} onChange={(event) => setDepositAmount(event.target.value)} />
+          <input className="retro-input" value={depositAmount} onChange={(event) => { setDepositAmount(event.target.value) }} />
           <div className='button' onClick={() => sendDeposit()}>Deposit</div>
-          {txResult}
           {txError}
         </div>
       )}

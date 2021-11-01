@@ -25,7 +25,7 @@ export function ChooseSideButton(props: Props) {
 
   const connectedWallet = useConnectedWallet();
 
-  const sendChoice = useCallback(() => {
+  const sendChoice = async() => {
     if (!connectedWallet) {
       return;
     }
@@ -64,13 +64,14 @@ export function ChooseSideButton(props: Props) {
           );
         }
       });
-  }, [connectedWallet]);
+  };
 
   return (
     <div>
       {connectedWallet?.availablePost && !txResult && !txError && (
         <div className='button' onClick={() => sendChoice()}>{label}</div>
       )}
+      {txError}
       {!connectedWallet && <p className='text'>Wallet not connected!</p>}
     </div>
   );

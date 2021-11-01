@@ -8,6 +8,7 @@ import {
   useConnectedWallet,
   UserDenied,
 } from '@terra-money/wallet-provider';
+import BigNumber from 'bignumber.js';
 import { contractAddress } from 'constants/contractAddress';
 import { useCallback, useState } from 'react';
 import './componentStyle.css'
@@ -22,7 +23,7 @@ export function Withdraw(props: Props) {
 
   const connectedWallet = useConnectedWallet();
 
-  const sendWithdraw = useCallback(() => {
+  const sendWithdraw = async () => {
     if (!connectedWallet) {
       return;
     }
@@ -32,7 +33,7 @@ export function Withdraw(props: Props) {
     const execute = new MsgExecuteContract(
       connectedWallet.terraAddress,
       contractAddress,
-      { withdraw: { amount: withdrawAmount } }
+      { withdraw: { amount: new BigNumber(withdrawAmount).shiftedBy(6).toString() } }
     );
 
     connectedWallet
@@ -61,16 +62,15 @@ export function Withdraw(props: Props) {
           );
         }
       });
-  }, [connectedWallet]);
+  };
 
   return (
     <div>
-      {connectedWallet?.availablePost && !txResult && !txError && (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <input className='retro-input' value={withdrawAmount} onChange={(event) => setWithdrawAmount(event.target.value)} />
-          <div className='button' onClick={() => sendWithdraw()}>Withdraw</div>
-        </div>
-      )}
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <input className='retro-input' value={withdrawAmount} onChange={(event) => setWithdrawAmount(event.target.value)} />
+        <div className='button' onClick={() => sendWithdraw()}>Withdraw</div>
+        {txError}
+      </div>
       {/* {!connectedWallet && <p>Wallet not connected!</p>} */}
     </div>
   );
