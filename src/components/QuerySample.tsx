@@ -195,11 +195,11 @@ export function QuerySample() {
   const dogeWinningCountStr = dogeScore?.side?.current_winning_count ? new BigNumber(dogeScore?.side?.current_winning_count).toString() : '-'
   const shibaWinningCountStr = shibaScore?.side?.current_winning_count ? new BigNumber(shibaScore?.side?.current_winning_count).toString() : '-'
   const stakedAmountStr = chosenSide?.stake.amount ? new BigNumber(chosenSide?.stake.amount).shiftedBy(-6).toString() : '-'
-  const remainingTime = secondsBetweenRounds ? new BigNumber(3600).minus(secondsBetweenRounds) : null
-  const minutes = remainingTime ? remainingTime?.dividedBy(60, 3) : null
-  const seconds = minutes ? remainingTime?.minus(minutes?.times(60)) : null
-  const remainingTimeText = (minutes && seconds && !minutes.isNaN() && !seconds.isNaN()) ? `${minutes.toString()}:${seconds.toString()}` : '-'
-
+  const remainingTimeSec = secondsBetweenRounds ? new BigNumber(3600).minus(secondsBetweenRounds) : null
+  const minutes = remainingTimeSec ? remainingTimeSec?.div(new BigNumber(60)) : null
+  const seconds = minutes ? remainingTimeSec?.mod(new BigNumber(60)) : null
+  const remainingTimeText = (minutes && seconds && !minutes.isNaN() && !seconds.isNaN()) ? `${minutes.toFixed(0)}m : ${seconds.toFixed(0)}s` : '-'
+  
   return (
     <div style={{ height: '100%', textAlign: 'left' }}>
       <div className='container' style={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
