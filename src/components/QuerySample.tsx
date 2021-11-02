@@ -261,11 +261,6 @@ export function QuerySample() {
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column', alignItems: 'flex-start' }}>
           <div className='text' style={spacingStyle}>{`Time left: ${remainingTimeText}`}</div>
-          <div className='text' style={{ display: 'flex', alignItems: 'center', ...spacingStyle }}>{`Your stake: ${stakedAmountStr} `}{
-            selectedSide === 1 ? 'Doge' : 'Shiba'
-              // ? <div style={{ background: `url(${DogeLogo}) no-repeat`, backgroundSize: 'cover', width: '.8vw', height: '.8vw', marginLeft: '.5vw' }} />
-              // : <div style={{ background: `url(${ShibLogo}) no-repeat`, backgroundSize: 'cover', width: '.8vw', height: '.8vw', marginLeft: '.5vw' }} />
-          }</div>
           <div className='text' style={spacingStyle}>Previous winners: </div>
           <div style={{ display: 'flex', ...spacingStyle }}>
             {
@@ -276,6 +271,11 @@ export function QuerySample() {
               })
             }
           </div>
+          <div className='text' style={{ display: 'flex', alignItems: 'center', ...spacingStyle }}>{`Your stake: ${stakedAmountStr} `}{
+            selectedSide === 1 ? 'Doge' : 'Shiba'
+              // ? <div style={{ background: `url(${DogeLogo}) no-repeat`, backgroundSize: 'cover', width: '.8vw', height: '.8vw', marginLeft: '.5vw' }} />
+              // : <div style={{ background: `url(${ShibLogo}) no-repeat`, backgroundSize: 'cover', width: '.8vw', height: '.8vw', marginLeft: '.5vw' }} />
+          }</div>
           <div className='text' style={spacingStyle}><SendDeposit chosenSide={selectedSide ?? 0} /></div>
           <div className='text' style={spacingStyle}><Withdraw /></div>
           <div style={spacingStyle}><Claim chosenSide={selectedSide ?? 0} unclaimedMessage={`${pendingRewards?.pending_rewards || 0} dogeshib`} /></div>
