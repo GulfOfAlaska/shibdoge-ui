@@ -119,16 +119,6 @@ export function QuerySample() {
     async () => {
       try {
         const lastRound: LastRoundResponse | undefined = await getLastRound()
-      } catch (err) {
-        console.error(err)
-      }
-    }, 1000
-  )
-
-  useInterval(
-    async () => {
-      try {
-        const lastRound: LastRoundResponse | undefined = await getLastRound()
         const blockInfo = await lcd?.tendermint.blockInfo()
         const currentBlockheight = blockInfo?.block?.header?.height
 
@@ -146,16 +136,19 @@ export function QuerySample() {
     60000,
   )
 
+  // Timer
+
   useInterval(
     async () => {
       try {
         if (secondsBetweenRounds) {
+          console.log('wtf1', secondsBetweenRounds.toString())
           setSecondsBetweenRounds(secondsBetweenRounds.plus(1))
         } else {
           const lastRound: LastRoundResponse | undefined = await getLastRound()
           const blockInfo = await lcd?.tendermint.blockInfo()
           const currentBlockheight = blockInfo?.block?.header?.height
-
+          console.log('wtf2')
           if (lastRound?.last_round?.block_height && currentBlockheight) {
             const blocksBetweenRounds = parseInt(currentBlockheight) - lastRound?.last_round?.block_height
             const secondsBetweenRounds = blocksBetweenRounds * 5
@@ -181,6 +174,14 @@ export function QuerySample() {
     3000,
   )
 
+  const remainingTimeSec = secondsBetweenRounds ? new BigNumber(60).minus(secondsBetweenRounds) : null
+  BigNumber.set({ ROUNDING_MODE: 3 })
+  let minutes = remainingTimeSec ? remainingTimeSec?.div(new BigNumber(60)) : null
+  let seconds = minutes ? remainingTimeSec?.mod(new BigNumber(60)) : null
+  minutes = minutes?.isNegative() ? new BigNumber(0) : minutes
+  seconds = seconds?.isNegative() ? new BigNumber(0) : seconds
+  const remainingTimeText = (minutes && seconds && !minutes.isNaN() && !seconds.isNaN()) ? `${minutes.toFixed(0)}m : ${seconds.toFixed(0)}s` : '-'
+
   const side = chosenSide?.stake?.side
   let chosenSideStr = 'None'
   if (side === 1) {
@@ -195,15 +196,6 @@ export function QuerySample() {
   const dogeWinningCountStr = dogeScore?.side?.current_winning_count ? new BigNumber(dogeScore?.side?.current_winning_count).toString() : '-'
   const shibaWinningCountStr = shibaScore?.side?.current_winning_count ? new BigNumber(shibaScore?.side?.current_winning_count).toString() : '-'
   const stakedAmountStr = chosenSide?.stake.amount ? new BigNumber(chosenSide?.stake.amount).shiftedBy(-6).toString() : '-'
-
-  // Timer
-  const remainingTimeSec = secondsBetweenRounds ? new BigNumber(60).minus(secondsBetweenRounds) : null
-  BigNumber.set({ ROUNDING_MODE: 3 })
-  let minutes = remainingTimeSec ? remainingTimeSec?.div(new BigNumber(60)) : null
-  let seconds = minutes ? remainingTimeSec?.mod(new BigNumber(60)) : null
-  minutes = minutes?.isNegative() ? new BigNumber(0) : minutes
-  seconds = seconds?.isNegative() ? new BigNumber(0) : seconds
-  const remainingTimeText = (minutes && seconds && !minutes.isNaN() && !seconds.isNaN()) ? `${minutes.toFixed(0)}m : ${seconds.toFixed(0)}s` : '-'
 
   let dogeWins = 0
   let shibaWins = 0
