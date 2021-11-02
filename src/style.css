@@ -63,6 +63,6 @@ html {
 
 .connect-container {
   position: absolute;
-  top: 1rem;
+  top: -1rem;
   right: 1rem;
 }

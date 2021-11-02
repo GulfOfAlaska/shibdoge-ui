@@ -213,6 +213,8 @@ export function QuerySample() {
   })
   const lastWinnersStr = `Doge: ${dogeWins} Shiba: ${shibaWins}`
 
+  const spacingStyle = {marginBottom: '.8vw'}
+
   return (
     <div style={{ height: '100%', textAlign: 'left' }}>
       <div className='container' style={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
@@ -224,11 +226,11 @@ export function QuerySample() {
           {side === 1 && <div className='text'>{`Staked: ${stakedAmountStr}`}</div>}
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column', alignItems: 'flex-start' }}>
-          <div className='text' style={{ marginBottom: '.5rem' }}>Your choice: {chosenSideStr}</div>
-          <div className='text' style={{ marginBottom: '.5rem' }}>{`Time left: ${remainingTimeText}`}</div>
-          <div className='text' style={{ marginBottom: '.5rem' }}>Previous winners: {lastWinnersStr}</div>
-          <div className='text' style={{ marginBottom: '.5rem' }}><SendDeposit chosenSide={side ?? 0} /></div>
-          <div className='text' style={{ marginBottom: '.5rem' }}><Withdraw /></div>
+          <div className='text' style={spacingStyle}>Your choice: {chosenSideStr}</div>
+          <div className='text' style={spacingStyle}>{`Time left: ${remainingTimeText}`}</div>
+          <div className='text' style={spacingStyle}>Previous winners: {lastWinnersStr}</div>
+          <div className='text' style={spacingStyle}><SendDeposit chosenSide={side ?? 0} /></div>
+          <div className='text' style={spacingStyle}><Withdraw /></div>
           <Claim chosenSide={side ?? 0} unclaimedMessage={`Unclaimed: ${chosenSide?.stake.reward_unclaimed} dogeshib`} />
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>

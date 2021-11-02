@@ -5,8 +5,7 @@
   align-items: center;
   position: relative;
   box-shadow: 0 .2em brown;
-  padding: 1rem;
-  font-size: .6rem;
+  padding: .8vw;
 }
 
 /* .container:hover {
@@ -25,7 +24,7 @@
   font-family: 'Press Start 2p';
   display: inline-block;
   font-weight: bold;
-  font-size: .5rem;
+  font-size: .45vw;
   text-align: center;
   padding: .4rem .2rem .4rem .4rem ;
   /* text-shadow: -1px -1px brown, 1px 1px white; */
@@ -34,7 +33,7 @@
   border-radius: 7px;
   box-shadow: 0 .2em brown; 
   cursor: pointer;
-  width: 6rem;
+  min-width: 6rem;
 }
 
 .button:active {
@@ -110,6 +109,7 @@
   color: brown;
   margin-bottom: .3rem;
   width: 100%;
+  font-size: .45vw;
 }
 
 .retro-input {
@@ -120,11 +120,10 @@
   border-radius: 7px;
   color: brown;
   font-family: 'Press Start 2p';
-  font-size: .5rem;
+  font-size: .45vw;
   width: 100%;
   margin-left: 1rem;
 }
 .retro-input:focus {
   box-shadow: none;
-
 }

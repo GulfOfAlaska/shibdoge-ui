@@ -66,7 +66,7 @@ export function Claim(props: Props) {
   return (
     <div>
       {connectedWallet?.availablePost && !txResult && !txError && (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div className='button' onClick={() => sendDeposit()}>Claim</div>
           <div className='text' style={{marginLeft: '1rem'}}>{unclaimedMessage}</div>
         </div>
