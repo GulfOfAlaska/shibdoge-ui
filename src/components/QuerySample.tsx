@@ -228,7 +228,7 @@ export function QuerySample() {
       <div className='container' style={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
           <div style={spacingStyle}><h2 className='text'>DOGE</h2></div>
-          <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Votes: {dogeTotalAmountStr}</div>
+          <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {dogeTotalAmountStr}</div>
           <div className='text' style={spacingStyle}>Win counts: {dogeWinningCountStr}</div>
           <div style={spacingStyle}>{side !== 1 && <ChooseSideButton label={'Choose Doge'} side={1} />}</div>
           {side === 1 && <div className='text' style={spacingStyle}>{`Staked: ${stakedAmountStr}`}</div>}
@@ -240,7 +240,6 @@ export function QuerySample() {
           <div style={{ display: 'flex', ...spacingStyle }}>
             {
               lastRoundWinners?.round_winners.map((winner, index) => {
-                console.log('winner', winner)
                 if (winner === 1) return <div key={`winner-${index}`} style={{ background: `url(${DogeLogo}) no-repeat`, backgroundSize: 'cover', width: '.7vw', height: '.7vw', marginRight: '.5vw' }} />
                 if (winner === 2) return <div key={`winner-${index}`} style={{ background: `url(${ShibLogo}) no-repeat`, backgroundSize: 'cover', width: '.7vw', height: '.7vw', marginRight: '.5vw' }} />
                 return <div />
@@ -256,7 +255,7 @@ export function QuerySample() {
           <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Votes: {shibaTotalAmountStr}</div>
           <div className='text' style={spacingStyle}>Win counts: {shibaWinningCountStr}</div>
           <div style={spacingStyle}>{side !== 2 && <ChooseSideButton label={'Choose Shib'} side={2} />}</div>
-          <div style={spacingStyle}>{side === 2 && <div className='text'>{`Staked: ${stakedAmountStr}`}</div>}</div>
+          <div style={spacingStyle}>{side === 2 && <div className='text'>{`Your stakes: ${stakedAmountStr}`}</div>}</div>
         </div>
       </div >
     </div >

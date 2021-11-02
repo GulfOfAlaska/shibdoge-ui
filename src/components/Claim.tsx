@@ -33,7 +33,7 @@ export function Claim(props: Props) {
     const execute = new MsgExecuteContract(
       connectedWallet.terraAddress,
       contractAddress,
-      { deposit: { amount: 0, side: chosenSide } }
+      { deposit: { amount: 0 } }
     );
 
     connectedWallet
