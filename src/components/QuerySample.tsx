@@ -45,6 +45,10 @@ interface PendingRewardsResponse {
   pending_rewards: string
 }
 
+interface lastChangeSideResponse {
+  last_change_side: string
+}
+
 export function QuerySample() {
   const connectedWallet = useConnectedWallet();
 
@@ -54,6 +58,7 @@ export function QuerySample() {
   const [remainingTimeSec, setRemainingTimeSec] = useState<null | BigNumber>();
   const [lastRoundWinners, setLastRoundWinners] = useState<null | LastRoundWinnersResponse>();
   const [pendingRewards, setPendingRewards] = useState<null | PendingRewardsResponse>();
+  const [lastChangeSide, setLastChangeSide] = useState<null | lastChangeSideResponse>();
 
   const lcd = useMemo(() => {
     if (!connectedWallet) {
@@ -98,6 +103,13 @@ export function QuerySample() {
     return lcd?.wasm.contractQuery(
       contractAddress,
       { pending_rewards: { address } }
+    )
+  }
+
+  async function getLastChangeSide(): Promise<lastChangeSideResponse | undefined> {
+    return lcd?.wasm.contractQuery(
+      contractAddress,
+      { last_change_side: {} }
     )
   }
 
@@ -148,6 +160,20 @@ export function QuerySample() {
         if (!connectedWallet?.terraAddress) return
         const pendingRewardsRes: PendingRewardsResponse | undefined = await getPendingRewards(connectedWallet?.terraAddress.toString())
         setPendingRewards(pendingRewardsRes)
+      } catch (err) {
+        console.error(err)
+      }
+
+    },
+    3000,
+  )
+
+  useInterval(
+    async () => {
+      try {
+        if (!connectedWallet?.terraAddress) return
+        const lastChangeSideRes: lastChangeSideResponse | undefined = await getLastChangeSide()
+        setLastChangeSide(lastChangeSideRes)
       } catch (err) {
         console.error(err)
       }
@@ -221,19 +247,25 @@ export function QuerySample() {
 
   const winningSide = dogeTotalAmount.lt(shibaTotalAmount) ? 1 : 2
 
+  const isLastChangeSide = lastChangeSide?.last_change_side === connectedWallet?.terraAddress.toString()
+
   return (
     <div style={{ height: '100%', textAlign: 'left' }}>
       <div className='container' style={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
           <div style={spacingStyle}><h2 className='text'>{`${selectedSide === 1 ? '[SELECTED]' : ''} DOGE ${winningSide === 1 ? '(Currently Winning)' : ''}`}</h2></div>
           <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {dogeTotalAmountStr}</div>
-          <div className='text' style={spacingStyle}>Win counts: {dogeWinningCountStr}</div>
           {selectedSide !== 1 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Doge'} side={1} />}</div>}
           {selectedSide !== 1 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
-          {selectedSide === 1 && <div className='text' style={spacingStyle}>{`Your stakes: ${stakedAmountStr}`}</div>}
+          {selectedSide === 1 && isLastChangeSide && <div className='text' style={spacingStyle}>{'*You are currently the last one to stake. Win 10000000 dogeshib by being last to stake!!!'}</div>}
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column', alignItems: 'flex-start' }}>
           <div className='text' style={spacingStyle}>{`Time left: ${remainingTimeText}`}</div>
+          <div className='text' style={{ display: 'flex', alignItems: 'center', ...spacingStyle }}>{`Your stake: ${stakedAmountStr} `}{
+            selectedSide === 1 ? 'Doge' : 'Shiba'
+              // ? <div style={{ background: `url(${DogeLogo}) no-repeat`, backgroundSize: 'cover', width: '.8vw', height: '.8vw', marginLeft: '.5vw' }} />
+              // : <div style={{ background: `url(${ShibLogo}) no-repeat`, backgroundSize: 'cover', width: '.8vw', height: '.8vw', marginLeft: '.5vw' }} />
+          }</div>
           <div className='text' style={spacingStyle}>Previous winners: </div>
           <div style={{ display: 'flex', ...spacingStyle }}>
             {
@@ -251,10 +283,9 @@ export function QuerySample() {
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
           <div style={spacingStyle}><h2 className='text'>{`${selectedSide === 2 ? '[SELECTED]' : ''} SHIBA ${winningSide === 2 ? '(Currently Winning)' : ''}`}</h2></div>
           <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {shibaTotalAmountStr}</div>
-          <div className='text' style={spacingStyle}>Win counts: {shibaWinningCountStr}</div>
           {selectedSide !== 2 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Shiba'} side={2} />}</div>}
           {selectedSide !== 2 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
-          <div style={spacingStyle}>{selectedSide === 2 && <div className='text'>{`Your stakes: ${stakedAmountStr}`}</div>}</div>
+          {selectedSide === 2 && isLastChangeSide && <div className='text' style={spacingStyle}>{'* You are currently the last one to stake. Win 10000000 dogeshib by being last to stake!!!'}</div>}
         </div>
       </div >
     </div >
