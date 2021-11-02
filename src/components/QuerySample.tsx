@@ -253,11 +253,13 @@ export function QuerySample() {
     <div style={{ height: '100%', textAlign: 'left' }}>
       <div className='container' style={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
-          <h2 style={{textAlign: 'center', ...spacingStyle}}>
-            <span className='blinking-text'>{selectedSide === 1 ? '[SELECTED]' : ''}</span>
-            {` DOGE `}
-            {winningSide === 1 && <span className='shining-text'>(Currently Winning)</span>}
-          </h2>
+          <div style={{ textAlign: 'center', ...spacingStyle }}>
+            <h2 className='text'>
+              <span className='blinking-text'>{selectedSide === 1 ? '[SELECTED]' : ''}</span>
+              {` DOGE `}
+              {winningSide === 1 && <span className='shining-text'>(Currently Winning)</span>}
+            </h2>
+          </div>
           <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {dogeTotalAmountStr}</div>
           {selectedSide !== 1 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Doge'} side={1} />}</div>}
           {selectedSide !== 1 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
@@ -287,7 +289,7 @@ export function QuerySample() {
           <div style={spacingStyle}><Claim chosenSide={selectedSide ?? 0} unclaimedMessage={`${new BigNumber(pendingRewards?.pending_rewards || 0).shiftedBy(6).toString()} dogeshib`} /></div>
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
-          <div style={{textAlign: 'center', ...spacingStyle}}>
+          <div style={{ textAlign: 'center', ...spacingStyle }}>
             <h2 className='text'>
               <span className='blinking-text'>{selectedSide === 2 ? '[SELECTED]' : ''}</span>
               {` SHIBA `}
