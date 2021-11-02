@@ -115,6 +115,8 @@ export function QuerySample() {
     3000,
   )
 
+  // Timer
+
   useInterval(
     async () => {
       try {
@@ -135,8 +137,6 @@ export function QuerySample() {
     },
     60000,
   )
-
-  // Timer
 
   useInterval(
     async () => {
