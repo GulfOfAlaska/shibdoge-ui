@@ -2,7 +2,7 @@ import { LCDClient, TreasuryAPI } from '@terra-money/terra.js';
 import { TxResult, useConnectedWallet } from '@terra-money/wallet-provider';
 import { contractAddress } from 'constants/contractAddress';
 import useInterval from 'hooks/useInterval';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Claim } from './Claim';
 import './componentStyle.css'
 import { SendDeposit } from './SendDeposit';
@@ -46,6 +46,7 @@ export function QuerySample() {
   const [dogeScore, setDogeScore] = useState<null | SideResponse>();
   const [shibaScore, setShibaScore] = useState<null | SideResponse>();
   const [secondsBetweenRounds, setSecondsBetweenRounds] = useState<null | BigNumber>();
+  const [remainingTimeSec, setRemainingTimeSec] = useState<null | BigNumber>();
   const [lastRoundWinners, setLastRoundWinners] = useState<null | LastRoundWinnersResponse>();
 
   const lcd = useMemo(() => {
@@ -120,31 +121,8 @@ export function QuerySample() {
   useInterval(
     async () => {
       try {
-        const lastRound: LastRoundResponse | undefined = await getLastRound()
-        const blockInfo = await lcd?.tendermint.blockInfo()
-        const currentBlockheight = blockInfo?.block?.header?.height
+        if (!remainingTimeSec) {
 
-        if (lastRound?.last_round?.block_height && currentBlockheight) {
-          const blocksBetweenRounds = parseInt(currentBlockheight) - lastRound?.last_round?.block_height
-          const secondsBetweenRounds = blocksBetweenRounds * 5
-          setSecondsBetweenRounds(new BigNumber(secondsBetweenRounds))
-        }
-
-      } catch (err) {
-        console.error(err)
-      }
-
-    },
-    60000,
-  )
-
-  useInterval(
-    async () => {
-      try {
-        if (secondsBetweenRounds) {
-          console.log('wtf1', secondsBetweenRounds.toString())
-          setSecondsBetweenRounds(secondsBetweenRounds.plus(1))
-        } else {
           const lastRound: LastRoundResponse | undefined = await getLastRound()
           const blockInfo = await lcd?.tendermint.blockInfo()
           const currentBlockheight = blockInfo?.block?.header?.height
@@ -153,7 +131,14 @@ export function QuerySample() {
             const blocksBetweenRounds = parseInt(currentBlockheight) - lastRound?.last_round?.block_height
             const secondsBetweenRounds = blocksBetweenRounds * 5
             setSecondsBetweenRounds(new BigNumber(secondsBetweenRounds))
+            setRemainingTimeSec(secondsBetweenRounds ? new BigNumber(60).minus(secondsBetweenRounds) : null)
           }
+        } else if (remainingTimeSec.lte(0)) {
+          console.log('wtf3', remainingTimeSec?.toString())
+          setRemainingTimeSec(new BigNumber(60))
+        } else {
+          console.log('wtf1', remainingTimeSec?.toString())
+          setRemainingTimeSec(remainingTimeSec.minus(1))
         }
       } catch (err) {
         console.error(err)
@@ -174,7 +159,6 @@ export function QuerySample() {
     3000,
   )
 
-  const remainingTimeSec = secondsBetweenRounds ? new BigNumber(60).minus(secondsBetweenRounds) : null
   BigNumber.set({ ROUNDING_MODE: 3 })
   let minutes = remainingTimeSec ? remainingTimeSec?.div(new BigNumber(60)) : null
   let seconds = minutes ? remainingTimeSec?.mod(new BigNumber(60)) : null
