@@ -267,7 +267,7 @@ export function QuerySample() {
           <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
             <div style={{ textAlign: 'center', ...spacingStyle }}>
               <h2 className='text'>
-                <span className='blinking-text'>{selectedSide === 1 ? '[SELECTED]' : ''}</span>
+                <span className='blinking-text'>{hasStake && selectedSide === 1 ? '[SELECTED]' : ''}</span>
                 {` DOGE `}
                 {winningSide === 1 && <span className='shining-text'>(Currently Winning)</span>}
               </h2>
@@ -298,12 +298,12 @@ export function QuerySample() {
             }</div>
             <div className='text' style={spacingStyle}><SendDeposit chosenSide={selectedSide ?? 0} /></div>
             <div className='text' style={spacingStyle}><Withdraw /></div>
-            <div style={spacingStyle}><Claim chosenSide={selectedSide ?? 0} unclaimedMessage={`${new BigNumber(pendingRewards?.pending_rewards || 0).shiftedBy(6).toString()} dogeshib`} /></div>
+            <div style={spacingStyle}><Claim chosenSide={selectedSide ?? 0} unclaimedMessage={`${new BigNumber(pendingRewards?.pending_rewards || 0).shiftedBy(-6).toString()} dogeshib`} /></div>
           </div>
           <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
             <div style={{ textAlign: 'center', ...spacingStyle }}>
               <h2 className='text'>
-                <span className='blinking-text'>{selectedSide === 2 ? '[SELECTED]' : ''}</span>
+                <span className='blinking-text'>{hasStake && selectedSide === 2 ? '[SELECTED]' : ''}</span>
                 {` SHIBA `}
                 {winningSide === 2 && <span className='shining-text'>(Currently Winning)</span>}
               </h2>
