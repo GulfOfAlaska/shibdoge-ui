@@ -59,43 +59,41 @@ export function ConnectSample() {
 
 
   return (
-    <div>
-      <footer style={{ display: 'flex', alignItems: 'center' }}>
-        {status === WalletStatus.WALLET_NOT_CONNECTED && (
-          <>
-            {availableInstallTypes.map((connectType) => (
-              <button
-                className='button'
-                key={'install-' + connectType}
-                onClick={() => install(connectType)}
-              >
-                Install {connectType}
-              </button>
-            ))}
-            <div className='button'
-              onClick={() => connect(ConnectType.CHROME_EXTENSION)}
+    <div style={{ display: 'flex' }}>
+      {status === WalletStatus.WALLET_NOT_CONNECTED && (
+        <>
+          {availableInstallTypes.map((connectType) => (
+            <button
+              className='button'
+              key={'install-' + connectType}
+              onClick={() => install(connectType)}
             >
-              Connect
-            </div>
-          </>
-        )}
-        <div style={{ marginRight: '0.5rem', color: 'white' }}>
-          {status === WalletStatus.WALLET_CONNECTED && (
-            <div style={{fontSize: '.8vw'}}>{wallets[0]['terraAddress']}</div>
-          )}
-          {bank && (
-            bank.map((coin: Coin) =>
-              <span style={{fontSize: '.8vw'}} key={`balance-${coin.denom}`}>{`${coin.denom.slice(1)}: ${new BigNumber(coin.amount.toString()).shiftedBy(-6).toString()} `}</span>
-            )
-          )}
-          {
-            balance && <span style={{fontSize: '.8vw'}}>{`dogeshib: ${new BigNumber(balance).shiftedBy(-6).toString()}`}</span>
-          }
-        </div>
+              Install {connectType}
+            </button>
+          ))}
+          <div className='button'
+            onClick={() => connect(ConnectType.CHROME_EXTENSION)}
+          >
+            Connect
+          </div>
+        </>
+      )}
+      <div style={{ marginRight: '0.5rem', color: 'white' }}>
         {status === WalletStatus.WALLET_CONNECTED && (
-          <div className='button' onClick={() => disconnect()}>Disconnect</div>
+          <div style={{ fontSize: '.8vw' }}>{wallets[0]['terraAddress']}</div>
         )}
-      </footer>
+        {bank && (
+          bank.map((coin: Coin) =>
+            <span style={{ fontSize: '.8vw' }} key={`balance-${coin.denom}`}>{`${coin.denom.slice(1)}: ${new BigNumber(coin.amount.toString()).shiftedBy(-6).toString()} `}</span>
+          )
+        )}
+        {
+          balance && <span style={{ fontSize: '.8vw' }}>{`dogeshib: ${new BigNumber(balance).shiftedBy(-6).toString()}`}</span>
+        }
+      </div>
+      {status === WalletStatus.WALLET_CONNECTED && (
+        <div className='button' onClick={() => disconnect()}>Disconnect</div>
+      )}
     </div>
   );
 }

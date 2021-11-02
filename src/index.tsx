@@ -11,9 +11,7 @@ function App() {
     <main className='main-container'>
       <div className='battle-container'>
         <div className='header'>
-          <div className='connect-container'>
-            <ConnectSample />
-          </div>
+          <ConnectSample />
         </div>
         <div style={{ height: '50%', width: '100%' }}>
           <Battle />
@@ -22,7 +20,7 @@ function App() {
           <QuerySample />
         </div>
         {/* <SignSample /> */}
-        <div style={{ color: 'white', fontSize: '.8vw' }}>{`contract address: ${contractAddress}`}</div>
+        <div style={{ color: 'white', fontSize: '.8vw', textAlign: 'right', marginTop: '1vw' }}>{`contract address: ${contractAddress}`}</div>
       </div>
     </main>
   );

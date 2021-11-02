@@ -59,10 +59,7 @@ html {
 .header {
   height: 10%;
   width: 100%;
-}
-
-.connect-container {
-  position: absolute;
-  top: -1rem;
-  right: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
