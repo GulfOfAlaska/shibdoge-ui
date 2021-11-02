@@ -5,8 +5,17 @@ import { QuerySample } from 'components/QuerySample';
 import { contractAddress } from 'constants/contractAddress';
 import ReactDOM from 'react-dom';
 import './style.css';
+import OverTheHills from 'assets/OverTheHills.mp4'
+import { useEffect } from 'react';
 
 function App() {
+  
+  useEffect(() => {
+    const audio = new Audio(OverTheHills)
+    audio.volume = 0.6;
+    audio.play()
+  }, []);
+
   return (
     <main className='main-container'>
       <div className='battle-container'>
