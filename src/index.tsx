@@ -5,21 +5,37 @@ import { QuerySample } from 'components/QuerySample';
 import { contractAddress } from 'constants/contractAddress';
 import ReactDOM from 'react-dom';
 import './style.css';
+import './components/componentStyle.css';
 import OverTheHills from 'assets/OverTheHills.mp4'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
-  
+
+  const [playing, setPlaying] = useState(true);
+  const player = new Audio(OverTheHills)
   useEffect(() => {
-    const audio = new Audio(OverTheHills)
-    audio.volume = 0.6;
-    audio.play()
+    player.volume = 0.5;
+    playing ? player.play() : player.pause();
+    return () => player.pause()
   }, []);
+
+  function togglePlay() {
+    // Using the callback version of `setState` so you always
+    // toggle based on the latest state
+    if (playing) {
+      player.pause()
+    } else {
+      player.volume = 0.5;
+      player.play()
+    }
+    setPlaying(!playing);
+  }
 
   return (
     <main className='main-container'>
       <div className='battle-container'>
         <div className='header'>
+          <button className='button' onClick={() => togglePlay()}>Music</button>
           <ConnectSample />
         </div>
         <div style={{ height: '50%', width: '100%' }}>
