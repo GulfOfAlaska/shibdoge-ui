@@ -235,7 +235,7 @@ export function QuerySample() {
           <div style={spacingStyle}><h2 className='text'>{`DOGE ${winningSide === 1 ? '(Currently Winning)' : ''}`}</h2></div>
           <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {dogeTotalAmountStr}</div>
           <div className='text' style={spacingStyle}>Win counts: {dogeWinningCountStr}</div>
-          {side !== 1 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Doge'} side={2} />}</div>}
+          {side !== 1 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Doge'} side={1} />}</div>}
           {side !== 1 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
           {side === 1 && <div className='text' style={spacingStyle}>{`Your stakes: ${stakedAmountStr}`}</div>}
         </div>
