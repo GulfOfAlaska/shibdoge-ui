@@ -10,6 +10,8 @@ import { Withdraw } from './Withdraw';
 import './componentStyle.css'
 import BigNumber from 'bignumber.js';
 import { ChooseSideButton } from './ChooseSideButton';
+import ShibLogo from 'assets/shiba-logo.png'
+import DogeLogo from 'assets/doge-logo.png'
 
 export interface SideResponse {
   side: {
@@ -219,14 +221,6 @@ export function QuerySample() {
   const shibaWinningCountStr = shibaScore?.side?.current_winning_count ? new BigNumber(shibaScore?.side?.current_winning_count).toString() : '-'
   const stakedAmountStr = chosenSide?.stake.amount ? new BigNumber(chosenSide?.stake.amount).shiftedBy(-6).toString() : '-'
 
-  let dogeWins = 0
-  let shibaWins = 0
-  lastRoundWinners?.round_winners.forEach((winner) => {
-    if (winner === 1) dogeWins += 1
-    if (winner === 2) shibaWins += 1
-  })
-  const lastWinnersStr = `Doge: ${dogeWins} Shiba: ${shibaWins}`
-
   const spacingStyle = { marginBottom: '.8vw' }
 
   return (
@@ -242,7 +236,17 @@ export function QuerySample() {
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column', alignItems: 'flex-start' }}>
           <div className='text' style={spacingStyle}>Your choice: {chosenSideStr}</div>
           <div className='text' style={spacingStyle}>{`Time left: ${remainingTimeText}`}</div>
-          <div className='text' style={spacingStyle}>Previous winners: {lastWinnersStr}</div>
+          <div className='text' style={spacingStyle}>Previous winners: </div>
+          <div style={{ display: 'flex', ...spacingStyle }}>
+            {
+              lastRoundWinners?.round_winners.map((winner, index) => {
+                console.log('winner', winner)
+                if (winner === 1) return <div key={`winner-${index}`} style={{ background: `url(${DogeLogo}) no-repeat`, backgroundSize: 'cover', width: '.7vw', height: '.7vw', marginRight: '.5vw' }} />
+                if (winner === 2) return <div key={`winner-${index}`} style={{ background: `url(${ShibLogo}) no-repeat`, backgroundSize: 'cover', width: '.7vw', height: '.7vw', marginRight: '.5vw' }} />
+                return <div />
+              })
+            }
+          </div>
           <div className='text' style={spacingStyle}><SendDeposit chosenSide={side ?? 0} /></div>
           <div className='text' style={spacingStyle}><Withdraw /></div>
           <div style={spacingStyle}><Claim chosenSide={side ?? 0} unclaimedMessage={`Unclaimed: ${pendingRewards?.pending_rewards || 0} dogeshib`} /></div>
@@ -254,7 +258,7 @@ export function QuerySample() {
           <div style={spacingStyle}>{side !== 2 && <ChooseSideButton label={'Choose Shib'} side={2} />}</div>
           <div style={spacingStyle}>{side === 2 && <div className='text'>{`Staked: ${stakedAmountStr}`}</div>}</div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
