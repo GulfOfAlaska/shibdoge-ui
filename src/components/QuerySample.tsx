@@ -253,7 +253,7 @@ export function QuerySample() {
     <div style={{ height: '100%', textAlign: 'left' }}>
       <div className='container' style={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
-          <div style={spacingStyle}><h2 className='text'>{`${selectedSide === 1 ? '[SELECTED]' : ''} DOGE ${winningSide === 1 ? '(Currently Winning)' : ''}`}</h2></div>
+          <div style={spacingStyle}><h2 className='text'><span className='blinking-text'>{selectedSide === 1 ? '[SELECTED]' : ''}</span>{` DOGE ${winningSide === 1 ? '(Currently Winning)' : ''}`}</h2></div>
           <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {dogeTotalAmountStr}</div>
           {selectedSide !== 1 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Doge'} side={1} />}</div>}
           {selectedSide !== 1 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
@@ -278,10 +278,10 @@ export function QuerySample() {
           </div>
           <div className='text' style={spacingStyle}><SendDeposit chosenSide={selectedSide ?? 0} /></div>
           <div className='text' style={spacingStyle}><Withdraw /></div>
-          <div style={spacingStyle}><Claim chosenSide={selectedSide ?? 0} unclaimedMessage={`Unclaimed: ${pendingRewards?.pending_rewards || 0} dogeshib`} /></div>
+          <div style={spacingStyle}><Claim chosenSide={selectedSide ?? 0} unclaimedMessage={`${pendingRewards?.pending_rewards || 0} dogeshib`} /></div>
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
-          <div style={spacingStyle}><h2 className='text'>{`${selectedSide === 2 ? '[SELECTED]' : ''} SHIBA ${winningSide === 2 ? '(Currently Winning)' : ''}`}</h2></div>
+          <div style={spacingStyle}><h2 className='text'><span className='blinking-text'>{selectedSide === 2 ? '[SELECTED]' : ''}</span>{` SHIBA ${winningSide === 2 ? '(Currently Winning)' : ''}`}</h2></div>
           <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {shibaTotalAmountStr}</div>
           {selectedSide !== 2 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Shiba'} side={2} />}</div>}
           {selectedSide !== 2 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
