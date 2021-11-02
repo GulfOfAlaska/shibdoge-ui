@@ -2,6 +2,7 @@ import { getChainOptions, WalletProvider } from '@terra-money/wallet-provider';
 import { Battle } from 'components/Battle';
 import { ConnectSample } from 'components/ConnectSample';
 import { QuerySample } from 'components/QuerySample';
+import { contractAddress } from 'constants/contractAddress';
 import ReactDOM from 'react-dom';
 import './style.css';
 
@@ -21,6 +22,7 @@ function App() {
           <QuerySample />
         </div>
         {/* <SignSample /> */}
+        <div style={{ color: 'white' }}>{`contract address: ${contractAddress}`}</div>
       </div>
     </main>
   );
