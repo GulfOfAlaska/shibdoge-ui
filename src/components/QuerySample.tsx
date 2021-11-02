@@ -246,8 +246,8 @@ export function QuerySample() {
           <div style={{ display: 'flex', ...spacingStyle }}>
             {
               lastRoundWinners?.round_winners.map((winner, index) => {
-                if (winner === 1) return <div key={`winner-${index}`} style={{ background: `url(${DogeLogo}) no-repeat`, backgroundSize: 'cover', width: '.7vw', height: '.7vw', marginRight: '.5vw' }} />
-                if (winner === 2) return <div key={`winner-${index}`} style={{ background: `url(${ShibLogo}) no-repeat`, backgroundSize: 'cover', width: '.7vw', height: '.7vw', marginRight: '.5vw' }} />
+                if (winner === 1) return <div key={`winner-${index}`} style={{ background: `url(${DogeLogo}) no-repeat`, backgroundSize: 'cover', width: '.8vw', height: '.8vw', marginRight: '.5vw' }} />
+                if (winner === 2) return <div key={`winner-${index}`} style={{ background: `url(${ShibLogo}) no-repeat`, backgroundSize: 'cover', width: '.8vw', height: '.8vw', marginRight: '.5vw' }} />
                 return <div />
               })
             }
