@@ -145,3 +145,20 @@
     opacity: 0;
   }
 }
+
+.shining-text {
+  font-family: 'Press Start 2p';
+  color: brown;
+  margin-bottom: .3rem;
+  width: 100%;
+  font-size: .45vw;
+  animation: shine 4s linear infinite;
+  line-height: .7vw;
+}
+
+@keyframes shine {
+  0%   {color: red;}
+  25%  {color: yellow;}
+  50%  {color: blue;}
+  100% {color: green;}
+}
