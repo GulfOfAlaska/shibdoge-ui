@@ -78,19 +78,19 @@ export function ConnectSample() {
           </div>
         </>
       )}
-      <div style={{ marginRight: '0.5rem', color: 'white' }}>
-        {status === WalletStatus.WALLET_CONNECTED && (
+      {status === WalletStatus.WALLET_CONNECTED && (
+        <div style={{ marginRight: '0.5rem', color: 'white' }}>
           <div style={{ fontSize: '.8vw' }}>{wallets[0]['terraAddress']}</div>
-        )}
-        {bank && (
-          bank.map((coin: Coin) =>
-            <span style={{ fontSize: '.8vw' }} key={`balance-${coin.denom}`}>{`${coin.denom.slice(1)}: ${new BigNumber(coin.amount.toString()).shiftedBy(-6).toString()} `}</span>
-          )
-        )}
-        {
-          balance && <span style={{ fontSize: '.8vw' }}>{`dogeshib: ${new BigNumber(balance).shiftedBy(-6).toString()}`}</span>
-        }
-      </div>
+          {bank && (
+            bank.map((coin: Coin) =>
+              <span style={{ fontSize: '.8vw' }} key={`balance-${coin.denom}`}>{`${coin.denom.slice(1)}: ${new BigNumber(coin.amount.toString()).shiftedBy(-6).toString()} `}</span>
+            )
+          )}
+          {
+            balance && <span style={{ fontSize: '.8vw' }}>{`dogeshib: ${new BigNumber(balance).shiftedBy(-6).toString()}`}</span>
+          }
+        </div>
+      )}
       {status === WalletStatus.WALLET_CONNECTED && (
         <div className='button' onClick={() => disconnect()}>Disconnect</div>
       )}

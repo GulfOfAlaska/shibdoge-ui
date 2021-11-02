@@ -261,7 +261,7 @@ export function QuerySample() {
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column', alignItems: 'flex-start' }}>
           <div className='text' style={spacingStyle}>{`Time left: ${remainingTimeText}`}</div>
-          <div style={{ display: 'flex', ...spacingStyle }}>
+          <div style={{ display: 'flex', ...spacingStyle, alignItems: 'center' }}>
             <div className='text'>Previous winners: </div>
             <div style={{ display: 'flex', ...spacingStyle }}>
               {

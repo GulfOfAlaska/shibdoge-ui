@@ -34,7 +34,7 @@
   box-shadow: 0 .2em brown; 
   cursor: pointer;
   min-width: 6rem;
-  max-height: 1.6vw;
+  max-height: 1.4rem;
 }
 
 .button:active {
