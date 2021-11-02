@@ -253,9 +253,9 @@ export function QuerySample() {
     <div style={{ height: '100%', textAlign: 'left' }}>
       <div className='container' style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {
-          lastChangeSide &&
+          lastChangeSide && lastChangeSide?.last_change_side !== 'empty' &&
           <div className='shining-text' style={{ textAlign: 'center' }}>
-            {`* ${isLastChangeSide ? 'Your are the last to deposit!' : `${lastChangeSide?.last_change_side} is the last to deposit! Win 10000000 dogeshib by being last to stake!!!`}`}
+            {`* ${isLastChangeSide ? 'Your are the last to switch sides!' : `${lastChangeSide?.last_change_side} is the last to deposit!`} Win 10000000 dogeshib by being last to switch sides!!!`}
           </div>
         }
         <div style={{ height: '100%', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
@@ -268,18 +268,17 @@ export function QuerySample() {
               </h2>
             </div>
             <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {dogeTotalAmountStr}</div>
-            {selectedSide !== 1 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Doge'} side={1} />}</div>}
-            {selectedSide !== 1 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
-            {selectedSide === 1 && isLastChangeSide && <div className='text' style={spacingStyle}>{'*You are currently the last one to stake. Win 10000000 dogeshib by being last to stake!!!'}</div>}
+            {selectedSide && selectedSide !== 1 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Doge'} side={1} />}</div>}
+            {selectedSide && selectedSide !== 1 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
           </div>
           <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column', alignItems: 'flex-start' }}>
             <div className='text' style={spacingStyle}>{`Time left: ${remainingTimeText}`}</div>
             <div style={{ display: 'flex', ...spacingStyle, alignItems: 'center' }}>
-              <div className='text'>Previous winners: </div>
-              <div style={{ display: 'flex', alignItems: 'center', ...spacingStyle }}>
+              <div className='text' style={{lineHeight: '1vw', marginBottom: '0'}}>Previous winners: </div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 {
                   lastRoundWinners?.round_winners.slice(0,5).map((winner, index) => {
-                    const size = index === 0 ? '1vw' : '.8vw'
+                    const size = index === 0 ? '1.3vw' : '.8vw'
                     if (winner === 1) return <div key={`winner-${index}`} style={{ background: `url(${DogeLogo}) no-repeat`, backgroundSize: 'cover', width: size, height: size, marginLeft: '.3vw' }} />
                     if (winner === 2) return <div key={`winner-${index}`} style={{ background: `url(${ShibLogo}) no-repeat`, backgroundSize: 'cover', width: size, height: size, marginLeft: '.3vw' }} />
                     return <div />
@@ -305,8 +304,8 @@ export function QuerySample() {
               </h2>
             </div>
             <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {shibaTotalAmountStr}</div>
-            {selectedSide !== 2 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Shiba'} side={2} />}</div>}
-            {selectedSide !== 2 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
+            {selectedSide && selectedSide !== 2 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Shiba'} side={2} />}</div>}
+            {selectedSide && selectedSide !== 2 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
           </div>
         </div>
       </div >
