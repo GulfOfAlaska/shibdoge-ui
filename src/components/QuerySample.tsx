@@ -129,17 +129,15 @@ export function QuerySample() {
     async () => {
       try {
         const lastRound: LastRoundResponse | undefined = await getLastRound()
-        await fetch('https://fcd.terra.dev/blocks/latest').then(
-          (res: any) => res.json()
-        ).then((res: any) => {
-          const currentBlockheight = res?.block?.header?.height
+        const blockInfo = await lcd?.tendermint.blockInfo()
+        const currentBlockheight = blockInfo?.block?.header?.height
 
-          if (lastRound?.last_round?.block_height && currentBlockheight) {
-            const blocksBetweenRounds = parseInt(currentBlockheight) - lastRound?.last_round?.block_height
-            const secondsBetweenRounds = blocksBetweenRounds * 5
-            setSecondsBetweenRounds(new BigNumber(secondsBetweenRounds))
-          }
-        })
+        if (lastRound?.last_round?.block_height && currentBlockheight) {
+          const blocksBetweenRounds = parseInt(currentBlockheight) - lastRound?.last_round?.block_height
+          const secondsBetweenRounds = blocksBetweenRounds * 5
+          setSecondsBetweenRounds(new BigNumber(secondsBetweenRounds))
+        }
+
       } catch (err) {
         console.error(err)
       }
@@ -155,17 +153,14 @@ export function QuerySample() {
           setSecondsBetweenRounds(secondsBetweenRounds.plus(1))
         } else {
           const lastRound: LastRoundResponse | undefined = await getLastRound()
-          await fetch('https://fcd.terra.dev/blocks/latest').then(
-            (res: any) => res.json()
-          ).then((res: any) => {
-            const currentBlockheight = res?.block?.header?.height
+          const blockInfo = await lcd?.tendermint.blockInfo()
+          const currentBlockheight = blockInfo?.block?.header?.height
 
-            if (lastRound?.last_round?.block_height && currentBlockheight) {
-              const blocksBetweenRounds = parseInt(currentBlockheight) - lastRound?.last_round?.block_height
-              const secondsBetweenRounds = blocksBetweenRounds * 5
-              setSecondsBetweenRounds(new BigNumber(secondsBetweenRounds))
-            }
-          })
+          if (lastRound?.last_round?.block_height && currentBlockheight) {
+            const blocksBetweenRounds = parseInt(currentBlockheight) - lastRound?.last_round?.block_height
+            const secondsBetweenRounds = blocksBetweenRounds * 5
+            setSecondsBetweenRounds(new BigNumber(secondsBetweenRounds))
+          }
         }
       } catch (err) {
         console.error(err)
@@ -203,7 +198,7 @@ export function QuerySample() {
 
   // Timer
   const remainingTimeSec = secondsBetweenRounds ? new BigNumber(60).minus(secondsBetweenRounds) : null
-  BigNumber.set({ROUNDING_MODE: 3})
+  BigNumber.set({ ROUNDING_MODE: 3 })
   let minutes = remainingTimeSec ? remainingTimeSec?.div(new BigNumber(60)) : null
   let seconds = minutes ? remainingTimeSec?.mod(new BigNumber(60)) : null
   minutes = minutes?.isNegative() ? new BigNumber(0) : minutes
@@ -213,11 +208,11 @@ export function QuerySample() {
   let dogeWins = 0
   let shibaWins = 0
   lastRoundWinners?.round_winners.forEach((winner) => {
-    if(winner === 1) dogeWins += 1
-    if(winner === 2) shibaWins += 1
+    if (winner === 1) dogeWins += 1
+    if (winner === 2) shibaWins += 1
   })
   const lastWinnersStr = `Doge: ${dogeWins} Shiba: ${shibaWins}`
-  
+
   return (
     <div style={{ height: '100%', textAlign: 'left' }}>
       <div className='container' style={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>

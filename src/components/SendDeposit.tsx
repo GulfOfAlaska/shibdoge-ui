@@ -37,7 +37,7 @@ export function SendDeposit(props: Props) {
     const execute = new MsgExecuteContract(
       connectedWallet.terraAddress,
       contractAddress,
-      { deposit: { side, amount: new BigNumber(depositAmount).shiftedBy(6).toString() } }
+      { deposit: { amount: new BigNumber(depositAmount).shiftedBy(6).toString() } }
     );
 
     connectedWallet
