@@ -260,7 +260,7 @@ export function QuerySample() {
             lastChangeSide && lastChangeSide?.last_change_side !== 'empty' ?
               `* ${isLastChangeSide ? 'Your are the last to switch sides!' : `${lastChangeSide?.last_change_side} is the last to deposit!`} Win 10000000 dogeshib by being last to switch sides!!!`
               :
-              'Win 10000000 dogeshib by being last to switch sides!!!'
+              '* Win 10000000 dogeshib by being last to switch sides!!!'
           }
         </div>
         <div style={{ height: '100%', display: 'flex', justifyContent: 'space-between', width: '100%' }}>

@@ -68,7 +68,7 @@ export function Claim(props: Props) {
     <div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div className='button' onClick={() => sendDeposit()}>Claim</div>
-        <div className='text' style={{ marginLeft: '1rem' }}>{unclaimedMessage}</div>
+        <div className='text' style={{ marginLeft: '1rem', marginBottom: '0' }}>{unclaimedMessage}</div>
       </div>
       {txError}
     </div>
