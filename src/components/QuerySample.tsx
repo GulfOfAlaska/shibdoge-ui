@@ -213,17 +213,17 @@ export function QuerySample() {
   })
   const lastWinnersStr = `Doge: ${dogeWins} Shiba: ${shibaWins}`
 
-  const spacingStyle = {marginBottom: '.8vw'}
+  const spacingStyle = { marginBottom: '.8vw' }
 
   return (
     <div style={{ height: '100%', textAlign: 'left' }}>
       <div className='container' style={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
-          <div><h2 className='text'>DOGE</h2></div>
-          <div className='text' style={{ marginTop: '1rem' }}>Total Votes: {dogeTotalAmountStr}</div>
-          <div className='text'>Win counts: {dogeWinningCountStr}</div>
-          {side !== 1 && <ChooseSideButton label={'Choose Doge'} side={1} />}
-          {side === 1 && <div className='text'>{`Staked: ${stakedAmountStr}`}</div>}
+          <div style={spacingStyle}><h2 className='text'>DOGE</h2></div>
+          <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Votes: {dogeTotalAmountStr}</div>
+          <div className='text' style={spacingStyle}>Win counts: {dogeWinningCountStr}</div>
+          <div style={spacingStyle}>{side !== 1 && <ChooseSideButton label={'Choose Doge'} side={1} />}</div>
+          {side === 1 && <div className='text' style={spacingStyle}>{`Staked: ${stakedAmountStr}`}</div>}
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column', alignItems: 'flex-start' }}>
           <div className='text' style={spacingStyle}>Your choice: {chosenSideStr}</div>
@@ -231,14 +231,14 @@ export function QuerySample() {
           <div className='text' style={spacingStyle}>Previous winners: {lastWinnersStr}</div>
           <div className='text' style={spacingStyle}><SendDeposit chosenSide={side ?? 0} /></div>
           <div className='text' style={spacingStyle}><Withdraw /></div>
-          <Claim chosenSide={side ?? 0} unclaimedMessage={`Unclaimed: ${chosenSide?.stake.reward_unclaimed} dogeshib`} />
+          <div style={spacingStyle}><Claim chosenSide={side ?? 0} unclaimedMessage={`Unclaimed: ${chosenSide?.stake.reward_unclaimed} dogeshib`} /></div>
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
-          <div><h2 className='text'>SHIBA</h2></div>
-          <div className='text' style={{ marginTop: '1rem' }}>Total Votes: {shibaTotalAmountStr}</div>
-          <div className='text'>Win counts: {shibaWinningCountStr}</div>
-          {side !== 2 && <ChooseSideButton label={'Choose Shib'} side={2} />}
-          {side === 2 && <div className='text'>{`Staked: ${stakedAmountStr}`}</div>}
+          <div style={spacingStyle}><h2 className='text'>SHIBA</h2></div>
+          <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Votes: {shibaTotalAmountStr}</div>
+          <div className='text' style={spacingStyle}>Win counts: {shibaWinningCountStr}</div>
+          <div style={spacingStyle}>{side !== 2 && <ChooseSideButton label={'Choose Shib'} side={2} />}</div>
+          <div style={spacingStyle}>{side === 2 && <div className='text'>{`Staked: ${stakedAmountStr}`}</div>}</div>
         </div>
       </div>
     </div>
