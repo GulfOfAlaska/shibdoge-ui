@@ -249,6 +249,8 @@ export function QuerySample() {
 
   const isLastChangeSide = lastChangeSide?.last_change_side === connectedWallet?.terraAddress.toString()
 
+  const hasStake = chosenSide?.stake.amount && !new BigNumber(chosenSide?.stake.amount).isZero()
+
   return (
     <div style={{ height: '100%', textAlign: 'left' }}>
       <div className='container' style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -268,8 +270,8 @@ export function QuerySample() {
               </h2>
             </div>
             <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {dogeTotalAmountStr}</div>
-            {selectedSide && selectedSide !== 1 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Doge'} side={1} />}</div>}
-            {selectedSide && selectedSide !== 1 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
+            {hasStake && selectedSide && selectedSide !== 1 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Doge'} side={1} />}</div>}
+            {hasStake && selectedSide && selectedSide !== 1 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
           </div>
           <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column', alignItems: 'flex-start' }}>
             <div className='text' style={spacingStyle}>{`Time left: ${remainingTimeText}`}</div>
@@ -304,8 +306,8 @@ export function QuerySample() {
               </h2>
             </div>
             <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {shibaTotalAmountStr}</div>
-            {selectedSide && selectedSide !== 2 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Shiba'} side={2} />}</div>}
-            {selectedSide && selectedSide !== 2 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
+            {hasStake && selectedSide && selectedSide !== 2 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Shiba'} side={2} />}</div>}
+            {hasStake && selectedSide && selectedSide !== 2 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
           </div>
         </div>
       </div >
