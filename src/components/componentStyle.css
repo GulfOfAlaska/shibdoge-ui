@@ -111,6 +111,7 @@
   margin-bottom: .3rem;
   width: 100%;
   font-size: .45vw;
+  line-height: .7vw;
 }
 
 .retro-input {
@@ -136,6 +137,7 @@
   width: 100%;
   font-size: .45vw;
   animation: blinker 0.5s linear infinite;
+  line-height: .7vw;
 }
 
 @keyframes blinker {
