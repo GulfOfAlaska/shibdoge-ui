@@ -39,15 +39,19 @@ interface LastRoundWinnersResponse {
   round_winners: number[]
 }
 
+interface PendingRewardsResponse {
+  pending_rewards: string
+}
+
 export function QuerySample() {
   const connectedWallet = useConnectedWallet();
 
   const [chosenSide, setChosenSide] = useState<null | StakeResponse>();
   const [dogeScore, setDogeScore] = useState<null | SideResponse>();
   const [shibaScore, setShibaScore] = useState<null | SideResponse>();
-  const [secondsBetweenRounds, setSecondsBetweenRounds] = useState<null | BigNumber>();
   const [remainingTimeSec, setRemainingTimeSec] = useState<null | BigNumber>();
   const [lastRoundWinners, setLastRoundWinners] = useState<null | LastRoundWinnersResponse>();
+  const [pendingRewards, setPendingRewards] = useState<null | PendingRewardsResponse>();
 
   const lcd = useMemo(() => {
     if (!connectedWallet) {
@@ -60,7 +64,7 @@ export function QuerySample() {
     });
   }, [connectedWallet]);
 
-  async function getChosenSide(address: string): Promise<any | undefined> {
+  async function getChosenSide(address: string): Promise<StakeResponse | undefined> {
     return lcd?.wasm.contractQuery(
       contractAddress,
       { stake: { address } }
@@ -85,6 +89,13 @@ export function QuerySample() {
     return lcd?.wasm.contractQuery(
       contractAddress,
       { last_round_winners: {} }
+    )
+  }
+
+  async function getPendingRewards(address: string): Promise<PendingRewardsResponse | undefined> {
+    return lcd?.wasm.contractQuery(
+      contractAddress,
+      { pending_rewards: { address } }
     )
   }
 
@@ -116,6 +127,33 @@ export function QuerySample() {
     3000,
   )
 
+  useInterval(
+    async () => {
+      try {
+        const lastRoundWinners: LastRoundWinnersResponse | undefined = await getLastRoundWinners()
+        setLastRoundWinners(lastRoundWinners)
+      } catch (err) {
+        console.error(err)
+      }
+
+    },
+    3000,
+  )
+
+  useInterval(
+    async () => {
+      try {
+        if (!connectedWallet?.terraAddress) return
+        const pendingRewardsRes: PendingRewardsResponse | undefined = await getPendingRewards(connectedWallet?.terraAddress.toString())
+        setPendingRewards(pendingRewardsRes)
+      } catch (err) {
+        console.error(err)
+      }
+
+    },
+    3000,
+  )
+
   // Timer
 
   useInterval(
@@ -127,7 +165,6 @@ export function QuerySample() {
         if (lastRound?.last_round?.block_height && currentBlockheight) {
           const blocksBetweenRounds = parseInt(currentBlockheight) - lastRound?.last_round?.block_height
           const secondsBetweenRounds = blocksBetweenRounds * 5
-          setSecondsBetweenRounds(new BigNumber(secondsBetweenRounds))
           setRemainingTimeSec(secondsBetweenRounds ? new BigNumber(60).minus(secondsBetweenRounds) : null)
         }
       } catch (err) {
@@ -147,7 +184,6 @@ export function QuerySample() {
           if (lastRound?.last_round?.block_height && currentBlockheight) {
             const blocksBetweenRounds = parseInt(currentBlockheight) - lastRound?.last_round?.block_height
             const secondsBetweenRounds = blocksBetweenRounds * 5
-            setSecondsBetweenRounds(new BigNumber(secondsBetweenRounds))
             setRemainingTimeSec(secondsBetweenRounds ? new BigNumber(60).minus(secondsBetweenRounds) : null)
           }
         } else if (remainingTimeSec.lte(0)) {
@@ -159,19 +195,6 @@ export function QuerySample() {
         console.error(err)
       }
     }, 1000
-  )
-
-  useInterval(
-    async () => {
-      try {
-        const lastRoundWinners: LastRoundWinnersResponse | undefined = await getLastRoundWinners()
-        setLastRoundWinners(lastRoundWinners)
-      } catch (err) {
-        console.error(err)
-      }
-
-    },
-    3000,
   )
 
   BigNumber.set({ ROUNDING_MODE: 3 })
@@ -222,7 +245,7 @@ export function QuerySample() {
           <div className='text' style={spacingStyle}>Previous winners: {lastWinnersStr}</div>
           <div className='text' style={spacingStyle}><SendDeposit chosenSide={side ?? 0} /></div>
           <div className='text' style={spacingStyle}><Withdraw /></div>
-          <div style={spacingStyle}><Claim chosenSide={side ?? 0} unclaimedMessage={`Unclaimed: ${chosenSide?.stake.reward_unclaimed} dogeshib`} /></div>
+          <div style={spacingStyle}><Claim chosenSide={side ?? 0} unclaimedMessage={`Unclaimed: ${pendingRewards?.pending_rewards || 0} dogeshib`} /></div>
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
           <div style={spacingStyle}><h2 className='text'>SHIBA</h2></div>
