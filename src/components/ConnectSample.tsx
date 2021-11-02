@@ -81,15 +81,15 @@ export function ConnectSample() {
         )}
         <div style={{ marginRight: '0.5rem', color: 'white' }}>
           {status === WalletStatus.WALLET_CONNECTED && (
-            <div>{wallets[0]['terraAddress']}</div>
+            <div style={{fontSize: '.8vw'}}>{wallets[0]['terraAddress']}</div>
           )}
           {bank && (
             bank.map((coin: Coin) =>
-              <span key={`balance-${coin.denom}`}>{`${coin.denom.slice(1)}: ${new BigNumber(coin.amount.toString()).shiftedBy(-6).toString()} `}</span>
+              <span style={{fontSize: '.8vw'}} key={`balance-${coin.denom}`}>{`${coin.denom.slice(1)}: ${new BigNumber(coin.amount.toString()).shiftedBy(-6).toString()} `}</span>
             )
           )}
           {
-            balance && <span>{`dogeshib: ${new BigNumber(balance).shiftedBy(-6).toString()}`}</span>
+            balance && <span style={{fontSize: '.8vw'}}>{`dogeshib: ${new BigNumber(balance).shiftedBy(-6).toString()}`}</span>
           }
         </div>
         {status === WalletStatus.WALLET_CONNECTED && (

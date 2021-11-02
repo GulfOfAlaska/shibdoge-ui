@@ -22,7 +22,7 @@ function App() {
           <QuerySample />
         </div>
         {/* <SignSample /> */}
-        <div style={{ color: 'white' }}>{`contract address: ${contractAddress}`}</div>
+        <div style={{ color: 'white', fontSize: '.8vw' }}>{`contract address: ${contractAddress}`}</div>
       </div>
     </main>
   );
