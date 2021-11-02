@@ -29,6 +29,7 @@ export function Withdraw(props: Props) {
     }
 
     setTxResult(null);
+    setTxError(null);
 
     const execute = new MsgExecuteContract(
       connectedWallet.terraAddress,
