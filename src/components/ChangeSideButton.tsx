@@ -37,32 +37,37 @@ export function ChooseSideButton(props: Props) {
       contractAddress,
       { side: { side } }
     );
+    try {
+      connectedWallet
+        .post({
+          msgs: [execute],
+        })
+        .then((nextTxResult: TxResult) => {
+          setTxResult(nextTxResult);
+        })
+        .catch((error) => {
+          console.log('wtf', { error })
+          if (error instanceof UserDenied) {
+            setTxError('User Denied');
+          } else if (error instanceof CreateTxFailed) {
+            setTxError('Create Tx Failed: ' + error.message);
+          } else if (error instanceof TxFailed) {
+            setTxError('Tx Failed: ' + error.message);
+          } else if (error instanceof Timeout) {
+            setTxError('Timeout');
+          } else if (error instanceof TxUnspecifiedError) {
+            setTxError('Unspecified Error: ' + error.message);
+          } else {
+            setTxError(
+              'Unknown Error: ' +
+              (error instanceof Error ? error.message : String(error)),
+            );
+          }
+        });
+    } catch (err) {
+      console.log(err)
+    }
 
-    connectedWallet
-      .post({
-        msgs: [execute],
-      })
-      .then((nextTxResult: TxResult) => {
-        setTxResult(nextTxResult);
-      })
-      .catch((error: unknown) => {
-        if (error instanceof UserDenied) {
-          setTxError('User Denied');
-        } else if (error instanceof CreateTxFailed) {
-          setTxError('Create Tx Failed: ' + error.message);
-        } else if (error instanceof TxFailed) {
-          setTxError('Tx Failed: ' + error.message);
-        } else if (error instanceof Timeout) {
-          setTxError('Timeout');
-        } else if (error instanceof TxUnspecifiedError) {
-          setTxError('Unspecified Error: ' + error.message);
-        } else {
-          setTxError(
-            'Unknown Error: ' +
-            (error instanceof Error ? error.message : String(error)),
-          );
-        }
-      });
   }, [connectedWallet]);
 
   return (

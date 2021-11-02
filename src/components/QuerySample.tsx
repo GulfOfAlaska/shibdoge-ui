@@ -121,12 +121,29 @@ export function QuerySample() {
   useInterval(
     async () => {
       try {
+        const lastRound: LastRoundResponse | undefined = await getLastRound()
+        const blockInfo = await lcd?.tendermint.blockInfo()
+        const currentBlockheight = blockInfo?.block?.header?.height
+        if (lastRound?.last_round?.block_height && currentBlockheight) {
+          const blocksBetweenRounds = parseInt(currentBlockheight) - lastRound?.last_round?.block_height
+          const secondsBetweenRounds = blocksBetweenRounds * 5
+          setSecondsBetweenRounds(new BigNumber(secondsBetweenRounds))
+          setRemainingTimeSec(secondsBetweenRounds ? new BigNumber(60).minus(secondsBetweenRounds) : null)
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    }, 30000
+  )
+
+  useInterval(
+    async () => {
+      try {
         if (!remainingTimeSec) {
 
           const lastRound: LastRoundResponse | undefined = await getLastRound()
           const blockInfo = await lcd?.tendermint.blockInfo()
           const currentBlockheight = blockInfo?.block?.header?.height
-          console.log('wtf2')
           if (lastRound?.last_round?.block_height && currentBlockheight) {
             const blocksBetweenRounds = parseInt(currentBlockheight) - lastRound?.last_round?.block_height
             const secondsBetweenRounds = blocksBetweenRounds * 5
@@ -134,10 +151,8 @@ export function QuerySample() {
             setRemainingTimeSec(secondsBetweenRounds ? new BigNumber(60).minus(secondsBetweenRounds) : null)
           }
         } else if (remainingTimeSec.lte(0)) {
-          console.log('wtf3', remainingTimeSec?.toString())
           setRemainingTimeSec(new BigNumber(60))
         } else {
-          console.log('wtf1', remainingTimeSec?.toString())
           setRemainingTimeSec(remainingTimeSec.minus(1))
         }
       } catch (err) {
