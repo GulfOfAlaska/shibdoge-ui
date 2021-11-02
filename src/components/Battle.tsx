@@ -1,4 +1,4 @@
-import { MsgExecuteContract, MsgSend, StdFee } from '@terra-money/terra.js';
+import { LCDClient, MsgExecuteContract, MsgSend, StdFee } from '@terra-money/terra.js';
 import {
   CreateTxFailed,
   Timeout,
@@ -8,13 +8,61 @@ import {
   useConnectedWallet,
   UserDenied,
 } from '@terra-money/wallet-provider';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import './componentStyle.css'
-import dogeFight from '../assets/doge-fight.mp4';
+import useInterval from 'hooks/useInterval';
+import { SideResponse } from './QuerySample';
+import { contractAddress } from 'constants/contractAddress';
+import BigNumber from 'bignumber.js';
+import fight from '../assets/fight.mp4';
+import dogeWin from '../assets/doge-win.mp4';
+import shibaWin from '../assets/shiba-win.mp4';
 
 export function Battle() {
 
   const connectedWallet = useConnectedWallet();
+  const [dogeScore, setDogeScore] = useState<null | SideResponse>();
+  const [shibaScore, setShibaScore] = useState<null | SideResponse>();
+
+  const lcd = useMemo(() => {
+    if (!connectedWallet) {
+      return null;
+    }
+
+    return new LCDClient({
+      URL: connectedWallet.network.lcd,
+      chainID: connectedWallet.network.chainID,
+    });
+  }, [connectedWallet]);
+
+  async function getSide(side: number): Promise<SideResponse | undefined> {
+    return lcd?.wasm.contractQuery(
+      contractAddress,
+      { side: { side } }
+    )
+  }
+
+  const dogeWinningCountStr = dogeScore?.side?.current_winning_count ? new BigNumber(dogeScore?.side?.current_winning_count) : new BigNumber(0)
+  const shibaWinningCountStr = shibaScore?.side?.current_winning_count ? new BigNumber(shibaScore?.side?.current_winning_count) : new BigNumber(0)
+
+  let image = fight
+  if (dogeWinningCountStr.gt(shibaWinningCountStr)) image = shibaWin
+  if (dogeWinningCountStr.lt(shibaWinningCountStr)) image = dogeWin
+
+  useInterval(
+    async () => {
+      try {
+        const dogeScore: SideResponse | undefined = await getSide(1)
+        setDogeScore(dogeScore)
+        const shibaScore: SideResponse | undefined = await getSide(2)
+        setShibaScore(shibaScore)
+      } catch (err) {
+        console.error(err)
+      }
+
+    },
+    3000,
+  )
 
   return (
     <div style={
@@ -24,7 +72,7 @@ export function Battle() {
       {/* <div className='container' style={{ height: '100%', width: '100%', background: `url(${battle}) no-repeat`, backgroundSize: '100% 100%', }}> */}
       <div  style={{ height: '100%', width: '100%' }}>
         <video autoPlay muted loop width='100%' height='100%' style={{objectFit: 'fill'}}>
-          <source src={dogeFight} type="video/mp4" />
+          <source src={image} type="video/mp4" />
         </video>
         {/* <div className='doge-pict-container' style={{ right: '1rem' }} /> */}
         {/* {connectedWallet?.availablePost && !txResult && !txError && (

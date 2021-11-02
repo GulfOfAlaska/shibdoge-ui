@@ -11,7 +11,7 @@ import './componentStyle.css'
 import BigNumber from 'bignumber.js';
 import { ChooseSideButton } from './ChooseSideButton';
 
-interface SideResponse {
+export interface SideResponse {
   side: {
     current_winning_count: number,
     total_amount: number
