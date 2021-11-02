@@ -206,14 +206,7 @@ export function QuerySample() {
   seconds = seconds?.isNegative() ? new BigNumber(0) : seconds
   const remainingTimeText = (minutes && seconds && !minutes.isNaN() && !seconds.isNaN()) ? `${minutes.toFixed(0)}m : ${seconds.toFixed(0)}s` : '-'
 
-  const side = chosenSide?.stake?.side
-  let chosenSideStr = 'None'
-  if (side === 1) {
-    chosenSideStr = 'Doge'
-  } else if (side === 2) {
-    chosenSideStr = 'Shiba'
-  }
-
+  const selectedSide = chosenSide?.stake?.side
 
   const dogeTotalAmountStr = dogeScore?.side?.total_amount ? new BigNumber(dogeScore?.side?.total_amount).shiftedBy(-6).toString() : '-'
   const shibaTotalAmountStr = shibaScore?.side?.total_amount ? new BigNumber(shibaScore?.side?.total_amount).shiftedBy(-6).toString() : '-'
@@ -232,15 +225,14 @@ export function QuerySample() {
     <div style={{ height: '100%', textAlign: 'left' }}>
       <div className='container' style={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
-          <div style={spacingStyle}><h2 className='text'>{`DOGE ${winningSide === 1 ? '(Currently Winning)' : ''}`}</h2></div>
+          <div style={spacingStyle}><h2 className='text'>{`${selectedSide === 1 ? '[SELECTED]' : ''} DOGE ${winningSide === 1 ? '(Currently Winning)' : ''}`}</h2></div>
           <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {dogeTotalAmountStr}</div>
           <div className='text' style={spacingStyle}>Win counts: {dogeWinningCountStr}</div>
-          {side !== 1 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Doge'} side={1} />}</div>}
-          {side !== 1 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
-          {side === 1 && <div className='text' style={spacingStyle}>{`Your stakes: ${stakedAmountStr}`}</div>}
+          {selectedSide !== 1 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Doge'} side={1} />}</div>}
+          {selectedSide !== 1 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
+          {selectedSide === 1 && <div className='text' style={spacingStyle}>{`Your stakes: ${stakedAmountStr}`}</div>}
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column', alignItems: 'flex-start' }}>
-          <div className='text' style={spacingStyle}>Your choice: {chosenSideStr}</div>
           <div className='text' style={spacingStyle}>{`Time left: ${remainingTimeText}`}</div>
           <div className='text' style={spacingStyle}>Previous winners: </div>
           <div style={{ display: 'flex', ...spacingStyle }}>
@@ -252,17 +244,17 @@ export function QuerySample() {
               })
             }
           </div>
-          <div className='text' style={spacingStyle}><SendDeposit chosenSide={side ?? 0} /></div>
+          <div className='text' style={spacingStyle}><SendDeposit chosenSide={selectedSide ?? 0} /></div>
           <div className='text' style={spacingStyle}><Withdraw /></div>
-          <div style={spacingStyle}><Claim chosenSide={side ?? 0} unclaimedMessage={`Unclaimed: ${pendingRewards?.pending_rewards || 0} dogeshib`} /></div>
+          <div style={spacingStyle}><Claim chosenSide={selectedSide ?? 0} unclaimedMessage={`Unclaimed: ${pendingRewards?.pending_rewards || 0} dogeshib`} /></div>
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
-          <div style={spacingStyle}><h2 className='text'>{`SHIBA ${winningSide === 2 ? '(Currently Winning)' : ''}`}</h2></div>
+          <div style={spacingStyle}><h2 className='text'>{`${selectedSide === 1 ? '[SELECTED]' : ''} SHIBA ${winningSide === 2 ? '(Currently Winning)' : ''}`}</h2></div>
           <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {shibaTotalAmountStr}</div>
           <div className='text' style={spacingStyle}>Win counts: {shibaWinningCountStr}</div>
-          {side !== 2 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Shiba'} side={2} />}</div>}
-          {side !== 2 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
-          <div style={spacingStyle}>{side === 2 && <div className='text'>{`Your stakes: ${stakedAmountStr}`}</div>}</div>
+          {selectedSide !== 2 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Shiba'} side={2} />}</div>}
+          {selectedSide !== 2 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
+          <div style={spacingStyle}>{selectedSide === 2 && <div className='text'>{`Your stakes: ${stakedAmountStr}`}</div>}</div>
         </div>
       </div >
     </div >
