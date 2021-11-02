@@ -254,12 +254,15 @@ export function QuerySample() {
   return (
     <div style={{ height: '100%', textAlign: 'left' }}>
       <div className='container' style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        {
-          lastChangeSide && lastChangeSide?.last_change_side !== 'empty' &&
-          <div className='shining-text' style={{ textAlign: 'center' }}>
-            {`* ${isLastChangeSide ? 'Your are the last to switch sides!' : `${lastChangeSide?.last_change_side} is the last to deposit!`} Win 10000000 dogeshib by being last to switch sides!!!`}
-          </div>
-        }
+
+        <div className='shining-text' style={{ textAlign: 'center' }}>
+          {
+            lastChangeSide && lastChangeSide?.last_change_side !== 'empty' ?
+              `* ${isLastChangeSide ? 'Your are the last to switch sides!' : `${lastChangeSide?.last_change_side} is the last to deposit!`} Win 10000000 dogeshib by being last to switch sides!!!`
+              :
+              'Win 10000000 dogeshib by being last to switch sides!!!'
+          }
+        </div>
         <div style={{ height: '100%', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
           <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
             <div style={{ textAlign: 'center', ...spacingStyle }}>
@@ -276,10 +279,10 @@ export function QuerySample() {
           <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column', alignItems: 'flex-start' }}>
             <div className='text' style={spacingStyle}>{`Time left: ${remainingTimeText}`}</div>
             <div style={{ display: 'flex', ...spacingStyle, alignItems: 'center' }}>
-              <div className='text' style={{lineHeight: '1vw', marginBottom: '0'}}>Previous winners: </div>
+              <div className='text' style={{ lineHeight: '1vw', marginBottom: '0' }}>Previous winners: </div>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 {
-                  lastRoundWinners?.round_winners.slice(0,5).map((winner, index) => {
+                  lastRoundWinners?.round_winners.slice(0, 5).map((winner, index) => {
                     const size = index === 0 ? '1.3vw' : '.8vw'
                     if (winner === 1) return <div key={`winner-${index}`} style={{ background: `url(${DogeLogo}) no-repeat`, backgroundSize: 'cover', width: size, height: size, marginLeft: '.3vw' }} />
                     if (winner === 2) return <div key={`winner-${index}`} style={{ background: `url(${ShibLogo}) no-repeat`, backgroundSize: 'cover', width: size, height: size, marginLeft: '.3vw' }} />
