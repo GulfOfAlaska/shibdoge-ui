@@ -49,6 +49,7 @@ export function Battle() {
   if (dogeWinningCountStr.gt(shibaWinningCountStr)) image = shibaWin
   if (dogeWinningCountStr.lt(shibaWinningCountStr)) image = dogeWin
 
+  console.log('wtf', image)
   useInterval(
     async () => {
       try {
@@ -70,10 +71,25 @@ export function Battle() {
     }>
       {/* DOGE */}
       {/* <div className='container' style={{ height: '100%', width: '100%', background: `url(${battle}) no-repeat`, backgroundSize: '100% 100%', }}> */}
-      <div  style={{ height: '100%', width: '100%' }}>
-        <video autoPlay muted loop width='100%' height='100%' style={{objectFit: 'fill'}}>
-          <source src={image} type="video/mp4" />
-        </video>
+      <div style={{ height: '100%', width: '100%' }}>
+        {
+          dogeWinningCountStr.gt(shibaWinningCountStr) &&
+          <video autoPlay muted loop width='100%' height='100%' style={{ objectFit: 'fill' }}>
+            <source src={shibaWin} type="video/mp4" />
+          </video>
+        }
+        {
+          dogeWinningCountStr.lt(shibaWinningCountStr) &&
+          <video autoPlay muted loop width='100%' height='100%' style={{ objectFit: 'fill' }}>
+            <source src={dogeWin} type="video/mp4" />
+          </video>
+        }
+        {
+          dogeWinningCountStr.eq(shibaWinningCountStr) &&
+          <video autoPlay muted loop width='100%' height='100%' style={{ objectFit: 'fill' }}>
+            <source src={fight} type="video/mp4" />
+          </video>
+        }
         {/* <div className='doge-pict-container' style={{ right: '1rem' }} /> */}
         {/* {connectedWallet?.availablePost && !txResult && !txError && (
           <div className='button-container' style={{ right: '.5rem' }}>
