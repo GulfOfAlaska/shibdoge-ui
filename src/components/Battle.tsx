@@ -42,14 +42,10 @@ export function Battle() {
     )
   }
 
-  const dogeWinningCountStr = dogeScore?.side?.current_winning_count ? new BigNumber(dogeScore?.side?.current_winning_count) : new BigNumber(0)
-  const shibaWinningCountStr = shibaScore?.side?.current_winning_count ? new BigNumber(shibaScore?.side?.current_winning_count) : new BigNumber(0)
+  const dogeTotalAmount = dogeScore?.side?.total_amount ? new BigNumber(dogeScore?.side?.total_amount) : new BigNumber(0)
+  const shibaTotalAmount = shibaScore?.side?.total_amount ? new BigNumber(shibaScore?.side?.total_amount) : new BigNumber(0)
+  const winningSide = dogeTotalAmount.lt(shibaTotalAmount) ? 1 : 2
 
-  let image = fight
-  if (dogeWinningCountStr.gt(shibaWinningCountStr)) image = shibaWin
-  if (dogeWinningCountStr.lt(shibaWinningCountStr)) image = dogeWin
-
-  console.log('wtf', image)
   useInterval(
     async () => {
       try {
@@ -73,22 +69,15 @@ export function Battle() {
       {/* <div className='container' style={{ height: '100%', width: '100%', background: `url(${battle}) no-repeat`, backgroundSize: '100% 100%', }}> */}
       <div style={{ height: '100%', width: '100%' }}>
         {
-          dogeWinningCountStr.gt(shibaWinningCountStr) &&
-          <video autoPlay muted loop width='100%' height='100%' style={{ objectFit: 'fill' }}>
-            <source src={shibaWin} type="video/mp4" />
-          </video>
-        }
-        {
-          dogeWinningCountStr.lt(shibaWinningCountStr) &&
-          <video autoPlay muted loop width='100%' height='100%' style={{ objectFit: 'fill' }}>
-            <source src={dogeWin} type="video/mp4" />
-          </video>
-        }
-        {
-          dogeWinningCountStr.eq(shibaWinningCountStr) &&
-          <video autoPlay muted loop width='100%' height='100%' style={{ objectFit: 'fill' }}>
-            <source src={fight} type="video/mp4" />
-          </video>
+          winningSide === 2 ?
+            <video autoPlay muted loop width='100%' height='100%' style={{ objectFit: 'fill' }}>
+              <source src={shibaWin} type="video/mp4" />
+            </video>
+            :
+            <video autoPlay muted loop width='100%' height='100%' style={{ objectFit: 'fill' }}>
+              <source src={dogeWin} type="video/mp4" />
+            </video>
+
         }
         {/* <div className='doge-pict-container' style={{ right: '1rem' }} /> */}
         {/* {connectedWallet?.availablePost && !txResult && !txError && (

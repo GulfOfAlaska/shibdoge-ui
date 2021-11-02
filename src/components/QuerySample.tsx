@@ -223,16 +223,21 @@ export function QuerySample() {
 
   const spacingStyle = { marginBottom: '.8vw' }
 
+  const dogeTotalAmount = dogeScore?.side?.total_amount ? new BigNumber(dogeScore?.side?.total_amount) : new BigNumber(0)
+  const shibaTotalAmount = shibaScore?.side?.total_amount ? new BigNumber(shibaScore?.side?.total_amount) : new BigNumber(0)
+
+  const winningSide = dogeTotalAmount.lt(shibaTotalAmount) ? 1 : 2
+
   return (
     <div style={{ height: '100%', textAlign: 'left' }}>
       <div className='container' style={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
-          <div style={spacingStyle}><h2 className='text'>{`DOGE ${side === 1 ? '(Currently Winning)' : ''}`}</h2></div>
+          <div style={spacingStyle}><h2 className='text'>{`DOGE ${winningSide === 1 ? '(Currently Winning)' : ''}`}</h2></div>
           <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {dogeTotalAmountStr}</div>
           <div className='text' style={spacingStyle}>Win counts: {dogeWinningCountStr}</div>
           {side !== 1 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Doge'} side={2} />}</div>}
           {side !== 1 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
-          {side === 1 && <div className='text' style={spacingStyle}>{`Staked: ${stakedAmountStr}`}</div>}
+          {side === 1 && <div className='text' style={spacingStyle}>{`Your stakes: ${stakedAmountStr}`}</div>}
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column', alignItems: 'flex-start' }}>
           <div className='text' style={spacingStyle}>Your choice: {chosenSideStr}</div>
@@ -252,8 +257,8 @@ export function QuerySample() {
           <div style={spacingStyle}><Claim chosenSide={side ?? 0} unclaimedMessage={`Unclaimed: ${pendingRewards?.pending_rewards || 0} dogeshib`} /></div>
         </div>
         <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
-          <div style={spacingStyle}><h2 className='text'>{`SHIBA ${side === 1 ? '(Currently Winning)' : ''}`}</h2></div>
-          <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Votes: {shibaTotalAmountStr}</div>
+          <div style={spacingStyle}><h2 className='text'>{`SHIBA ${winningSide === 2 ? '(Currently Winning)' : ''}`}</h2></div>
+          <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {shibaTotalAmountStr}</div>
           <div className='text' style={spacingStyle}>Win counts: {shibaWinningCountStr}</div>
           {side !== 2 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Shiba'} side={2} />}</div>}
           {side !== 2 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
