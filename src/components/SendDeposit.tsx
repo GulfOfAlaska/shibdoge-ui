@@ -77,7 +77,7 @@ export function SendDeposit(props: Props) {
             <input className="retro-input" value={depositAmount} onChange={(event) => { setDepositAmount(event.target.value) }} />
             {
               balance && balance !== 'NaN' &&
-              <div style={{ marginLeft: '1vw', fontSize: '.2vw', textAlign: 'right', position: 'absolute', right: '.5vw', top: '-.8vw', cursor: 'pointer' }} onClick={() => { setDepositAmount(balance) }}>{`max: ${balance}`}</div>
+              <div style={{ marginLeft: '1vw', fontWeight: 'bold', fontSize: '.5vw', textAlign: 'right', position: 'absolute', right: '.5vw', top: '-.8vw', cursor: 'pointer' }} onClick={() => { setDepositAmount(balance) }}>{`max: ${balance}`}</div>
             }
           </div>
           {txError}

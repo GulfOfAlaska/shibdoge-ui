@@ -75,7 +75,7 @@ export function Withdraw(props: Props) {
           <input className="retro-input" value={withdrawAmount} onChange={(event) => { setWithdrawAmount(event.target.value) }} />
           {
             staked &&
-            <div style={{ marginLeft: '1vw', fontSize: '.2vw', textAlign: 'right', position: 'absolute', right: '.5vw', top: '-.8vw', cursor: 'pointer' }} onClick={() => { setWithdrawAmount(staked) }}>{`max: ${staked}`}</div>
+            <div style={{ marginLeft: '1vw', fontWeight: 'bold', fontSize: '.5vw', textAlign: 'right', position: 'absolute', right: '.5vw', top: '-.8vw', cursor: 'pointer' }} onClick={() => { setWithdrawAmount(staked) }}>{`max: ${staked}`}</div>
           }
         </div>
         {txError}
