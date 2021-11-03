@@ -123,8 +123,8 @@
   color: brown;
   font-family: 'Press Start 2p';
   font-size: .45vw;
-  width: 100%;
-  margin-left: 1rem;
+  width: 90%;
+  margin-left: 1vw;
 }
 .retro-input:focus {
   box-shadow: none;

@@ -14,6 +14,7 @@ import { useCallback, useState } from 'react';
 import './componentStyle.css'
 
 interface Props {
+  staked: string
 }
 
 export function Withdraw(props: Props) {
@@ -22,6 +23,8 @@ export function Withdraw(props: Props) {
   const [withdrawAmount, setWithdrawAmount] = useState<string>('');
 
   const connectedWallet = useConnectedWallet();
+
+  const { staked } = props
 
   const sendWithdraw = async () => {
     if (!connectedWallet) {
@@ -68,7 +71,13 @@ export function Withdraw(props: Props) {
     <div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <div className='button' onClick={() => sendWithdraw()}>Withdraw</div>
-        <input className='retro-input' value={withdrawAmount} onChange={(event) => setWithdrawAmount(event.target.value)} />
+        <div style={{ position: 'relative' }}>
+          <input className="retro-input" value={withdrawAmount} onChange={(event) => { setWithdrawAmount(event.target.value) }} />
+          {
+            staked &&
+            <div style={{ marginLeft: '1vw', fontSize: '.2vw', textAlign: 'right', position: 'absolute', right: '.5vw', top: '-.8vw', cursor: 'pointer' }} onClick={() => { setWithdrawAmount(staked) }}>{`max: ${staked}`}</div>
+          }
+        </div>
         {txError}
       </div>
       {/* {!connectedWallet && <p>Wallet not connected!</p>} */}

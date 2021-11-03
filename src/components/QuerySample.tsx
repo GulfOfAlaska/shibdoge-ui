@@ -12,6 +12,7 @@ import BigNumber from 'bignumber.js';
 import { ChooseSideButton } from './ChooseSideButton';
 import ShibLogo from 'assets/shiba-logo.png'
 import DogeLogo from 'assets/doge-logo.png'
+import { Balance } from './ConnectSample';
 
 export interface SideResponse {
   side: {
@@ -59,6 +60,7 @@ export function QuerySample() {
   const [lastRoundWinners, setLastRoundWinners] = useState<null | LastRoundWinnersResponse>();
   const [pendingRewards, setPendingRewards] = useState<null | PendingRewardsResponse>();
   const [lastChangeSide, setLastChangeSide] = useState<null | lastChangeSideResponse>();
+  const [balance, setBalance] = useState<null | any>();
 
   const lcd = useMemo(() => {
     if (!connectedWallet) {
@@ -70,6 +72,24 @@ export function QuerySample() {
       chainID: connectedWallet.network.chainID,
     });
   }, [connectedWallet]);
+
+  async function queryBalance(): Promise<Balance | undefined> {
+    return lcd?.wasm.contractQuery(
+      contractAddress,
+      { balance: { address: connectedWallet?.terraAddress.toString() } }
+    )
+  }
+
+  useInterval(
+    async () => {
+      if (connectedWallet && lcd) {
+
+        const balanceRes: Balance | undefined = await queryBalance()
+        setBalance(balanceRes?.balance);
+      } else {
+        setBalance(null);
+      }
+    }, 3000);
 
   async function getChosenSide(address: string): Promise<StakeResponse | undefined> {
     return lcd?.wasm.contractQuery(
@@ -251,6 +271,8 @@ export function QuerySample() {
 
   const hasStake = chosenSide?.stake.amount && !new BigNumber(chosenSide?.stake.amount).isZero()
 
+  const balanceStr = new BigNumber(balance).shiftedBy(-6).toString()
+
   return (
     <div style={{ height: '100%', textAlign: 'left' }}>
       <div className='container' style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -296,8 +318,8 @@ export function QuerySample() {
               // ? <div style={{ background: `url(${DogeLogo}) no-repeat`, backgroundSize: 'cover', width: '.8vw', height: '.8vw', marginLeft: '.5vw' }} />
               // : <div style={{ background: `url(${ShibLogo}) no-repeat`, backgroundSize: 'cover', width: '.8vw', height: '.8vw', marginLeft: '.5vw' }} />
             }</div>
-            <div className='text' style={spacingStyle}><SendDeposit chosenSide={selectedSide ?? 0} /></div>
-            {hasStake && selectedSide && <div className='text' style={spacingStyle}><Withdraw /></div> }
+            <div className='text' style={{marginBottom: '1vw'}}><SendDeposit balance={balanceStr} chosenSide={selectedSide ?? 0} /></div>
+            {hasStake && selectedSide && <div className='text' style={spacingStyle}><Withdraw staked={stakedAmountStr} /></div> }
             <div style={spacingStyle}><Claim chosenSide={selectedSide ?? 0} unclaimedMessage={`${new BigNumber(pendingRewards?.pending_rewards || 0).shiftedBy(-6).toString()} dogeshib`} /></div>
           </div>
           <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>

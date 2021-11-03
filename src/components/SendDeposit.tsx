@@ -14,7 +14,8 @@ import { useCallback, useState } from 'react';
 import './componentStyle.css'
 
 interface Props {
-  chosenSide: number
+  chosenSide: number,
+  balance: string
 }
 
 export function SendDeposit(props: Props) {
@@ -23,7 +24,7 @@ export function SendDeposit(props: Props) {
   const [depositAmount, setDepositAmount] = useState<string>('');
   const connectedWallet = useConnectedWallet();
 
-  const { chosenSide } = props
+  const { chosenSide, balance } = props
 
   const sendDeposit = async () => {
     if (!connectedWallet) {
@@ -72,7 +73,13 @@ export function SendDeposit(props: Props) {
       {connectedWallet?.availablePost && (
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <div className='button' onClick={() => sendDeposit()}>Deposit</div>
-          <input className="retro-input" value={depositAmount} onChange={(event) => { setDepositAmount(event.target.value) }} />
+          <div style={{ position: 'relative' }}>
+            <input className="retro-input" value={depositAmount} onChange={(event) => { setDepositAmount(event.target.value) }} />
+            {
+              balance &&
+              <div style={{ marginLeft: '1vw', fontSize: '.2vw', textAlign: 'right', position: 'absolute', right: '.5vw', top: '-.8vw', cursor: 'pointer' }} onClick={() => { setDepositAmount(balance) }}>{`max: ${balance}`}</div>
+            }
+          </div>
           {txError}
         </div>
       )}
