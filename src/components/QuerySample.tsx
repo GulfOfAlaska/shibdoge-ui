@@ -291,7 +291,7 @@ export function QuerySample() {
               <h2 className='text'>
                 <span className='blinking-text'>{hasStake && selectedSide === 1 ? '[SELECTED]' : ''}</span>
                 {` DOGE `}
-                {winningSide === 1 && <span className='shining-text'>(Currently Winning)</span>}
+                {winningSide === 1 && <div className='shaking-text' style={{ marginTop: '.5vw' }}>(Currently Winning)</div>}
               </h2>
             </div>
             <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {dogeTotalAmountStr}</div>
@@ -318,8 +318,8 @@ export function QuerySample() {
               // ? <div style={{ background: `url(${DogeLogo}) no-repeat`, backgroundSize: 'cover', width: '.8vw', height: '.8vw', marginLeft: '.5vw' }} />
               // : <div style={{ background: `url(${ShibLogo}) no-repeat`, backgroundSize: 'cover', width: '.8vw', height: '.8vw', marginLeft: '.5vw' }} />
             }</div>
-            <div className='text' style={{marginBottom: '1vw'}}><SendDeposit balance={balanceStr} chosenSide={selectedSide ?? 0} /></div>
-            {hasStake && selectedSide && <div className='text' style={spacingStyle}><Withdraw staked={stakedAmountStr} /></div> }
+            <div className='text' style={{ marginBottom: '1vw' }}><SendDeposit balance={balanceStr} chosenSide={selectedSide ?? 0} /></div>
+            {hasStake && selectedSide && <div className='text' style={spacingStyle}><Withdraw staked={stakedAmountStr} /></div>}
             <div style={spacingStyle}><Claim chosenSide={selectedSide ?? 0} unclaimedMessage={`${new BigNumber(pendingRewards?.pending_rewards || 0).shiftedBy(-6).toString()} dogeshib`} /></div>
           </div>
           <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
@@ -327,7 +327,7 @@ export function QuerySample() {
               <h2 className='text'>
                 <span className='blinking-text'>{hasStake && selectedSide === 2 ? '[SELECTED]' : ''}</span>
                 {` SHIBA `}
-                {winningSide === 2 && <span className='shining-text'>(Currently Winning)</span>}
+                {winningSide === 2 && <div className='shaking-text' style={{ marginTop: '.5vw' }}>(Currently Winning)</div>}
               </h2>
             </div>
             <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {shibaTotalAmountStr}</div>
