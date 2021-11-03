@@ -42,9 +42,26 @@ export function Battle() {
     )
   }
 
+  useInterval(
+    async () => {
+      try {
+        const dogeScore: SideResponse | undefined = await getSide(1)
+        setDogeScore(dogeScore)
+        const shibaScore: SideResponse | undefined = await getSide(2)
+        setShibaScore(shibaScore)
+      } catch (err) {
+        console.error(err)
+      }
+
+    },
+    3000,
+  )
+
   const dogeTotalAmount = dogeScore?.side?.total_amount ? new BigNumber(dogeScore?.side?.total_amount) : new BigNumber(0)
   const shibaTotalAmount = shibaScore?.side?.total_amount ? new BigNumber(shibaScore?.side?.total_amount) : new BigNumber(0)
   const winningSide = dogeTotalAmount.lt(shibaTotalAmount) ? 1 : 2
+
+  console.log(winningSide === 2)
 
   useInterval(
     async () => {
@@ -69,15 +86,16 @@ export function Battle() {
       {/* <div className='container' style={{ height: '100%', width: '100%', background: `url(${battle}) no-repeat`, backgroundSize: '100% 100%', }}> */}
       <div style={{ height: '100%', width: '100%' }}>
         {
-          winningSide === 2 ?
-            <video autoPlay muted loop width='100%' height='100%' style={{ objectFit: 'fill' }}>
-              <source src={shibaWin} type="video/mp4" />
-            </video>
-            :
-            <video autoPlay muted loop width='100%' height='100%' style={{ objectFit: 'fill' }}>
-              <source src={dogeWin} type="video/mp4" />
-            </video>
-
+          winningSide === 2 &&
+          <video autoPlay muted loop width='100%' height='100%' style={{ objectFit: 'fill' }}>
+            <source src={shibaWin} type="video/mp4" />
+          </video>
+        }
+        {
+          winningSide !== 2 &&
+          <video autoPlay muted loop width='100%' height='100%' style={{ objectFit: 'fill' }}>
+            <source src={dogeWin} type="video/mp4" />
+          </video>
         }
         {/* <div className='doge-pict-container' style={{ right: '1rem' }} /> */}
         {/* {connectedWallet?.availablePost && !txResult && !txError && (
