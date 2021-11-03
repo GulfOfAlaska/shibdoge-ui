@@ -62,7 +62,13 @@ function App() {
 
   return (
     <main className='main-container'>
-      <div className='battle-container'>
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ background: `url(${ShibaDoge}) no-repeat`, backgroundSize: '100% 100%', height: '20vw', width: '20vw', marginRight: '1vw' }} />
+        <div className='text' style={{color: 'white', fontSize: '2vw', textAlign: 'center', marginTop: '5vw'}}>First PVP MEME Coin on Terra</div>
+        <div className='text' style={{color: 'white', fontSize: '5vw', textAlign: 'center', marginTop: '5vw'}}>COMING SOON</div>
+      </div>
+
+      {/* <div className='battle-container'>
         <div className='header'>
           <div style={{ display: 'flex', height: '100%', width: '50%', alignItems: 'center' }}>
             <div style={{ background: `url(${ShibaDoge}) no-repeat`, backgroundSize: '100% 100%', height: '2.5vw', width: '2.5vw', marginRight: '1vw' }} />
@@ -79,9 +85,8 @@ function App() {
         <div style={{ height: '40%', width: '100%', marginTop: '1rem' }}>
           <QuerySample />
         </div>
-        {/* <SignSample /> */}
         <div style={{ color: 'white', fontSize: '.8vw', textAlign: 'right', marginTop: '1vw' }}>{`contract address: ${contractAddress}`}</div>
-      </div>
+      </div> */}
     </main>
   );
 }
