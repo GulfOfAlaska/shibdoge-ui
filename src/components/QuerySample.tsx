@@ -297,7 +297,7 @@ export function QuerySample() {
               // : <div style={{ background: `url(${ShibLogo}) no-repeat`, backgroundSize: 'cover', width: '.8vw', height: '.8vw', marginLeft: '.5vw' }} />
             }</div>
             <div className='text' style={spacingStyle}><SendDeposit chosenSide={selectedSide ?? 0} /></div>
-            <div className='text' style={spacingStyle}><Withdraw /></div>
+            {hasStake && selectedSide && <div className='text' style={spacingStyle}><Withdraw /></div> }
             <div style={spacingStyle}><Claim chosenSide={selectedSide ?? 0} unclaimedMessage={`${new BigNumber(pendingRewards?.pending_rewards || 0).shiftedBy(-6).toString()} dogeshib`} /></div>
           </div>
           <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
