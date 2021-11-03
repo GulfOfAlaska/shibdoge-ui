@@ -76,7 +76,7 @@ export function SendDeposit(props: Props) {
           <div style={{ position: 'relative' }}>
             <input className="retro-input" value={depositAmount} onChange={(event) => { setDepositAmount(event.target.value) }} />
             {
-              balance &&
+              balance && balance !== 'NaN' &&
               <div style={{ marginLeft: '1vw', fontSize: '.2vw', textAlign: 'right', position: 'absolute', right: '.5vw', top: '-.8vw', cursor: 'pointer' }} onClick={() => { setDepositAmount(balance) }}>{`max: ${balance}`}</div>
             }
           </div>
