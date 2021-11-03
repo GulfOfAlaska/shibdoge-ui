@@ -51,7 +51,7 @@ function App() {
 
   useInterval(
     async () => {
-      const PAIR_CONTRACT_ADDRESS = 'terra1amv303y8kzxuegvurh0gug2xe9wkgj65enq2ux'
+      const PAIR_CONTRACT_ADDRESS = 'terra1sxxn4rxuqgxn3um6ly5lf9wsjuewrr7j8tvjg0'
       const poolInfo: any = await lcd?.wasm.contractQuery(
         PAIR_CONTRACT_ADDRESS,
         { pool: {} }
@@ -68,6 +68,7 @@ function App() {
         <div style={{ background: `url(${ShibaDoge}) no-repeat`, backgroundSize: '100% 100%', height: '20vw', width: '20vw', marginRight: '1vw' }} />
         <div className='text' style={{color: 'white', fontSize: '2vw', textAlign: 'center', marginTop: '5vw'}}>First PVP MEME Coin on Terra</div>
         <div className='text' style={{color: 'white', fontSize: '5vw', textAlign: 'center', marginTop: '5vw'}}>COMING SOON</div>
+        <div className='text' style={{color: 'white', fontSize: '1vw', textAlign: 'center', marginTop: '5vw'}}>Contract Address: terra14mvkydkwm2pzz62cgrkpeusphm4trrqrzd88ju (DOSH)</div>
       </div>
 
       {/* <div className='battle-container'>
