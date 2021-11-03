@@ -6,7 +6,7 @@ import { contractAddress } from 'constants/contractAddress';
 import ReactDOM from 'react-dom';
 import './style.css';
 import './components/componentStyle.css';
-import OverTheHills from 'assets/OverTheHills.mp4'
+import BattleTheme from './assets/battletheme.mp3'
 import { useEffect, useMemo, useState } from 'react';
 import ShibaDoge from './assets/shiba-doge.png'
 import { LCDClient } from '@terra-money/terra.js';
@@ -17,9 +17,10 @@ function App() {
   const connectedWallet = useConnectedWallet();
   const [playing, setPlaying] = useState(true);
   const [price, setPrice] = useState('');
-  const player = new Audio(OverTheHills)
+  const player = new Audio(BattleTheme)
   useEffect(() => {
     player.volume = 0.5;
+    player.loop = true
     playing ? player.play() : player.pause();
     return () => player.pause()
   }, []);
@@ -31,6 +32,7 @@ function App() {
       player.pause()
     } else {
       player.volume = 0.5;
+      player.loop = true
       player.play()
     }
     setPlaying(!playing);
