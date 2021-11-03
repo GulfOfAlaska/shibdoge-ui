@@ -1,4 +1,4 @@
-import { getChainOptions, WalletProvider } from '@terra-money/wallet-provider';
+import { getChainOptions, useConnectedWallet, WalletProvider } from '@terra-money/wallet-provider';
 import { Battle } from 'components/Battle';
 import { ConnectSample } from 'components/ConnectSample';
 import { QuerySample } from 'components/QuerySample';
@@ -7,12 +7,16 @@ import ReactDOM from 'react-dom';
 import './style.css';
 import './components/componentStyle.css';
 import OverTheHills from 'assets/OverTheHills.mp4'
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import ShibaDoge from './assets/shiba-doge.png'
+import { LCDClient } from '@terra-money/terra.js';
+import BigNumber from 'bignumber.js';
+import useInterval from 'hooks/useInterval';
 
 function App() {
-
+  const connectedWallet = useConnectedWallet();
   const [playing, setPlaying] = useState(true);
+  const [price, setPrice] = useState('');
   const player = new Audio(OverTheHills)
   useEffect(() => {
     player.volume = 0.5;
@@ -32,12 +36,39 @@ function App() {
     setPlaying(!playing);
   }
 
+  const lcd = useMemo(() => {
+    if (!connectedWallet) {
+      return null;
+    }
+
+    return new LCDClient({
+      URL: connectedWallet.network.lcd,
+      chainID: connectedWallet.network.chainID,
+    });
+  }, [connectedWallet]);
+
+  useInterval(
+    async () => {
+      const PAIR_CONTRACT_ADDRESS = 'terra1amv303y8kzxuegvurh0gug2xe9wkgj65enq2ux'
+      const poolInfo: any = await lcd?.wasm.contractQuery(
+        PAIR_CONTRACT_ADDRESS,
+        { pool: {} }
+      )
+      const ustReserve = new BigNumber(poolInfo.assets[0].amount)
+      const coinReserve = new BigNumber(poolInfo.assets[1].amount)
+
+      setPrice(ustReserve.div(coinReserve).toFixed(2))
+    }, 3000);
+
   return (
     <main className='main-container'>
       <div className='battle-container'>
         <div className='header'>
-          <div style={{ display: 'flex', height: '100%', width: '50%', alignItems: 'center'}}>
-            <div style={{ background: `url(${ShibaDoge}) no-repeat`, backgroundSize: '100% 100%', height: '2.5vw', width: '2.5vw', marginRight: '2vw' }} />
+          <div style={{ display: 'flex', height: '100%', width: '50%', alignItems: 'center' }}>
+            <div style={{ background: `url(${ShibaDoge}) no-repeat`, backgroundSize: '100% 100%', height: '2.5vw', width: '2.5vw', marginRight: '1vw' }} />
+            {
+              price && <span style={{ fontSize: '.8vw', color: 'white', marginRight: '1vw' }}>{`$${price}`}</span>
+            }
             <button className='button' onClick={() => togglePlay()}>Music</button>
           </div>
           <ConnectSample />
