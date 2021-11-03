@@ -57,6 +57,10 @@ export function ConnectSample() {
       }
     }, 3000);
 
+  function truncate(str: string, n: number) {
+    return (str.length > n) ? str.substr(0, n - 1) + '...' + str.substr(str.length - 5) : str;
+  };
+
 
   return (
     <div style={{ display: 'flex' }}>
@@ -80,14 +84,14 @@ export function ConnectSample() {
       )}
       {status === WalletStatus.WALLET_CONNECTED && (
         <div style={{ marginRight: '0.5rem', color: 'white' }}>
-          <div style={{ fontSize: '.8vw' }}>{wallets[0]['terraAddress']}</div>
-          {
+          <span style={{ fontSize: '.8vw' }}>{truncate(wallets[0]['terraAddress'], 10)}</span>
+          {/* {
             balance && <span style={{ fontSize: '.8vw' }}>{`dogeshib: ${new BigNumber(balance).shiftedBy(-6).toString()}`}</span>
-          }
+          } */}
         </div>
       )}
       {status === WalletStatus.WALLET_CONNECTED && (
-        <div className='button' onClick={() => disconnect()}>Disconnect</div>
+        <div className='button' style={{ flexGrow: 0 }} onClick={() => disconnect()}>Disconnect</div>
       )}
     </div>
   );

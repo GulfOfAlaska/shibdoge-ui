@@ -8,6 +8,7 @@ import './style.css';
 import './components/componentStyle.css';
 import OverTheHills from 'assets/OverTheHills.mp4'
 import { useEffect, useState } from 'react';
+import ShibaDoge from './assets/shiba-doge.png'
 
 function App() {
 
@@ -35,7 +36,10 @@ function App() {
     <main className='main-container'>
       <div className='battle-container'>
         <div className='header'>
-          <button className='button' onClick={() => togglePlay()}>Music</button>
+          <div style={{ display: 'flex', height: '100%', width: '50%', alignItems: 'center'}}>
+            <div style={{ background: `url(${ShibaDoge}) no-repeat`, backgroundSize: '100% 100%', height: '4vw', width: '4vw', marginRight: '2vw' }} />
+            <button className='button' onClick={() => togglePlay()}>Music</button>
+          </div>
           <ConnectSample />
         </div>
         <div style={{ height: '50%', width: '100%' }}>
