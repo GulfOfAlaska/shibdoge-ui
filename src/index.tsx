@@ -66,9 +66,15 @@ function App() {
     <main className='main-container'>
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
         <div style={{ background: `url(${ShibaDoge}) no-repeat`, backgroundSize: '100% 100%', height: '20vw', width: '20vw', marginRight: '1vw' }} />
-        <div className='text' style={{color: 'white', fontSize: '2vw', textAlign: 'center', marginTop: '5vw'}}>First PVP MEME Coin on Terra</div>
-        <div className='text' style={{color: 'white', fontSize: '5vw', textAlign: 'center', marginTop: '5vw'}}>COMING SOON</div>
-        <div className='text' style={{color: 'white', fontSize: '1vw', textAlign: 'center', marginTop: '5vw'}}>Contract Address: terra14mvkydkwm2pzz62cgrkpeusphm4trrqrzd88ju (DOSH)</div>
+        <div className='text' style={{ color: 'white', fontSize: '2vw', textAlign: 'center', marginTop: '5vw' }}>First PVP MEME Coin on Terra</div>
+        <div className='text' style={{ color: 'white', fontSize: '5vw', textAlign: 'center', marginTop: '5vw' }}>COMING SOON</div>
+        <div className='text' style={{ color: 'white', fontSize: '1vw', textAlign: 'center', marginTop: '5vw' }}>Contract Address: terra14mvkydkwm2pzz62cgrkpeusphm4trrqrzd88ju (DOSH)</div>
+        <div className='text' style={{ cursor: 'pointer', color: 'white', fontSize: '1vw', textAlign: 'center', marginTop: '3vw' }} onClick={(e) => {
+          e.preventDefault();
+          window.location.href = 'https://t.me/TerraDogeShib';
+        }}>
+          Telegram: https://t.me/TerraDogeShib
+        </div>
       </div>
 
       {/* <div className='battle-container'>
