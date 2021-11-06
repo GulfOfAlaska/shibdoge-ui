@@ -1,9 +1,9 @@
 .container {
   border-radius: 7px;
   background-color: #ffc719;
-  display: flex;
-  align-items: center;
-  position: relative;
+  /* display: flex; */
+  /* align-items: center;
+  position: relative; */
   box-shadow: 0 .2em brown;
   padding: .8vw;
 }
@@ -62,40 +62,6 @@
   z-index: 10;
 }
 
-.doge-pict-container {
-  background: url('../assets/swole-doge.png') no-repeat;
-  background-size: 100% 100%;
-  height: 90%;
-  width: 70%;
-  position: absolute;
-  left: 0; 
-  right: 0; 
-  margin-left: auto; 
-  margin-right: auto;
-  top: 0;
-  bottom: 0;
-  margin-top: auto;
-  margin-bottom: auto;
-  animation: MoveUpDown .5s linear infinite;
-}
-
-.shiba-pict-container {
-  background: url('../assets/buffed-shiba.png') no-repeat;
-  background-size: 100% 100%;
-  height: 80%;
-  width: 80%;
-  position: absolute;
-  left: 0; 
-  right: 0; 
-  margin-left: auto; 
-  margin-right: auto;
-  top: 0;
-  bottom: 0;
-  margin-top: auto;
-  margin-bottom: auto;
-  animation: MoveUpDown .5s linear infinite;
-}
-
 @keyframes MoveUpDown {
   0%, 100% {
     bottom: 2rem;
@@ -133,8 +99,6 @@
 .blinking-text {
   font-family: 'Press Start 2p';
   color: brown;
-  margin-bottom: .3rem;
-  width: 100%;
   font-size: .45vw;
   animation: blinker 0.5s linear infinite;
   line-height: .7vw;
@@ -149,8 +113,6 @@
 .shining-text {
   font-family: 'Press Start 2p';
   color: brown;
-  margin-bottom: .3rem;
-  width: 100%;
   font-size: .45vw;
   animation: shine 4s linear infinite;
   line-height: .7vw;
@@ -166,7 +128,6 @@
 .shaking-text {
   font-family: 'Press Start 2p';
   color: brown;
-  margin-bottom: .3rem;
   width: 100%;
   font-size: .45vw;
   animation: shake 0.8s infinite linear;

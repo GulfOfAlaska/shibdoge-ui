@@ -8,8 +8,8 @@
 
 html,
 body {
-  height: 100vh;
-  margin: 0;
+  /* height: 100vh; */
+  /* margin: 0; */
   background: url('./assets/animated-background.gif') no-repeat;
   background-size: cover;
 }

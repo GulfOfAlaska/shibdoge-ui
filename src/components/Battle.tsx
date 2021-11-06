@@ -17,6 +17,7 @@ import BigNumber from 'bignumber.js';
 import fight from '../assets/fight.mp4';
 import dogeWin from '../assets/doge-win.mp4';
 import shibaWin from '../assets/shiba-win.mp4';
+import { Box } from '@mui/system';
 
 export function Battle() {
 
@@ -79,12 +80,10 @@ export function Battle() {
   )
 
   return (
-    <div style={
-      { height: '100%', position: 'relative', display: 'flex', justifyContent: 'space-between' }
-    }>
+    <Box>
       {/* DOGE */}
       {/* <div className='container' style={{ height: '100%', width: '100%', background: `url(${battle}) no-repeat`, backgroundSize: '100% 100%', }}> */}
-      <div style={{ height: '100%', width: '100%' }}>
+      <Box>
         {
           winningSide === 2 &&
           <video autoPlay muted loop width='100%' height='100%' style={{ objectFit: 'fill' }}>
@@ -97,25 +96,7 @@ export function Battle() {
             <source src={dogeWin} type="video/mp4" />
           </video>
         }
-        {/* <div className='doge-pict-container' style={{ right: '1rem' }} /> */}
-        {/* {connectedWallet?.availablePost && !txResult && !txError && (
-          <div className='button-container' style={{ right: '.5rem' }}>
-            <ChooseSideButton label={'Choose Doge'} side={1} />
-          </div>
-        )} */}
-        {/* {!connectedWallet && <p>Wallet not connected!</p>} */}
-      </div>
-
-      {/* SHIBA */}
-      {/* <div className='container' style={{ height: '100%', width: '49.5%', background: `url(${battleground2}) no-repeat`, backgroundSize: 'cover', }}>
-        <div className='shiba-pict-container' style={{ right: '1rem' }} /> */}
-      {/* {connectedWallet?.availablePost && !txResult && !txError && (
-          <div className='button-container' style={{ left: '.5rem' }}>
-            <ChooseSideButton label={'Choose Shib'} side={2} />
-          </div>
-        )} */}
-      {/* {!connectedWallet && <p>Wallet not connected!</p>} */}
-      {/* </div> */}
-    </div>
+      </Box>
+    </Box>
   );
 }
