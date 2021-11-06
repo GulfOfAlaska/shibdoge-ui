@@ -275,45 +275,74 @@ export function QuerySample() {
 
   const balanceStr = new BigNumber(balance).shiftedBy(-6).toString()
 
-  const sideContainer = (side: number, sideName: string) => (
-    <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
-      <div style={{ textAlign: 'center', ...spacingStyle }}>
+  const sideContainer = (side: number, sideName: string, totalAmountStr: string) =>
+    <Box className='container' style={{ flexDirection: 'column', border: '3px brown solid' }}>
+      <Box style={{ textAlign: 'center', ...spacingStyle }}>
         <h2 className='text'>
-          <span className='blinking-text'>{hasStake && selectedSide === 1 ? '[SELECTED]' : ''}</span>
-          {` DOGE `}
-          {winningSide === 1 && <div className='shaking-text' style={{ marginTop: '.5vw' }}>(Currently Winning)</div>}
+          <span className='blinking-text'>{hasStake && selectedSide === side ? '[SELECTED]' : ''}</span>
+          {` ${sideName} `}
+          {winningSide === 1 && <Box className='shaking-text' style={{ marginTop: '.5vw' }}>(Currently Winning)</Box>}
         </h2>
-      </div>
-      <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {dogeTotalAmountStr}</div>
-      {hasStake && selectedSide && selectedSide !== 1 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Doge'} side={1} />}</div>}
-      {hasStake && selectedSide && selectedSide !== 1 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
-    </div>
-  )
+      </Box>
+      <Box className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {totalAmountStr}</Box>
+      {hasStake && selectedSide && selectedSide !== side && <Box style={spacingStyle}>{<ChooseSideButton label={'Choose Doge'} side={1} />}</Box>}
+      {hasStake && selectedSide && selectedSide !== side && <Box className='text' style={spacingStyle}>* Side with lesser stakes wins</Box>}
+    </Box>
 
-  return (
-    <Grid container spacing={1}>
-      <Grid item xs={12}>
-        <Box className='shining-text' textAlign='center' marginBottom='1vw'>
+  const infoContainer =
+    <Box className='container' style={{ border: '3px brown solid', flexDirection: 'column', alignItems: 'flex-start' }}>
+      <Box className='text' style={spacingStyle}>{`Time left: ${remainingTimeText}`}</Box>
+      <Box style={{ display: 'flex', ...spacingStyle, alignItems: 'center' }}>
+        <Box className='text' style={{ lineHeight: '1vw', marginBottom: '0' }}>Previous winners: </Box>
+        <Box style={{ display: 'flex', alignItems: 'center' }}>
           {
-            lastChangeSide && lastChangeSide?.last_change_side !== 'empty' ?
-              `* ${isLastChangeSide ? 'Your are the last to switch sides!' : `${lastChangeSide?.last_change_side} is the last to deposit!`} Win 10000000 dogeshib by being last to switch sides!!!`
-              :
-              '* Win 10000000 dogeshib by being last to switch sides!!!'
+            lastRoundWinners?.round_winners.slice(0, 5).map((winner, index) => {
+              const size = index === 0 ? '1.3vw' : '.8vw'
+              if (winner === 1) return <Box key={`winner-${index}`} style={{ background: `url(${DogeLogo}) no-repeat`, backgroundSize: 'cover', width: size, height: size, marginLeft: '.3vw' }} />
+              if (winner === 2) return <Box key={`winner-${index}`} style={{ background: `url(${ShibLogo}) no-repeat`, backgroundSize: 'cover', width: size, height: size, marginLeft: '.3vw' }} />
+              return <Box />
+            })
           }
         </Box>
-      </Grid>
-      <Grid item xs={12}>
-        <Grid container spacing={1}>
-          <Grid item xs={12}>
-            {sideContainer}
-          </Grid>
-          <Grid item xs={12}>
-          </Grid>
-          <Grid item xs={12}>
+      </Box>
+      <Box className='text' style={{ display: 'flex', alignItems: 'center', ...spacingStyle }}>{`Your stake: ${stakedAmountStr} `}{
+        selectedSide === 1 ? 'Doge' : 'Shiba'
+        // ? <Box style={{ background: `url(${DogeLogo}) no-repeat`, backgroundSize: 'cover', width: '.8vw', height: '.8vw', marginLeft: '.5vw' }} />
+        // : <Box style={{ background: `url(${ShibLogo}) no-repeat`, backgroundSize: 'cover', width: '.8vw', height: '.8vw', marginLeft: '.5vw' }} />
+      }</Box>
+      <Box className='text' style={{ marginBottom: '1vw' }}><SendDeposit balance={balanceStr} chosenSide={selectedSide ?? 0} /></Box>
+      {hasStake && selectedSide && <Box className='text' style={spacingStyle}><Withdraw staked={stakedAmountStr} /></Box>}
+      <Box style={spacingStyle}><Claim chosenSide={selectedSide ?? 0} unclaimedMessage={`${new BigNumber(pendingRewards?.pending_rewards || 0).shiftedBy(-6).toString()} dosh`} /></Box>
+    </Box>
+
+  return (
+    <Box className='container' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <Box className='shining-text' textAlign='center' marginBottom='1vw'>
+            {
+              lastChangeSide && lastChangeSide?.last_change_side !== 'empty' ?
+                `* ${isLastChangeSide ? 'Your are the last to switch sides!' : `${lastChangeSide?.last_change_side} is the last to deposit!`} Win 10000000 dogeshib by being last to switch sides!!!`
+                :
+                '* Win 10000000 dogeshib by being last to switch sides!!!'
+            }
+          </Box>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={4} lg={4}>
+              {sideContainer(1, 'DOGE', dogeTotalAmountStr)}
+            </Grid>
+            <Grid item xs={12} sm={4} lg={4}>
+              {infoContainer}
+            </Grid>
+            <Grid item xs={12} sm={4} lg={4}>
+              {sideContainer(2, 'SHIBA', shibaTotalAmountStr)}
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </Box>
     // <Box className='container' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
     //   <Box className='shining-text' textAlign='center' marginBottom='1vw'>
     //     {

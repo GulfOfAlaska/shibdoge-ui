@@ -25,19 +25,17 @@ const logoStyle = {
 
 export default function TopNavBar() {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" style={backgroundStyle}>
-        <Toolbar>
-          <Grid
-            justifyContent="space-between"
-            alignItems="center"
-            container
-          >
-            <div style={logoStyle} />
-            <ConnectSample />
-          </Grid>
-        </Toolbar>
-      </AppBar>
+    <Box>
+      <Box style={backgroundStyle}>
+        <Grid
+          justifyContent="space-between"
+          alignItems="center"
+          container
+        >
+          <div style={logoStyle} />
+          <ConnectSample />
+        </Grid>
+      </Box>
     </Box >
   );
 }

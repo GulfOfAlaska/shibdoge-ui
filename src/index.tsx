@@ -69,75 +69,40 @@ function App() {
     }, 3000);
 
   return (
-    <main>
-      {
-        (!(location.hostname === "localhost" || location.hostname === "127.0.0.1"))
-          ? (
-            <div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-              <div style={{ background: `url(${ShibaDoge}) no-repeat`, backgroundSize: '100% 100%', height: '20vw', width: '20vw', marginRight: '1vw' }} />
-              <div className='text' style={{ color: 'white', fontSize: '2vw', textAlign: 'center', marginTop: '5vw' }}>First PVP MEME Coin on Terra</div>
-              <div className='text' style={{ color: 'white', fontSize: '5vw', textAlign: 'center', marginTop: '5vw' }}>COMING SOON</div>
-              <div className='text' style={{ color: 'white', fontSize: '1vw', textAlign: 'center', marginTop: '5vw' }}>Contract Address: terra14mvkydkwm2pzz62cgrkpeusphm4trrqrzd88ju (DOSH)</div>
-              <div className='text' style={{ cursor: 'pointer', color: 'white', fontSize: '1vw', textAlign: 'center', marginTop: '3vw' }} onClick={(e) => {
-                e.preventDefault();
-                window.location.href = 'https://t.me/TerraDogeShib';
-              }}>
-                Telegram: https://t.me/TerraDogeShib
-              </div>
-            </div>
-          )
-          : (
-            // <div className='battle-container'>
-            //   <div className='header'>
-            //     <div style={{ display: 'flex', height: '100%', width: '50%', alignItems: 'center' }}>
-            //       <div style={{ background: `url(${ShibaDoge}) no-repeat`, backgroundSize: '100% 100%', height: '2.5vw', width: '2.5vw', marginRight: '1vw' }} />
-            //       {
-            //         price && <span style={{ fontSize: '.8vw', color: 'white', marginRight: '1vw' }}>{`$${price}`}</span>
-            //       }
-            //       <button className='button' onClick={() => togglePlay()}>Music</button>
-            //     </div>
-            //     <ConnectSample />
-            //   </div>
-            //   <div style={{ height: '50%', width: '100%' }}>
-            //     <Battle />
-            //   </div>
-            //   <div style={{ height: '40%', width: '100%', marginTop: '1rem' }}>
-            //     <QuerySample />
-            //   </div>
-            //   <div style={{ color: 'white', fontSize: '.8vw', textAlign: 'right', marginTop: '1vw' }}>{`contract address: ${contractAddress}`}</div>
-            // </div>
-            <Container  >
-              <Grid container spacing={1}>
-                <Grid item xs={12}>
-                  <TopNavBar />
-                </Grid>
-                <Grid item xs={12}>
-                  <Battle />
-                </Grid>
-                <Grid item xs={12}>
-                  <QuerySample />
-                </Grid>
-                <Grid item xs={12}>
-                  <Box marginTop='1vw'>{`contract address: ${contractAddress}`}</Box>
-                </Grid>
-              </Grid>
-            </Container>
-
-            // <Container>
-            //   <TopNavBar />
-            //   <Box marginTop='1vw'>
-            //     <Battle />
-            //   </Box>
-            //   <Box>
-            //     <QuerySample />
-            //   </Box>
-            //   <Box marginTop='1vw'>{`contract address: ${contractAddress}`}</Box>
-            // </Container>
-          )
-
-      }
-    </main>
-  );
+    (!(location.hostname === "localhost" || location.hostname === "127.0.0.1"))
+      ?
+      <main>
+        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+          <div style={{ background: `url(${ShibaDoge}) no-repeat`, backgroundSize: '100% 100%', height: '20vw', width: '20vw', marginRight: '1vw' }} />
+          <div className='text' style={{ color: 'white', fontSize: '2vw', textAlign: 'center', marginTop: '5vw' }}>First PVP MEME Coin on Terra</div>
+          <div className='text' style={{ color: 'white', fontSize: '5vw', textAlign: 'center', marginTop: '5vw' }}>COMING SOON</div>
+          <div className='text' style={{ color: 'white', fontSize: '1vw', textAlign: 'center', marginTop: '5vw' }}>Contract Address: terra14mvkydkwm2pzz62cgrkpeusphm4trrqrzd88ju (DOSH)</div>
+          <div className='text' style={{ cursor: 'pointer', color: 'white', fontSize: '1vw', textAlign: 'center', marginTop: '3vw' }} onClick={(e) => {
+            e.preventDefault();
+            window.location.href = 'https://t.me/TerraDogeShib';
+          }}>
+            Telegram: https://t.me/TerraDogeShib
+          </div>
+        </div>
+      </main>
+      :
+      <Container>
+        <Grid container spacing={1}>
+          <Grid item xs={12}>
+            <TopNavBar />
+          </Grid>
+          <Grid item xs={12}>
+            <Battle />
+          </Grid>
+          <Grid item xs={12}>
+            <QuerySample />
+          </Grid>
+          <Grid item xs={12}>
+            <Box color='white' marginTop='1vw'>{`contract address: ${contractAddress}`}</Box>
+          </Grid>
+        </Grid>
+      </Container>
+  )
 }
 
 getChainOptions().then((chainOptions) => {
