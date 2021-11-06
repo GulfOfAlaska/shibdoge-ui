@@ -275,6 +275,10 @@ export function QuerySample() {
 
   const balanceStr = new BigNumber(balance).shiftedBy(-6).toString()
 
+  function truncate(str: string, n: number) {
+    return (str.length > n) ? str.substr(0, n - 1) + '...' + str.substr(str.length - 5) : str;
+  };
+
   const sideContainer = (side: number, sideName: string, totalAmountStr: string) =>
     <Box className='container' style={{ flexDirection: 'column', border: '3px brown solid' }}>
       <Box style={{ textAlign: 'center', ...spacingStyle }}>
@@ -322,7 +326,7 @@ export function QuerySample() {
           <Box className='shining-text' textAlign='center' marginBottom='1vw'>
             {
               lastChangeSide && lastChangeSide?.last_change_side !== 'empty' ?
-                `* ${isLastChangeSide ? 'Your are the last to switch sides!' : `${lastChangeSide?.last_change_side} is the last to deposit!`} Win 10000000 dogeshib by being last to switch sides!!!`
+                `* ${isLastChangeSide ? 'Your are the last to switch sides!' : `${truncate(lastChangeSide?.last_change_side, 10)} is the last to deposit!`} Win 10000000 dogeshib by being last to switch sides!!!`
                 :
                 '* Win 10000000 dogeshib by being last to switch sides!!!'
             }
