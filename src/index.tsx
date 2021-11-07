@@ -68,7 +68,7 @@ function App() {
 
   useInterval(
     async () => {
-      const PAIR_CONTRACT_ADDRESS = 'terra1sxxn4rxuqgxn3um6ly5lf9wsjuewrr7j8tvjg0'
+      const PAIR_CONTRACT_ADDRESS = 'terra1ntdceldg23ymqljh94wcp78dl6qmzndq8u2hwa'
       const poolInfo: any = await lcd?.wasm.contractQuery(
         PAIR_CONTRACT_ADDRESS,
         { pool: {} }
