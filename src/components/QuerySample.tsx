@@ -203,7 +203,7 @@ export function QuerySample() {
   )
 
   // Timer
-
+  const roundTimeSeconds = 3600
   useInterval(
     async () => {
       try {
@@ -213,7 +213,7 @@ export function QuerySample() {
         if (lastRound?.last_round?.block_height && currentBlockheight) {
           const blocksBetweenRounds = parseInt(currentBlockheight) - lastRound?.last_round?.block_height
           const secondsBetweenRounds = blocksBetweenRounds * 5
-          setRemainingTimeSec(secondsBetweenRounds ? new BigNumber(60).minus(secondsBetweenRounds) : null)
+          setRemainingTimeSec(secondsBetweenRounds ? new BigNumber(roundTimeSeconds).minus(secondsBetweenRounds) : null)
         }
       } catch (err) {
         console.error(err)
@@ -232,10 +232,10 @@ export function QuerySample() {
           if (lastRound?.last_round?.block_height && currentBlockheight) {
             const blocksBetweenRounds = parseInt(currentBlockheight) - lastRound?.last_round?.block_height
             const secondsBetweenRounds = blocksBetweenRounds * 5
-            setRemainingTimeSec(secondsBetweenRounds ? new BigNumber(60).minus(secondsBetweenRounds) : null)
+            setRemainingTimeSec(secondsBetweenRounds ? new BigNumber(roundTimeSeconds).minus(secondsBetweenRounds) : null)
           }
         } else if (remainingTimeSec.lte(0)) {
-          setRemainingTimeSec(new BigNumber(60))
+          setRemainingTimeSec(new BigNumber(roundTimeSeconds))
         } else {
           setRemainingTimeSec(remainingTimeSec.minus(1))
         }
