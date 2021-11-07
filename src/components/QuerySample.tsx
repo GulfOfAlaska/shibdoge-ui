@@ -284,9 +284,9 @@ export function QuerySample() {
         <div className='shining-text' style={{ textAlign: 'center' }}>
           {
             lastChangeSide && lastChangeSide?.last_change_side !== 'empty' ?
-              `* ${isLastChangeSide ? 'Your are the last to switch sides!' : `${truncate(lastChangeSide?.last_change_side, 10)} is the last to deposit!`} Win 10000000 dogeshib by being last to switch sides!!!`
+              `* ${isLastChangeSide ? 'Your are the last to switch sides!' : `${truncate(lastChangeSide?.last_change_side, 10)} is the last to deposit!`} Win 10000000 DOSH by being last to switch sides!!!`
               :
-              '* Win 10000000 dogeshib by being last to switch sides!!!'
+              '* Win 10000000 DOSH by being last to switch sides!!!'
           }
         </div>
         <div style={{ height: '100%', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
@@ -324,7 +324,7 @@ export function QuerySample() {
             }</div>
             <div className='text' style={{ marginBottom: '1vw' }}><SendDeposit balance={balanceStr} chosenSide={selectedSide ?? 0} /></div>
             {hasStake && selectedSide && <div className='text' style={spacingStyle}><Withdraw staked={stakedAmountStr} /></div>}
-            <div style={spacingStyle}><Claim chosenSide={selectedSide ?? 0} unclaimedMessage={`${new BigNumber(pendingRewards?.pending_rewards || 0).shiftedBy(-6).toString()} dosh`} /></div>
+            <div style={spacingStyle}><Claim chosenSide={selectedSide ?? 0} unclaimedMessage={`${new BigNumber(pendingRewards?.pending_rewards || 0).shiftedBy(-6).toString()} DOSH`} /></div>
           </div>
           <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column' }}>
             <div style={{ textAlign: 'center', ...spacingStyle }}>
