@@ -284,9 +284,9 @@ export function QuerySample() {
         <div className='shining-text' style={{ textAlign: 'center' }}>
           {
             lastChangeSide && lastChangeSide?.last_change_side !== 'empty' ?
-              `* ${isLastChangeSide ? 'Your are the last to switch sides!' : `${truncate(lastChangeSide?.last_change_side, 10)} is the last to deposit!`} Win 10000000 DOSH by being last to switch sides!!!`
+              `* ${isLastChangeSide ? 'Your are the last to switch sides!' : `${truncate(lastChangeSide?.last_change_side, 10)} is the last to deposit!`} Win 50000 DOSH by being last to switch sides!!!`
               :
-              '* Win 10000000 DOSH by being last to switch sides!!!'
+              '* Win 50000 DOSH by being last to switch sides!!!'
           }
         </div>
         <div style={{ height: '100%', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
