@@ -299,7 +299,7 @@ export function QuerySample() {
               </h2>
             </div>
             <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {dogeTotalAmountStr}</div>
-            {hasStake && selectedSide && selectedSide !== 1 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Doge'} side={1} />}</div>}
+            {hasStake && selectedSide && selectedSide !== 1 && <div style={spacingStyle}>{<ChooseSideButton label={'Switch to Doge'} side={1} />}</div>}
             {hasStake && selectedSide && selectedSide !== 1 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
           </div>
           <div className='container' style={{ height: '100%', width: '33%', border: '3px brown solid', flexDirection: 'column', alignItems: 'flex-start' }}>
@@ -335,7 +335,7 @@ export function QuerySample() {
               </h2>
             </div>
             <div className='text' style={{ marginTop: '1rem', ...spacingStyle }}>Total Stakes: {shibaTotalAmountStr}</div>
-            {hasStake && selectedSide && selectedSide !== 2 && <div style={spacingStyle}>{<ChooseSideButton label={'Choose Shiba'} side={2} />}</div>}
+            {hasStake && selectedSide && selectedSide !== 2 && <div style={spacingStyle}>{<ChooseSideButton label={'Switch to Shiba'} side={2} />}</div>}
             {hasStake && selectedSide && selectedSide !== 2 && <div className='text' style={spacingStyle}>* Side with lesser stakes wins</div>}
           </div>
         </div>
