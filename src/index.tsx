@@ -85,9 +85,9 @@ function App() {
         <div className='header'>
           <div style={{ display: 'flex', height: '100%', width: '50%', alignItems: 'center' }}>
             <div style={{ background: `url(${ShibaDoge}) no-repeat`, backgroundSize: '100% 100%', height: '2.5vw', width: '2.5vw', marginRight: '1vw' }} />
-            {
+            {/* {
               price && price != 'NaN' && <span style={{ fontSize: '.8vw', color: 'white', marginRight: '1vw' }}>{`$${price}`}</span>
-            }
+            } */}
             <audio
               ref={myRef}
               src={BattleTheme}
